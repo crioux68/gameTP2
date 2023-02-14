@@ -260,6 +260,12 @@ pygame.display.set_mode((800, 600))
 BACKGROUNDCOLOR = (36,110,7)
 DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
+# RENDER GAME OVER TEXT
+GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
+DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
+
+# TODO RENDER BUTTONS
+
 pygame.display.update()
 
 running = True
