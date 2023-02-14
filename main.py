@@ -246,11 +246,26 @@ while not GAME_OVER:
     if GANON.HEALTH <= 0:
         GAME_OVER = True
         print('GAME OVER, YOU WIN!')
+        
     
     if PLAYER.HEALTH <= 0:
         GAME_OVER = True
         print('GAME OVER, YOU LOSE')
 
 # END OF GAME LOOP
+
+pygame.init()
+pygame.display.set_mode((800, 600))
+BACKGROUNDCOLOR = (100,10,56)
+DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+
+pygame.display.update()
+
+running = True
+
+while running:
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:  
+           running = False
 
 
