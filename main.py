@@ -254,9 +254,10 @@ while not GAME_OVER:
 
 # END OF GAME LOOP
 
+# CREATE THE GAME OVER SCREEN
 pygame.init()
 pygame.display.set_mode((800, 600))
-BACKGROUNDCOLOR = (100,10,56)
+BACKGROUNDCOLOR = (36,110,7)
 DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
 pygame.display.update()
