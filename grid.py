@@ -7,27 +7,29 @@ DIRT_1 = 1
 GRASS_0 = 2
 GRASS_1 = 3
 GRASS_2 = 4
-WATER_0 = 5
-WATER_1 = 6
-WATER_2 = 7
-WALL = 8
-TREE_0 = 9
-TREE_1 = 10
-TREE_2 = 11
+GRASS_3 = 5
+GRASS_4 = 6
+WATER_0 = 7
+WATER_1 = 8
+WATER_2 = 9
+WALL = 10
+TREE_0 = 11
+TREE_1 = 12
+TREE_2 = 13
 
 class Tree:
     def __init__(self):
-        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (125, 125))
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
         self.X_POS = random.randint(50, 300)
         self.Y_POS = random.randint(50, 450)
 
 class TEMPLE:
     def __init__(self):
-        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (250, 250))
-        self.X_POS = 6
-        self.Y_POS = 1
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (400, 255))
+        self.X_POS = 3
+        self.Y_POS = 0
 
-num_trees = 15
+num_trees = 7
 trees = [Tree() for x in range (num_trees)]
 
 # DICTIONARY LINKING TILES TO THEIR COLORS pygame.image.load('pic.png')
@@ -35,8 +37,10 @@ TEXTURES = {
     DIRT_0: pygame.image.load('./textures/dirt0.png'),
     DIRT_1: pygame.image.load('./textures/dirt1.png'),
     GRASS_0: pygame.image.load('./textures/grass0.png'),
-    GRASS_1: pygame.image.load('./textures/grass1.png'),
+    GRASS_1: pygame.image.load('./textures/grass5.png'),
     GRASS_2: pygame.image.load('./textures/grass2.png'),
+    GRASS_3: pygame.image.load('./textures/grass6.png'),
+    GRASS_4: pygame.image.load('./textures/grass7.png'),
     WATER_0: pygame.image.load('./textures/water0.png'),
     WATER_1: pygame.image.load('./textures/water1.png'),
     WATER_2: pygame.image.load('./textures/water4.png'),
@@ -47,16 +51,16 @@ TEXTURES = {
 
 # TILES TO BE DISPLAYED
 GRID = [
-    [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, WATER_0, WATER_1, WATER_0],
-    [GRASS_0, GRASS_2, GRASS_0, GRASS_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, GRASS_0, GRASS_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0],
-    [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, WATER_1, WATER_1, WATER_2, GRASS_0, GRASS_0],
-    [GRASS_2, GRASS_0, GRASS_0, GRASS_2, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, GRASS_0, GRASS_0, GRASS_0, WATER_0, WATER_0, WATER_0, WATER_1, GRASS_0, GRASS_2, GRASS_0],
-    [GRASS_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_1, GRASS_0, GRASS_0, GRASS_0, WATER_0, WATER_1, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0],
-    [DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, DIRT_1, DIRT_0, WATER_0, WATER_1, WATER_1, WATER_0, GRASS_0, GRASS_2, GRASS_0],
-    [DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_1, WATER_0, WATER_1, WATER_2, WATER_0, WATER_1, WATER_0, WATER_0, GRASS_0, GRASS_0],
-    [GRASS_0, GRASS_2, GRASS_0, GRASS_2, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, DIRT_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_0, GRASS_0, GRASS_2, GRASS_0],
-    [GRASS_2, GRASS_0, GRASS_0, GRASS_0, DIRT_0, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, WATER_1, WATER_1, WATER_1, WATER_0, WATER_2, WATER_1, WATER_0, GRASS_0, GRASS_0],
-    [GRASS_0, GRASS_0, GRASS_2, GRASS_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0, GRASS_2]
+    [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_0, WATER_1, WATER_0],
+    [GRASS_0, GRASS_2, GRASS_0, GRASS_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_0, GRASS_0, GRASS_0, GRASS_0, GRASS_1, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0],
+    [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_1, WATER_1, WATER_2, WATER_0, WATER_0],
+    [GRASS_2, GRASS_0, GRASS_0, GRASS_2, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, GRASS_0, GRASS_1, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0],
+    [GRASS_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_1, DIRT_0, GRASS_0, GRASS_1, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0, WATER_0, WATER_2],
+    [GRASS_0, GRASS_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_1, DIRT_0, DIRT_0, DIRT_0, DIRT_0, GRASS_4, GRASS_3, WATER_0, WATER_1, WATER_1, WATER_0, WATER_0, WATER_0, WATER_0],
+    [GRASS_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_1, DIRT_0, DIRT_1, GRASS_1, WATER_0, WATER_1, WATER_2, WATER_0, WATER_1, WATER_0, WATER_2, WATER_0, WATER_0],
+    [GRASS_0, GRASS_2, GRASS_0, GRASS_2, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, GRASS_0, GRASS_1, WATER_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0],
+    [GRASS_2, GRASS_0, GRASS_0, GRASS_0, DIRT_0, DIRT_0, DIRT_0, DIRT_1, DIRT_0, GRASS_0, GRASS_1, WATER_1, WATER_1, WATER_1, WATER_0, WATER_2, WATER_1, WATER_1, WATER_2, WATER_0],
+    [GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_2, GRASS_0, GRASS_1, WATER_0, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0, WATER_1]
 ]
 
 # GAME DIMENSIONS, CONFIG

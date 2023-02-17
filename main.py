@@ -129,7 +129,7 @@ while not GAME_OVER:
             for beast in BEAST_LIST:
                 if beast.APPEAR:
                     if PLAYER.PLAYER_POS == beast.POS:
-                        PLAYER.HEALTH -= 10
+                        PLAYER.HEALTH -= 0
                     for coordinate in range(len(beast.POS)):
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             beast.POS[coordinate] += 1 
