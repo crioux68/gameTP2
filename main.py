@@ -6,6 +6,23 @@ import random
 from key_events import KeyEvents
 import math
 
+# CHECK IF THE TILE IS AN OBSTACLE
+def CheckIfObstacles(posTileX, posTileY):
+    # CHECK IF THE TILE IS WATER
+    if GRID[posTileY][posTileX] == WATER_0:
+        print("water 0")
+        return True
+    if GRID[posTileY][posTileX] == WATER_1:
+        print("water 1")
+        return True
+    if GRID[posTileY][posTileX] == WATER_2:
+        print("water 2")
+        return True
+    if GRID[posTileY][posTileX] == GRASS_4:
+        print("grass 4")
+        return True
+
+
 # INSTANCES OF GAME OBJECTS
 PLAYER = heroes.LINK()
 key_events = KeyEvents(PLAYER)
@@ -69,7 +86,15 @@ while not GAME_OVER:
 
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-           key_events.key_right() 
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])):
+                #print(str(PLAYER.PLAYER_POS[0]))
+                pass
+            else:
+                key_events.key_right()
+                print(GRID[int(PLAYER.PLAYER_POS[1])])
+            
+        #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
+        #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
@@ -81,7 +106,10 @@ while not GAME_OVER:
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-            key_events.key_down()
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)):
+                pass
+            else:
+                key_events.key_down()
     
         # PLACING DOWN ITEMS
         if (keys[K_SPACE]):
@@ -239,7 +267,6 @@ while not GAME_OVER:
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
     DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
-
     
     pygame.display.update()
 
@@ -252,5 +279,6 @@ while not GAME_OVER:
         print('GAME OVER, YOU LOSE')
 
 # END OF GAME LOOP
+
 
 
