@@ -255,68 +255,68 @@ def main():
             print('GAME OVER, YOU LOSE')
 
     # END OF GAME LOOP
+    End()
 
-#main()
+def End():
+    # CREATE THE GAME OVER SCREEN
+    #pygame.init()
+    #screen = pygame.display.set_mode((800, 600))
+    BACKGROUNDCOLOR = (36,110,7)
+    DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
-# CREATE THE GAME OVER SCREEN
-#pygame.init()
-#screen = pygame.display.set_mode((800, 600))
-BACKGROUNDCOLOR = (36,110,7)
-DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+    # RENDER GAME OVER TEXT
+    GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
+    DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
 
-# RENDER GAME OVER TEXT
-GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
-DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
+    # TODO RENDER BUTTONS
+    width = DISPLAYSURFACE.get_width()
+    height = DISPLAYSURFACE.get_height()
 
-# TODO RENDER BUTTONS
-width = DISPLAYSURFACE.get_width()
-height = DISPLAYSURFACE.get_height()
-
-# light shade of the button
-color_light = (170,170,170)
-  
-# dark shade of the button
-color_dark = (100,100,100)
-
-BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
-BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
-
-pygame.display.update()
-
-running = True
-
-while running:
-    for event in pygame.event.get():  
-        if event.type == pygame.QUIT:  
-           running = False
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                key_events.quit()
-            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                running = False
-                main()
-                print(mouse[1])
-
-    mouse = pygame.mouse.get_pos()
+    # light shade of the button
+    color_light = (170,170,170)
     
-    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-        pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
-        
-    else:
-        pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+    # dark shade of the button
+    color_dark = (100,100,100)
 
-    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-        pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
+    BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
+    BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
 
-    else:
-        pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
-      
-    # superimposing the text onto our button
-    DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
-    DISPLAYSURFACE.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
-      
-    # updates the frames of the game
     pygame.display.update()
 
+    running = True
 
+    while running:
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT:  
+                running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                    key_events.quit()
+                if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                    running = False
+                    main()
+                    print(mouse[1])
+
+        mouse = pygame.mouse.get_pos()
+        
+        if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+            pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
+            
+        else:
+            pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+
+        if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+            pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
+
+        else:
+            pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
+        
+        # superimposing the text onto our button
+        DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
+        DISPLAYSURFACE.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
+        
+        # updates the frames of the game
+        pygame.display.update()
+
+main()
