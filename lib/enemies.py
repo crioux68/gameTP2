@@ -1,6 +1,8 @@
 import pygame.image
+import pygame
 from grid import MAPHEIGHT, MAPWIDTH
 import random
+from pygame.locals import *
 
 rand = random.randint
 
@@ -17,9 +19,16 @@ class BEAST:
         self.PORTAL = False
         self.PORTAL_APPEAR = True
         self.APPEAR = False 
+        self.X_POS = random.randint(50, 300)
+        self.Y_POS = random.randint(50, 450)
         self.POS = []
         self.SUMMONED = False
         self.HEALTH = 100
+        self.rect = Rect(self.POS, self.POS, 50, 50)
+        red = (178, 0, 0)
+        # self.rect = pygame.draw.rect(self.BEAST, blue, pygame.Rect(self.X_POS, self.Y_POS, 100, 100))
+
+    
 
 class PORTAL:
     def __init__(self):

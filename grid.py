@@ -1,5 +1,6 @@
 import pygame
 import random
+from pygame.locals import *
 
 # TILES
 DIRT = 0
@@ -15,14 +16,16 @@ class Tree:
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (125, 125))
         self.X_POS = random.randint(50, 300)
         self.Y_POS = random.randint(50, 450)
-
+        self.rect = Rect(self.X_POS, self.Y_POS, 120, 110)
+        # self.rect = pygame.draw.Rect(self.SPRITE, green, pygame.Rect(self.X_POS, self.Y_POS, 200, 200))
+    
 class TEMPLE:
     def __init__(self):
-        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (250, 250))
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (50, 50))
         self.X_POS = 6
         self.Y_POS = 1
 
-num_trees = 15
+num_trees = 3
 trees = [Tree() for x in range (num_trees)]
 
 # DICTIONARY LINKING TILES TO THEIR COLORS pygame.image.load('pic.png')
@@ -57,6 +60,7 @@ pygame.init()
 pygame.display.set_caption('LINKS ADVENTURE')
 # MAPHEIGHT + 125 for inventory
 DISPLAYSURFACE = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE))
+
 
 # COLORS
 WHITE = (200, 200, 200)

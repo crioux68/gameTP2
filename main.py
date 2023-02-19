@@ -45,6 +45,15 @@ pygame.time.set_timer(USEREVENT + 3, 1000)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 
+#
+monster = enemies.BEAST
+arbuste = Tree
+link = heroes.LINK
+def checkCollision(Tree, monster, arbuste):
+    col = pygame.sprite.collide_rect(tree, monster, link)
+    if col == True:
+        monster.POS[-1]
+
 GAME_OVER = False
 # GAME LOOP
 while not GAME_OVER:
@@ -131,10 +140,22 @@ while not GAME_OVER:
                     if PLAYER.PLAYER_POS == beast.POS:
                         PLAYER.HEALTH -= 10
                     for coordinate in range(len(beast.POS)):
+                        # col = pygame.sprite.collide_rect(tree.rect, beast.rect)
+                        col = tree.rect.colliderect(beast.rect)
+                        pygame.draw.rect(DISPLAYSURFACE, (0,   0,   255),
+                            beast)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
-                            beast.POS[coordinate] += 1 
+                            if col == True:
+                                beast.POS[coordinate]-=1
+                                print('collision avec arbre')
+                            else:
+                                beast.POS[coordinate] += 1 
                         else:
-                            beast.POS[coordinate] -= 1
+                            if col == True:
+                                beast.POS[coordinate]+=1
+                                print('collision avec arbre')
+                            else:
+                                beast.POS[coordinate] -= 1
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
@@ -161,26 +182,27 @@ while not GAME_OVER:
     """
 
     # RENDER GAME GRID
+    pygame.display.init()
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             DISPLAYSURFACE.blit(TEXTURES[GRID[row][column]], (column*TILESIZE, row*TILESIZE))
 
     # RENDER LINK
-    if PLAYER.TRANSFORM:
-        DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-    else:
-        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-
+    # if PLAYER.TRANSFORM:
+    #     DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    # else:
+    #     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
     # RENDER MIDNA
-    MIDNA.APPEARED = True
-    if MIDNA.APPEARED:
-        if PLAYER.TRANSFORM:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
-        else:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    # MIDNA.APPEARED = True
+    # if MIDNA.APPEARED:
+    #     if PLAYER.TRANSFORM:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
+    #     else:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
     # RENDERING ARMED ITEMS WITH PLAYER SPRITE
     if PLAYER.WEAPON:
@@ -235,6 +257,8 @@ while not GAME_OVER:
     # RENDER TREES
     for tree in sorted(trees, key=lambda t: t.Y_POS):
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            tree)
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
