@@ -15,7 +15,7 @@ class GANON:
 
 class BEAST:
     def __init__(self):
-        self.BEAST = pygame.image.load('./sprites/beast.png')
+        self.SPRITE = pygame.image.load('./sprites/beast.png')
         self.PORTAL = False
         self.PORTAL_APPEAR = True
         self.APPEAR = False 
@@ -24,9 +24,8 @@ class BEAST:
         self.POS = []
         self.SUMMONED = False
         self.HEALTH = 100
-        self.rect = Rect(self.POS, self.POS, 50, 50)
-        red = (178, 0, 0)
-        # self.rect = pygame.draw.rect(self.BEAST, blue, pygame.Rect(self.X_POS, self.Y_POS, 100, 100))
+        # self.rect = self.BEAST.get_rect()
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 100, 100)
 
     
 

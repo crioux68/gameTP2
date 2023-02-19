@@ -16,8 +16,9 @@ class Tree:
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (125, 125))
         self.X_POS = random.randint(50, 300)
         self.Y_POS = random.randint(50, 450)
-        self.rect = Rect(self.X_POS, self.Y_POS, 120, 110)
-        # self.rect = pygame.draw.Rect(self.SPRITE, green, pygame.Rect(self.X_POS, self.Y_POS, 200, 200))
+        # self.rect = self.SPRITE.get_rect()
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 120, 110)
+        self.treePOS = [self.X_POS, self.Y_POS]
     
 class TEMPLE:
     def __init__(self):

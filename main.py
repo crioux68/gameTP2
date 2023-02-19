@@ -45,15 +45,6 @@ pygame.time.set_timer(USEREVENT + 3, 1000)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 
-#
-monster = enemies.BEAST
-arbuste = Tree
-link = heroes.LINK
-def checkCollision(Tree, monster, arbuste):
-    col = pygame.sprite.collide_rect(tree, monster, link)
-    if col == True:
-        monster.POS[-1]
-
 GAME_OVER = False
 # GAME LOOP
 while not GAME_OVER:
@@ -140,22 +131,27 @@ while not GAME_OVER:
                     if PLAYER.PLAYER_POS == beast.POS:
                         PLAYER.HEALTH -= 10
                     for coordinate in range(len(beast.POS)):
-                        # col = pygame.sprite.collide_rect(tree.rect, beast.rect)
-                        col = tree.rect.colliderect(beast.rect)
-                        pygame.draw.rect(DISPLAYSURFACE, (0,   0,   255),
-                            beast)
+                        # if tree.treePOS[coordinate] == beast.POS[coordinate]:
+                        #     beast.POS[coordinate]-=1
+                        #     print('collision avec arbre')
+                        col = tree.rect.colliderect(beast)
+                        # col = beast.rect.colliderect(tree)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             if col == True:
                                 beast.POS[coordinate]-=1
-                                print('collision avec arbre')
+                                # print('collision avec arbre')
+                                beast.rect.move(-1, -1)
                             else:
-                                beast.POS[coordinate] += 1 
+                                beast.POS[coordinate] += 1
+                                beast.rect.move(+1, +1)
                         else:
                             if col == True:
                                 beast.POS[coordinate]+=1
-                                print('collision avec arbre')
+                                # print('collision avec arbre')
+                                beast.rect.move(+1, +1)
                             else:
                                 beast.POS[coordinate] -= 1
+                                beast.rect.move(-1, -1)
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
@@ -183,6 +179,11 @@ while not GAME_OVER:
 
     # RENDER GAME GRID
     pygame.display.init()
+    window = (MAPWIDTH, MAPHEIGHT) 
+    background = pygame.Surface(window)
+    #### Populate the surface with objects to be displayed ####
+    pygame.draw.rect(background,(0,255,255),(20,20,40,40))
+    pygame.draw.rect(background,(255,0,255),(120,120,50,50))
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             DISPLAYSURFACE.blit(TEXTURES[GRID[row][column]], (column*TILESIZE, row*TILESIZE))
@@ -213,7 +214,9 @@ while not GAME_OVER:
         if beast.PORTAL_APPEAR:
             DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
         if beast.APPEAR:
-            DISPLAYSURFACE.blit(beast.BEAST, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            beast, 4)
 
     # RENDER ITEMS
     for item in GAME_ITEMS:
@@ -258,7 +261,7 @@ while not GAME_OVER:
     for tree in sorted(trees, key=lambda t: t.Y_POS):
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                            tree)
+                            tree, 4)
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
