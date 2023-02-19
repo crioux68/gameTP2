@@ -256,7 +256,7 @@ def main():
 
     # END OF GAME LOOP
 
-main()
+#main()
 
 # CREATE THE GAME OVER SCREEN
 pygame.init()
@@ -293,8 +293,9 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                 key_events.quit()
-            #if width/2 <= mouse[0] <= width/2+140 and height/2 >= mouse[1] >= height/2-60:
+            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                 #main()
+                print(mouse[1])
 
     mouse = pygame.mouse.get_pos()
     
@@ -304,15 +305,15 @@ while running:
     else:
         pygame.draw.rect(screen,color_dark,[width/2,height/2,140,40])
 
-    if width/2 <= mouse[0] <= width/2+140 and height/2 >= mouse[1] >= height/2-60:
-        pygame.draw.rect(screen,color_light,[width/2,height/2-60,140,60])
+    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+        pygame.draw.rect(screen,color_light,[width/2,height/2-100,140,40])
 
     else:
-        pygame.draw.rect(screen,color_dark,[width/2,height/2-60,140,60])
+        pygame.draw.rect(screen,color_dark,[width/2,height/2-100,140,40])
       
     # superimposing the text onto our button
     screen.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
-    screen.blit(BUTTON_RESTART_TEXT , (width/2+50,height/2-60))
+    screen.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
       
     # updates the frames of the game
     pygame.display.update()
