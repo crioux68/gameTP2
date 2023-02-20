@@ -172,7 +172,7 @@ while not GAME_OVER:
                         #print("coordinate: " + str(beast.POS[coordinate]))
                         beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
                         # col = beast.rect.colliderect(tree)
-                        col = tree.rect.colliderect(beast.rect)
+                        col = tree.rect.colliderect(beast.rect) or TEMPLE.rect.colliderect(beast.rect)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             if col == True:
                                 beast.POS[coordinate]-=1 * 2
@@ -237,6 +237,8 @@ while not GAME_OVER:
     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            TEMPLE, 4)
 
     # RENDER MIDNA
     # MIDNA.APPEARED = True

@@ -25,13 +25,13 @@ class Tree:
         self.Y_POS = random.randint(50, 450)
         # self.rect = self.SPRITE.get_rect()
         self.rect = pygame.rect.Rect(self.X_POS - 20, self.Y_POS - 20, 110, 110)
-        self.treePOS = [self.X_POS, self.Y_POS]
     
 class TEMPLE:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (400, 255))
         self.X_POS = 3
         self.Y_POS = 0
+        self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
 
 num_trees = 7
 trees = [Tree() for x in range (num_trees)]
