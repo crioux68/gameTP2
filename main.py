@@ -10,16 +10,16 @@ import math
 def CheckIfObstacles(posTileX, posTileY):
     # CHECK IF THE TILE IS WATER
     if GRID[posTileY][posTileX] == WATER_0:
-        print("water 0")
+        #print("water 0")
         return True
     if GRID[posTileY][posTileX] == WATER_1:
-        print("water 1")
+        #print("water 1")
         return True
     if GRID[posTileY][posTileX] == WATER_2:
-        print("water 2")
+        #print("water 2")
         return True
     if GRID[posTileY][posTileX] == GRASS_4:
-        print("grass 4")
+        #print("grass 4")
         return True
 
 
@@ -91,7 +91,7 @@ while not GAME_OVER:
                 pass
             else:
                 key_events.key_right()
-                print(GRID[int(PLAYER.PLAYER_POS[1])])
+                #print(GRID[int(PLAYER.PLAYER_POS[1])])
             
         #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
         #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
