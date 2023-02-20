@@ -140,18 +140,18 @@ while not GAME_OVER:
                             if col == True:
                                 beast.POS[coordinate]-=1
                                 # print('collision avec arbre')
-                                beast.rect.move(-1, -1)
+                                # beast.rect.move(-1, -1)
                             else:
                                 beast.POS[coordinate] += 1
-                                beast.rect.move(+1, +1)
+                                # beast.rect.move(+1, +1)
                         else:
                             if col == True:
                                 beast.POS[coordinate]+=1
                                 # print('collision avec arbre')
-                                beast.rect.move(+1, +1)
+                                # beast.rect.move(+1, +1)
                             else:
                                 beast.POS[coordinate] -= 1
-                                beast.rect.move(-1, -1)
+                                # beast.rect.move(-1, -1)
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
@@ -215,6 +215,7 @@ while not GAME_OVER:
             DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
         if beast.APPEAR:
             DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                             beast, 4)
 
