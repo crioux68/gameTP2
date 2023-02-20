@@ -18,7 +18,7 @@ GANON = enemies.GANON()
 PORTAL = enemies.PORTAL()
 TEMPLE = TEMPLE()
 MIDNA = heroes.MIDNA()
-CHEST = items.CHEST()
+CHEST = CHEST()
 KEY = items.KEY()
 
 # GROUPINGS OF RELATED GAME OBJECTS
@@ -176,6 +176,7 @@ while not GAME_OVER:
 
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
 
     # RENDER MIDNA
     MIDNA.APPEARED = True
@@ -199,10 +200,6 @@ while not GAME_OVER:
     # RENDER ITEMS
     for item in GAME_ITEMS:
             if item.PLACED == True:
-                DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
-    
-    for chests in PUZZLE:
-            if chests.PLACED == True:
                 DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
 
     # RENDER ORBS
@@ -242,6 +239,8 @@ while not GAME_OVER:
     # RENDER TREES
     for tree in sorted(trees, key=lambda t: t.Y_POS):
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+
+    
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))

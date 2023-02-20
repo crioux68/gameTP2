@@ -20,14 +20,6 @@ class WAND:
         self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
         self.PLACED = True
 
-class CHEST:
-    def __init__(self):
-        self.NAME = 'CHEST'
-        self.IMAGE = pygame.image.load('./sprites/chest.png')
-        self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 35))
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
-        self.PLACED = True
-
 class GOLD:
     NAME = 'BITCOIN'
     IMAGE = pygame.image.load('./sprites/gold_coin.png')
