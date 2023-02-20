@@ -18,10 +18,13 @@ GANON = enemies.GANON()
 PORTAL = enemies.PORTAL()
 TEMPLE = TEMPLE()
 MIDNA = heroes.MIDNA()
+CHEST = items.CHEST()
+KEY = items.KEY()
 
 # GROUPINGS OF RELATED GAME OBJECTS
-GAME_ITEMS = [WAND, SWORD, SHIELD]
+GAME_ITEMS = [WAND, SWORD, SHIELD, KEY]
 GAME_WEAPONS = [WAND, BOW]
+PUZZLE = [CHEST]
 BEAST_LIST = []
 orbs_list = []
 
@@ -69,7 +72,7 @@ while not GAME_OVER:
 
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-           key_events.key_right() 
+           key_events.key_right(GRID) 
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
@@ -196,6 +199,10 @@ while not GAME_OVER:
     # RENDER ITEMS
     for item in GAME_ITEMS:
             if item.PLACED == True:
+                DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+    
+    for chests in PUZZLE:
+            if chests.PLACED == True:
                 DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
 
     # RENDER ORBS
