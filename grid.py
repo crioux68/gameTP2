@@ -24,7 +24,7 @@ class Tree:
         self.X_POS = random.randint(50, 300)
         self.Y_POS = random.randint(50, 450)
         # self.rect = self.SPRITE.get_rect()
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 120, 110)
+        self.rect = pygame.rect.Rect(self.X_POS - 20, self.Y_POS - 20, 110, 110)
         self.treePOS = [self.X_POS, self.Y_POS]
     
 class TEMPLE:
