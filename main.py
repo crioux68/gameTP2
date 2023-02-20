@@ -61,7 +61,7 @@ pygame.time.set_timer(USEREVENT + 1, 7500)
 # INCREMENT BEAST PORTAL FRAMES
 pygame.time.set_timer(USEREVENT + 2, 400)
 # MOVE BEASTS
-pygame.time.set_timer(USEREVENT + 3, 1000)
+pygame.time.set_timer(USEREVENT + 3, 400)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 
@@ -135,7 +135,8 @@ while not GAME_OVER:
                 x = random.randint(1, 9)
                 y = random.randint(1, 9)
                 PORTAL.POS = [x, y]
-                GANON.GANON_POS = [x, y]
+                GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
+                print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
                 PORTAL.FRAME = 1
         
         # BEAST OBJECT GENERATOR 
