@@ -154,6 +154,9 @@ while not GAME_OVER:
                     beast.APPEAR = True
                     beast.SUMMONED = True
                     beast.POS = [beast.PORTAL.POS[0], beast.PORTAL.POS[1]]
+                    beast.rect.left = beast.POS[0] * TILESIZE
+                    beast.rect.top = beast.POS[1] * TILESIZE
+                    #print("Left: " + str(beast.rect.left) + " Top: " + str(beast.rect.top))
         
         # BEASTS MOVEMENTS HUNT PLAYER
         elif (event.type == USEREVENT + 3):
@@ -162,10 +165,34 @@ while not GAME_OVER:
                     if PLAYER.PLAYER_POS == beast.POS:
                         PLAYER.HEALTH -= 0
                     for coordinate in range(len(beast.POS)):
+                        # if tree.treePOS[coordinate] == beast.POS[coordinate]:
+                        #     beast.POS[coordinate]-=1
+                        #     print('collision avec arbre')
+                        #col = tree.rect.colliderect(beast)
+                        #print("coordinate: " + str(beast.POS[coordinate]))
+                        beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
+                        # col = beast.rect.colliderect(tree)
+                        col = tree.rect.colliderect(beast.rect)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
-                            beast.POS[coordinate] += 1 
+                            if col == True:
+                                beast.POS[coordinate]-=1 * 2
+                                # print('collision avec arbre')
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
+                            else:
+                                beast.POS[coordinate] += 1
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                         else:
-                            beast.POS[coordinate] -= 1
+                            if col == True:
+                                beast.POS[coordinate]+=1 * 2
+                                # print('collision avec arbre')
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
+                            else:
+                                beast.POS[coordinate] -= 1
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
@@ -192,26 +219,32 @@ while not GAME_OVER:
     """
 
     # RENDER GAME GRID
+    pygame.display.init()
+    window = (MAPWIDTH, MAPHEIGHT) 
+    background = pygame.Surface(window)
+    #### Populate the surface with objects to be displayed ####
+    pygame.draw.rect(background,(0,255,255),(20,20,40,40))
+    pygame.draw.rect(background,(255,0,255),(120,120,50,50))
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             DISPLAYSURFACE.blit(TEXTURES[GRID[row][column]], (column*TILESIZE, row*TILESIZE))
 
     # RENDER LINK
-    if PLAYER.TRANSFORM:
-        DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-    else:
-        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-
+    # if PLAYER.TRANSFORM:
+    #     DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    # else:
+    #     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
     # RENDER MIDNA
-    MIDNA.APPEARED = True
-    if MIDNA.APPEARED:
-        if PLAYER.TRANSFORM:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
-        else:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    # MIDNA.APPEARED = True
+    # if MIDNA.APPEARED:
+    #     if PLAYER.TRANSFORM:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
+    #     else:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
     # RENDERING ARMED ITEMS WITH PLAYER SPRITE
     if PLAYER.WEAPON:
@@ -222,7 +255,10 @@ while not GAME_OVER:
         if beast.PORTAL_APPEAR:
             DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
         if beast.APPEAR:
-            DISPLAYSURFACE.blit(beast.BEAST, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            beast.rect, 4)
 
     # RENDER ITEMS
     for item in GAME_ITEMS:
@@ -270,6 +306,8 @@ while not GAME_OVER:
     # RENDER TREES
     for tree in sorted(trees, key=lambda t: t.Y_POS):
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            tree, 4)
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
