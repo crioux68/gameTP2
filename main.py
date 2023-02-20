@@ -144,7 +144,7 @@ while not GAME_OVER:
                         col = tree.rect.colliderect(beast.rect)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             if col == True:
-                                beast.POS[coordinate]-=1
+                                beast.POS[coordinate]-=1 * 2
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
@@ -154,7 +154,7 @@ while not GAME_OVER:
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                         else:
                             if col == True:
-                                beast.POS[coordinate]+=1
+                                beast.POS[coordinate]+=1 * 2
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
