@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+
 """
 Lib for all key events
 """
@@ -55,10 +56,11 @@ class KeyEvents:
 
         self.PLAYER.SPRITE_POS = pygame.image.load(f_images[self.counter])
         self.counter = (self.counter + 1) % len(f_images)
-
+        
         if self.PLAYER.TRANSFORM:
             self.PLAYER.WOLF  = pygame.image.load(wolf_f_images[self.wolf_counter])
             self.wolf_counter = (self.wolf_counter + 1) % len(wolf_f_images)
+    
 
     def key_up(self):
         self.PLAYER.PLAYER_POS[1] -= self.movement 
@@ -88,7 +90,7 @@ class KeyEvents:
 
         self.PLAYER.SPRITE_POS = pygame.image.load(r_images[self.counter])
         self.counter = (self.counter + 1) % len(r_images)
-
+        
         if self.PLAYER.TRANSFORM:
             self.PLAYER.WOLF  = pygame.image.load(wolf_r_images[self.wolf_counter_lr])
             self.wolf_counter_lr = (self.wolf_counter_lr + 1) % len(wolf_r_images)
