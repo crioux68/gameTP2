@@ -44,6 +44,7 @@ pygame.time.set_timer(USEREVENT + 2, 400)
 pygame.time.set_timer(USEREVENT + 3, 1000)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
+ 
 
 def main():
     PLAYER = heroes.LINK()
@@ -305,7 +306,7 @@ def End():
         for event in pygame.event.get():  
             if event.type == pygame.QUIT:  
                 running = False
-
+            #RENDRE LE BOUTON CLIQUABLE
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                     key_events.quit()
