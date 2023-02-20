@@ -46,6 +46,22 @@ pygame.time.set_timer(USEREVENT + 3, 1000)
 pygame.time.set_timer(USEREVENT + 4, 100)
 
 def main():
+    PLAYER = heroes.LINK()
+    key_events = KeyEvents(PLAYER)
+    WAND = items.WAND()
+    GOLD = items.GOLD()
+    SWORD = items.SWORD()
+    SHIELD = items.SHIELD()
+    BOW = items.BOW()
+    GANON = enemies.GANON()
+    PORTAL = enemies.PORTAL()
+    MIDNA = heroes.MIDNA()
+
+    # GROUPINGS OF RELATED GAME OBJECTS
+    GAME_ITEMS = [WAND, SWORD, SHIELD]
+    GAME_WEAPONS = [WAND, BOW]
+    BEAST_LIST = []
+    orbs_list = []
 
     GAME_OVER = False
     # GAME LOOP
@@ -320,3 +336,4 @@ def End():
         pygame.display.update()
 
 main()
+#End()
