@@ -19,15 +19,13 @@ class BEAST:
         self.PORTAL = False
         self.PORTAL_APPEAR = True
         self.APPEAR = False 
-        self.X_POS = random.randint(50, 300)
-        self.Y_POS = random.randint(50, 450)
+        # self.X_POS = random.randint(50, 300)
+        # self.Y_POS = random.randint(50, 450)
         self.POS = []
         self.SUMMONED = False
         self.HEALTH = 100
-        # self.rect = self.BEAST.get_rect()
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 100, 100)
+        self.rect = self.SPRITE.get_rect()
 
-    
 
 class PORTAL:
     def __init__(self):
