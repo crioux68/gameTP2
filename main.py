@@ -156,7 +156,8 @@ while not GAME_OVER:
                         GANON.GANON_POS[1] -=10
                         print('Ganon is out the map on the top or bottom')
                     else:
-                     ganonRandPOS+=1
+                        ganonRandPOSx+=1
+                        ganonRandPOSy+=1
                 else:
                     print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
                 # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
