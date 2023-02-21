@@ -44,6 +44,10 @@ pygame.time.set_timer(USEREVENT + 2, 400)
 pygame.time.set_timer(USEREVENT + 3, 1000)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
+
+def menu():
+    BACKGROUNDCOLOR = (36,110,7)
+    DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
  
 
 def main():
