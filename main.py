@@ -98,10 +98,12 @@ while not GAME_OVER:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                 #print(str(PLAYER.PLAYER_POS[0]))
                 key_events.key_right()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
             elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:
                 pass
             else:
                 key_events.key_right()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
                 #print(GRID[int(PLAYER.PLAYER_POS[1])])
             
         #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
@@ -109,11 +111,13 @@ while not GAME_OVER:
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-           key_events.key_left() 
+           key_events.key_left()
+           PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
     
         # MOVE UP
         if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
             key_events.key_up()
+            PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
@@ -121,6 +125,7 @@ while not GAME_OVER:
                 pass
             else:
                 key_events.key_down()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
 
             # print(GRID[int(PLAYER.PLAYER_POS[1])])
     
@@ -148,10 +153,16 @@ while not GAME_OVER:
                 #Make sure Ganon stay on map
                 ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                 ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
-                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
-                    if GANON.GANON_POS[0] < -3:
+                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 20) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                    if GANON.GANON_POS[0] < 0:
                         GANON.GANON_POS[0]+=10
                         print('Ganon is out the map on the side')
+                    elif GANON.GANON_POS[0] > 21:
+                        GANON.GANON_POS[0]+=10
+                        print('Ganon is out the map on the side')
+                    elif GANON.GANON_POS[1] < 0:
+                        GANON.GANON_POS[1] +=10
+                        print('Ganon is out the map on the top or bottom')
                     elif GANON.GANON_POS[1] > 13:
                         GANON.GANON_POS[1] -=10
                         print('Ganon is out the map on the top or bottom')
@@ -159,7 +170,7 @@ while not GAME_OVER:
                         ganonRandPOSx+=1
                         ganonRandPOSy+=1
                 else:
-                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' position en y : ' + str(ganonRandPOSy))
                 # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
                 GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
                 print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
@@ -340,6 +351,9 @@ while not GAME_OVER:
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                             tree, 4)
+    colPlayer = tree.rect.colliderect(PLAYER.rect) or TEMPLE.rect.colliderect(PLAYER.rect)
+    if colPlayer == True:
+        print('le joueur a fesser dequoi')
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
