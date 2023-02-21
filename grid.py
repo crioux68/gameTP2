@@ -27,6 +27,8 @@ class CHEST:
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/chest.png'), (45, 45))
         self.X_POS = 9
         self.Y_POS = 9
+        self.rect = self.SPRITE.get_rect()
+        #pygame.draw.rect()
 
 num_trees = 15
 trees = [Tree() for x in range (num_trees)]

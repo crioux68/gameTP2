@@ -176,7 +176,13 @@ while not GAME_OVER:
 
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    
+    # RENDER CHEST
     DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
+    def chestCollision(LINK, CHEST):
+        col  = pygame.sprite.collide_rect(LINK, CHEST)
+        if col == True:
+            print("coffre")
 
     # RENDER MIDNA
     MIDNA.APPEARED = True
