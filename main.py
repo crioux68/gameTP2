@@ -58,13 +58,34 @@ def menu():
     width = DISPLAYSURFACE.get_width()
     height = DISPLAYSURFACE.get_height()
 
+    # light shade of the button
+    color_light = (170,170,170)
+    
+    # dark shade of the button
+    color_dark = (100,100,100)
+
+    BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
+    BUTTON_PLAY_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
+
     # updates the frames of the game
     pygame.display.update()
 
-    #running = True
+    running = True
 
-    #while running:
-
+    while running:
+        for event in pygame.event.get():  
+            if event.type == pygame.QUIT:  
+                running = False
+            #RENDRE LE BOUTON CLIQUABLE
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                    key_events.quit()
+                if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                    running = False
+                    main()
+                    print(mouse[1])
+                    
+        mouse = pygame.mouse.get_pos()
 
  
 
