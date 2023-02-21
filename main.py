@@ -8,24 +8,27 @@ import math
 
 # CHECK IF THE TILE IS AN OBSTACLE
 def CheckIfObstacles(posTileX, posTileY):
-    # CHECK IF THE TILE IS WATER
-    if GRID[posTileY][posTileX] == WATER_0:
-        #print("water 0")
-        return True
-    if GRID[posTileY][posTileX] == WATER_1:
-        #print("water 1")
-        return True
-    if GRID[posTileY][posTileX] == WATER_2:
-        #print("water 2")
-        return True
-    if GRID[posTileY+1][posTileX] == GRASS_1 and GRID[posTileY][posTileX+1] == GRASS_4 and GRID[posTileY][posTileX+2] == GRASS_3 and GRID[posTileY][posTileX-1] != DIRT_1:
-        #print("grass 1")
-        return 2
-    if GRID[posTileY][posTileX] == GRASS_3:
-        #print("grass 3")
-        return True
-    if GRID[posTileY][posTileX] == GRASS_4:
-        #print("grass 4")
+    try:
+        # CHECK IF THE TILE IS WATER
+        if GRID[posTileY][posTileX] == WATER_0:
+            #print("water 0")
+            return True
+        if GRID[posTileY][posTileX] == WATER_1:
+            #print("water 1")
+            return True
+        if GRID[posTileY][posTileX] == WATER_2:
+            #print("water 2")
+            return True
+        if GRID[posTileY+1][posTileX] == GRASS_1 and GRID[posTileY][posTileX+1] == GRASS_4 and GRID[posTileY][posTileX+2] == GRASS_3 and GRID[posTileY][posTileX-1] != DIRT_1:
+            #print("grass 1")
+            return 2
+        if GRID[posTileY][posTileX] == GRASS_3:
+            #print("grass 3")
+            return True
+        if GRID[posTileY][posTileX] == GRASS_4:
+            #print("grass 4")
+            return True
+    except IndexError:
         return True
 
 
@@ -111,13 +114,17 @@ while not GAME_OVER:
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-           key_events.key_left()
-           PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True:
+                pass
+            else:
+                key_events.key_left() 
     
         # MOVE UP
         if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-            key_events.key_up()
-            PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True:
+                pass
+            else:
+                key_events.key_up()
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
@@ -153,7 +160,7 @@ while not GAME_OVER:
                 #Make sure Ganon stay on map
                 ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                 ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
-                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 20) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                if (GANON.GANON_POS[0] < 0 or GANON.GANON_POS[0] > 20) or (GANON.GANON_POS[1] < 0 or GANON.GANON_POS[1] > 10):
                     if GANON.GANON_POS[0] < 0:
                         GANON.GANON_POS[0]+=10
                         print('Ganon is out the map on the side')
