@@ -6,8 +6,34 @@ import random
 from key_events import KeyEvents
 import math
 
+# CHECK IF THE TILE IS AN OBSTACLE
+def CheckIfObstacles(posTileX, posTileY):
+    try:
+        # CHECK IF THE TILE IS WATER
+        if GRID[posTileY][posTileX] == WATER_0:
+            #print("water 0")
+            return True
+        if GRID[posTileY][posTileX] == WATER_1:
+            #print("water 1")
+            return True
+        if GRID[posTileY][posTileX] == WATER_2:
+            #print("water 2")
+            return True
+        if GRID[posTileY+1][posTileX] == GRASS_1 and GRID[posTileY][posTileX+1] == GRASS_4 and GRID[posTileY][posTileX+2] == GRASS_3 and GRID[posTileY][posTileX-1] != DIRT_1:
+            #print("grass 1")
+            return 2
+        if GRID[posTileY][posTileX] == GRASS_3:
+            #print("grass 3")
+            return True
+        if GRID[posTileY][posTileX] == GRASS_4:
+            #print("grass 4")
+            return True
+    except IndexError:
+        return True
+
+
 # INSTANCES OF GAME OBJECTS
-PLAYER = heroes.LINK()
+PLAYER = heroes.LINK(5,5,75,75)
 key_events = KeyEvents(PLAYER)
 WAND = items.WAND()
 GOLD = items.GOLD()
@@ -38,13 +64,13 @@ portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 TIMED EVENTS
 """
 # GANON MOVEMENT
-pygame.time.set_timer(USEREVENT, 400)
+pygame.time.set_timer(USEREVENT, 200)
 # SPAWN BEAST
 pygame.time.set_timer(USEREVENT + 1, 7500)
 # INCREMENT BEAST PORTAL FRAMES
 pygame.time.set_timer(USEREVENT + 2, 400)
 # MOVE BEASTS
-pygame.time.set_timer(USEREVENT + 3, 1000)
+pygame.time.set_timer(USEREVENT + 3, 500)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 
@@ -72,19 +98,40 @@ while not GAME_OVER:
 
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-           key_events.key_right(GRID) 
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
+                #print(str(PLAYER.PLAYER_POS[0]))
+                key_events.key_right()
+            elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:
+                pass
+            else:
+                key_events.key_right()
+                #print(GRID[int(PLAYER.PLAYER_POS[1])])
+            
+        #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
+        #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-           key_events.key_left() 
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True:
+                pass
+            else:
+                key_events.key_left() 
     
         # MOVE UP
         if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-            key_events.key_up()
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True:
+                pass
+            else:
+                key_events.key_up()
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-            key_events.key_down()
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2:
+                pass
+            else:
+                key_events.key_down()
+
+            # print(GRID[int(PLAYER.PLAYER_POS[1])])
     
         # PLACING DOWN ITEMS
         if (keys[K_SPACE]):
@@ -107,7 +154,24 @@ while not GAME_OVER:
                 x = random.randint(1, 9)
                 y = random.randint(1, 9)
                 PORTAL.POS = [x, y]
-                GANON.GANON_POS = [x, y]
+                #Make sure Ganon stay on map
+                ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
+                ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                    if GANON.GANON_POS[0] < -3:
+                        GANON.GANON_POS[0]+=10
+                        print('Ganon is out the map on the side')
+                    elif GANON.GANON_POS[1] > 13:
+                        GANON.GANON_POS[1] -=10
+                        print('Ganon is out the map on the top or bottom')
+                    else:
+                        ganonRandPOSx+=1
+                        ganonRandPOSy+=1
+                else:
+                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
+                GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
+                print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
                 PORTAL.FRAME = 1
         
         # BEAST OBJECT GENERATOR 
@@ -126,18 +190,45 @@ while not GAME_OVER:
                     beast.APPEAR = True
                     beast.SUMMONED = True
                     beast.POS = [beast.PORTAL.POS[0], beast.PORTAL.POS[1]]
+                    beast.rect.left = beast.POS[0] * TILESIZE
+                    beast.rect.top = beast.POS[1] * TILESIZE
+                    #print("Left: " + str(beast.rect.left) + " Top: " + str(beast.rect.top))
         
         # BEASTS MOVEMENTS HUNT PLAYER
         elif (event.type == USEREVENT + 3):
             for beast in BEAST_LIST:
                 if beast.APPEAR:
                     if PLAYER.PLAYER_POS == beast.POS:
-                        PLAYER.HEALTH -= 10
+                        PLAYER.HEALTH -= 0
                     for coordinate in range(len(beast.POS)):
+                        # if tree.treePOS[coordinate] == beast.POS[coordinate]:
+                        #     beast.POS[coordinate]-=1
+                        #     print('collision avec arbre')
+                        #col = tree.rect.colliderect(beast)
+                        #print("coordinate: " + str(beast.POS[coordinate]))
+                        beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
+                        # col = beast.rect.colliderect(tree)
+                        col = tree.rect.colliderect(beast.rect) or TEMPLE.rect.colliderect(beast.rect)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
-                            beast.POS[coordinate] += 1 
+                            if col == True:
+                                beast.POS[coordinate]-=1 * 2
+                                # print('collision avec arbre')
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
+                            else:
+                                beast.POS[coordinate] += 1
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                         else:
-                            beast.POS[coordinate] -= 1
+                            if col == True:
+                                beast.POS[coordinate]+=1 * 2
+                                # print('collision avec arbre')
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
+                            else:
+                                beast.POS[coordinate] -= 1
+                                # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
+                                beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
@@ -164,33 +255,49 @@ while not GAME_OVER:
     """
 
     # RENDER GAME GRID
+    pygame.display.init()
+    window = (MAPWIDTH, MAPHEIGHT) 
+    background = pygame.Surface(window)
+    #### Populate the surface with objects to be displayed ####
+    pygame.draw.rect(background,(0,255,255),(20,20,40,40))
+    pygame.draw.rect(background,(255,0,255),(120,120,50,50))
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             DISPLAYSURFACE.blit(TEXTURES[GRID[row][column]], (column*TILESIZE, row*TILESIZE))
 
     # RENDER LINK
-    if PLAYER.TRANSFORM:
-        DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-    else:
-        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    # if PLAYER.TRANSFORM:
+    #     DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    # else:
+    #     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)
+       
+    pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
 
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
     
     # RENDER CHEST
     DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
-    def chestCollision(LINK, CHEST):
-        col  = pygame.sprite.collide_rect(LINK, CHEST)
-        if col == True:
-            print("coffre")
+    pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            CHEST, 4)
+    
+    colChest = CHEST.rect.colliderect(PLAYER.rect)
+    #col  = pygame.sprite.collide_rect(LINK, CHEST)
+    
+    if colChest == True:
+        print("coffre")
+        
+    
 
     # RENDER MIDNA
-    MIDNA.APPEARED = True
-    if MIDNA.APPEARED:
-        if PLAYER.TRANSFORM:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
-        else:
-            DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+    # MIDNA.APPEARED = True
+    # if MIDNA.APPEARED:
+    #     if PLAYER.TRANSFORM:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
+    #     else:
+    #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
     # RENDERING ARMED ITEMS WITH PLAYER SPRITE
     if PLAYER.WEAPON:
@@ -201,7 +308,10 @@ while not GAME_OVER:
         if beast.PORTAL_APPEAR:
             DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
         if beast.APPEAR:
-            DISPLAYSURFACE.blit(beast.BEAST, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+            # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            beast.rect, 4)
 
     # RENDER ITEMS
     for item in GAME_ITEMS:
@@ -245,13 +355,14 @@ while not GAME_OVER:
     # RENDER TREES
     for tree in sorted(trees, key=lambda t: t.Y_POS):
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                            tree, 4)
 
     
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
     DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
-
     
     pygame.display.update()
 
@@ -264,5 +375,6 @@ while not GAME_OVER:
         print('GAME OVER, YOU LOSE')
 
 # END OF GAME LOOP
+
 
 

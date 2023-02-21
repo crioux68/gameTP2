@@ -39,6 +39,7 @@ class KeyEvents:
         self.wolf_counter_lr = 0
         self.movement = .25
         self.orbs = []
+        
 
     def global_events(self):
         if self.PLAYER.TRANSFORM:
@@ -84,7 +85,7 @@ class KeyEvents:
             self.PLAYER.WOLF  = pygame.image.load(wolf_l_images[self.wolf_counter_lr])
             self.wolf_counter_lr = (self.wolf_counter_lr + 1) % len(wolf_l_images)
 
-    def key_right(self, GRID):
+    def key_right(self):
         self.PLAYER.PLAYER_POS[0] += self.movement
         self.PLAYER.DIRECTION = 'r'
 
