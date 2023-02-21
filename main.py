@@ -64,8 +64,8 @@ def menu():
     # dark shade of the button
     color_dark = (100,100,100)
 
-    BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
-    BUTTON_PLAY_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
+    BUTTON_QUIT_TEXT = HEALTHFONT.render('PLAY', True, BLACK)
+    BUTTON_PLAY_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
 
     # updates the frames of the game
     pygame.display.update()
@@ -78,15 +78,34 @@ def menu():
                 running = False
             #RENDRE LE BOUTON CLIQUABLE
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                    key_events.quit()
                 if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                     running = False
                     main()
                     print(mouse[1])
-                    
+                if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                    key_events.quit()
+
         mouse = pygame.mouse.get_pos()
 
+        if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+            pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
+            
+        else:
+            pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+
+        if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+            pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
+
+        else:
+            pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
+        
+        # superimposing the text onto our button
+        DISPLAYSURFACE.blit(BUTTON_PLAY_TEXT , (width/2+50,height/2))        
+        DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+10,height/2-100))
+        
+        
+        # updates the frames of the game
+        pygame.display.update()
  
 
 def main():
