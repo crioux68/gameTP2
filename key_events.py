@@ -39,6 +39,7 @@ class KeyEvents:
         self.wolf_counter_lr = 0
         self.movement = .25
         self.orbs = []
+        
 
     def global_events(self):
         if self.PLAYER.TRANSFORM:

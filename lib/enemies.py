@@ -25,6 +25,9 @@ class BEAST:
         self.SUMMONED = False
         self.HEALTH = 100
         self.rect = self.SPRITE.get_rect()
+        
+        #self.hitbox = (self.POS[0], self.POS[1], 50, 50)
+        
 
 
 class PORTAL:

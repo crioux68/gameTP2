@@ -33,7 +33,7 @@ class TEMPLE:
         self.X_POS = 3
         self.Y_POS = 0
 
-num_trees = 7
+num_trees = 2
 trees = [Tree() for x in range (num_trees)]
 
 # DICTIONARY LINKING TILES TO THEIR COLORS pygame.image.load('pic.png')
