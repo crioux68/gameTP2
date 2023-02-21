@@ -78,10 +78,12 @@ def menu():
                 running = False
             #RENDRE LE BOUTON CLIQUABLE
             if event.type == pygame.MOUSEBUTTONDOWN:
+
                 if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                    running = False
                     main()
                     print(mouse[1])
+                    running = False
+
                 if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                     key_events.quit()
 
@@ -109,9 +111,6 @@ def menu():
  
 
 def main():
-
-    # MENU SCREEN
-    menu()
 
     PLAYER = heroes.LINK()
     key_events = KeyEvents(PLAYER)
@@ -402,5 +401,5 @@ def End():
         # updates the frames of the game
         pygame.display.update()
 
-main()
+menu()
 #End()
