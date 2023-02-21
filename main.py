@@ -24,7 +24,7 @@ def CheckIfObstacles(posTileX, posTileY):
 
 
 # INSTANCES OF GAME OBJECTS
-PLAYER = heroes.LINK()
+PLAYER = heroes.LINK(5, 5, 75, 75)
 key_events = KeyEvents(PLAYER)
 WAND = items.WAND()
 GOLD = items.GOLD()
@@ -113,6 +113,12 @@ while not GAME_OVER:
                 pass
             else:
                 key_events.key_down()
+
+
+        #PLAYER.rect = pygame.rect.Rect(PLAYER.SPRITE_POS[0] * TILESIZE, PLAYER.SPRITE_POS[1] * TILESIZE, 75, 75)
+        #PLAYER.rect.update(PLAYER.SPRITE_POS[0] * TILESIZE, PLAYER.SPRITE_POS[1] * TILESIZE, 75, 75)
+
+
     
         # PLACING DOWN ITEMS
         if (keys[K_SPACE]):
@@ -234,9 +240,15 @@ while not GAME_OVER:
     #     DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
     # else:
     #     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    
     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+    PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
+    pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
+
+
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+
 
     # RENDER MIDNA
     # MIDNA.APPEARED = True
@@ -257,6 +269,11 @@ while not GAME_OVER:
         if beast.APPEAR:
             DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
             # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
+            
+            #Pour frapper toute la boîte:
+
+            #if orb.POS[1] - orb.radius < beast.rect[1] + beast.rect[3] and orb.POS[1] + orb.radius > beast.rect[1]:
+                 #   if orb.POS[0] + orb.radius > beast.rect[0] and orb.POS[0] - orb.radius < beast.rect[0] + beast.rect[2]:
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                             beast.rect, 4)
 
