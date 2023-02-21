@@ -162,16 +162,16 @@ while not GAME_OVER:
                 ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
                 if (GANON.GANON_POS[0] < 0 or GANON.GANON_POS[0] > 20) or (GANON.GANON_POS[1] < 0 or GANON.GANON_POS[1] > 10):
                     if GANON.GANON_POS[0] < 0:
-                        GANON.GANON_POS[0]+=10
+                        ganonRandPOSx = GANON.GANON_POS[0] + 3
                         print('Ganon is out the map on the side')
-                    elif GANON.GANON_POS[0] > 21:
-                        GANON.GANON_POS[0]+=10
+                    elif GANON.GANON_POS[0] >= 20:
+                        ganonRandPOSx= GANON.GANON_POS[0] - 3
                         print('Ganon is out the map on the side')
                     elif GANON.GANON_POS[1] < 0:
-                        GANON.GANON_POS[1] +=10
+                        ganonRandPOSy = GANON.GANON_POS[1] + 3
                         print('Ganon is out the map on the top or bottom')
-                    elif GANON.GANON_POS[1] > 13:
-                        GANON.GANON_POS[1] -=10
+                    elif GANON.GANON_POS[1] >= 10:
+                        ganonRandPOSy = GANON.GANON_POS[1] - 3
                         print('Ganon is out the map on the top or bottom')
                     else:
                         ganonRandPOSx+=1
