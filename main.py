@@ -46,11 +46,33 @@ pygame.time.set_timer(USEREVENT + 3, 1000)
 pygame.time.set_timer(USEREVENT + 4, 100)
 
 def menu():
+    # CREATE THE GAME MENU SCREEN
     BACKGROUNDCOLOR = (36,110,7)
     DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+
+    # RENDER PLAY GAME TEXT
+    PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
+    DISPLAYSURFACE.blit(PLAY_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - PLAY_GAME_TEXT.get_size()[0] / 2, 50))
+
+    # TODO RENDER BUTTONS
+    width = DISPLAYSURFACE.get_width()
+    height = DISPLAYSURFACE.get_height()
+
+    # updates the frames of the game
+    pygame.display.update()
+
+    #running = True
+
+    #while running:
+
+
  
 
 def main():
+
+    # MENU SCREEN
+    menu()
+
     PLAYER = heroes.LINK()
     key_events = KeyEvents(PLAYER)
     WAND = items.WAND()
