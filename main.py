@@ -8,11 +8,7 @@ from key_events import KeyEvents
 import math
 
 # SOUND
-#mixer.init()
-
-# LOAD AUDIO FILE
-#mixer.music.load('Overworld BGM.mp3')
-#mixer.music.play
+mixer.init()
 
 # INSTANCES OF GAME OBJECTS
 PLAYER = heroes.LINK()
@@ -112,6 +108,10 @@ def menu():
         # superimposing the text onto our button
         DISPLAYSURFACE.blit(BUTTON_PLAY_TEXT , (width/2+50,height/2))        
         DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+10,height/2-100))
+
+        # LOAD AUDIO FILE        
+        pygame.mixer.music.load("ZeldaMenuSong.mp3")
+        pygame.mixer.music.play(-1)
         
         
         # updates the frames of the game
