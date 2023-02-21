@@ -19,7 +19,7 @@ def CheckIfObstacles(posTileX, posTileY):
         #print("water 2")
         return True
     if GRID[posTileY+1][posTileX] == GRASS_1 and GRID[posTileY][posTileX+1] == GRASS_4 and GRID[posTileY][posTileX+2] == GRASS_3 and GRID[posTileY][posTileX-1] != DIRT_1:
-        print("grass 1")
+        #print("grass 1")
         return 2
     if GRID[posTileY][posTileX] == GRASS_3:
         #print("grass 3")
