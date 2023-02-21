@@ -18,6 +18,12 @@ def CheckIfObstacles(posTileX, posTileY):
     if GRID[posTileY][posTileX] == WATER_2:
         #print("water 2")
         return True
+    if GRID[posTileY+1][posTileX] == GRASS_1 and GRID[posTileY][posTileX+1] == GRASS_4 and GRID[posTileY][posTileX+2] == GRASS_3 and GRID[posTileY][posTileX-1] != DIRT_1:
+        #print("grass 1")
+        return 2
+    if GRID[posTileY][posTileX] == GRASS_3:
+        #print("grass 3")
+        return True
     if GRID[posTileY][posTileX] == GRASS_4:
         #print("grass 4")
         return True
@@ -89,8 +95,10 @@ while not GAME_OVER:
 
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])):
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                 #print(str(PLAYER.PLAYER_POS[0]))
+                key_events.key_right()
+            elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:
                 pass
             else:
                 key_events.key_right()
@@ -109,10 +117,12 @@ while not GAME_OVER:
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)):
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2:
                 pass
             else:
                 key_events.key_down()
+
+            # print(GRID[int(PLAYER.PLAYER_POS[1])])
     
         # PLACING DOWN ITEMS
         if (keys[K_SPACE]):
