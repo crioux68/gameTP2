@@ -44,9 +44,9 @@ class SHIELD:
 class KEY:
     def __init__(self):
         self.NAME = 'KEY'
-        self.IMAGE = pygame.image.load('./sprites/Key.png')
-        self.IMAGE = pygame.transform.scale(self.IMAGE, (35, 35))
-        self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (25, 25))
+        self.IMAGE = pygame.image.load('./sprites/key.png')
+        self.IMAGE = pygame.transform.scale(self.IMAGE, (50, 50))
+        self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (50, 50))
         self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
         self.PLACED = True
 

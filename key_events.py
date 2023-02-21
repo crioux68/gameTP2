@@ -13,10 +13,10 @@ b_path = img_path + 'b'
 r_path = img_path + 'r'
 l_path =  img_path + 'l'
 
-f_images = [f_path+str(f)+'.png' for f in range(7)]
-b_images = [b_path+str(b)+'.png' for b in range(7)]
-r_images = [r_path+str(r)+'.png' for r in range(7)] 
-l_images = [l_path+str(l)+'.png' for l in range(7)]
+f_images = [f_path+str(f)+'.png' for f in range(11)]
+b_images = [b_path+str(b)+'.png' for b in range(11)]
+r_images = [r_path+str(r)+'.png' for r in range(11)] 
+l_images = [l_path+str(l)+'.png' for l in range(11)]
 
 # IMAGES FOR WOLF LINK ANIMATED WALKING
 img_path = './sprites/wolf/wolf_'
@@ -57,7 +57,7 @@ class KeyEvents:
 
         self.PLAYER.SPRITE_POS = pygame.image.load(f_images[self.counter])
         self.counter = (self.counter + 1) % len(f_images)
-        
+
         if self.PLAYER.TRANSFORM:
             self.PLAYER.WOLF  = pygame.image.load(wolf_f_images[self.wolf_counter])
             self.wolf_counter = (self.wolf_counter + 1) % len(wolf_f_images)
@@ -91,7 +91,7 @@ class KeyEvents:
 
         self.PLAYER.SPRITE_POS = pygame.image.load(r_images[self.counter])
         self.counter = (self.counter + 1) % len(r_images)
-        
+
         if self.PLAYER.TRANSFORM:
             self.PLAYER.WOLF  = pygame.image.load(wolf_r_images[self.wolf_counter_lr])
             self.wolf_counter_lr = (self.wolf_counter_lr + 1) % len(wolf_r_images)
