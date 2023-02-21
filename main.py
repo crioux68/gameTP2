@@ -55,13 +55,13 @@ portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 TIMED EVENTS
 """
 # GANON MOVEMENT
-pygame.time.set_timer(USEREVENT, 400)
+pygame.time.set_timer(USEREVENT, 200)
 # SPAWN BEAST
 pygame.time.set_timer(USEREVENT + 1, 7500)
 # INCREMENT BEAST PORTAL FRAMES
 pygame.time.set_timer(USEREVENT + 2, 400)
 # MOVE BEASTS
-pygame.time.set_timer(USEREVENT + 3, 400)
+pygame.time.set_timer(USEREVENT + 3, 500)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 
@@ -135,7 +135,22 @@ while not GAME_OVER:
                 x = random.randint(1, 9)
                 y = random.randint(1, 9)
                 PORTAL.POS = [x, y]
-                GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
+                #Make sure Ganon stay on map
+                ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
+                ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                    if GANON.GANON_POS[0] < -3:
+                        GANON.GANON_POS[0]+=10
+                        print('Ganon is out the map on the side')
+                    elif GANON.GANON_POS[1] > 13:
+                        GANON.GANON_POS[1] -=10
+                        print('Ganon is out the map on the top or bottom')
+                    else:
+                     ganonRandPOS+=1
+                else:
+                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
+                GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
                 print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
                 PORTAL.FRAME = 1
         
