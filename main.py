@@ -103,6 +103,7 @@ while not GAME_OVER:
         for beast in BEAST_LIST:
             if beast.APPEAR:
                 col = PLAYER.rect.colliderect(beast.rect)
+                print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
         if col == True:
             print("Col = true")
@@ -179,10 +180,11 @@ while not GAME_OVER:
                         ganonRandPOSx+=1
                         ganonRandPOSy+=1
                 else:
-                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                    #print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                    pass
                 # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
                 GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
-                print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
+                #print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
                 PORTAL.FRAME = 1
         
         # BEAST OBJECT GENERATOR 
@@ -241,9 +243,9 @@ while not GAME_OVER:
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
 
-                        col = PLAYER.rect.colliderect(beast.rect)
-                        if col == True:
-                            beast.POS[coordinate] = beast.POS[coordinate]
+                        # col = PLAYER.rect.colliderect(beast.rect)
+                        # if col == True:
+                        #     beast.POS[coordinate] = beast.POS[coordinate]
 
                                     
         
