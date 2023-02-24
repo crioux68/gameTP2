@@ -5,6 +5,7 @@ from grid import *
 import random
 from key_events import KeyEvents
 import math
+import puzzleRoom as pz
 
 # CHECK IF THE TILE IS AN OBSTACLE
 def CheckIfObstacles(posTileX, posTileY):
@@ -160,10 +161,10 @@ while not GAME_OVER:
                 if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
                     if GANON.GANON_POS[0] < -3:
                         GANON.GANON_POS[0]+=10
-                        print('Ganon is out the map on the side')
+                        # print('Ganon is out the map on the side')
                     elif GANON.GANON_POS[1] > 13:
                         GANON.GANON_POS[1] -=10
-                        print('Ganon is out the map on the top or bottom')
+                        # print('Ganon is out the map on the top or bottom')
                     else:
                         ganonRandPOSx+=1
                         ganonRandPOSy+=1
