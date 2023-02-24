@@ -96,12 +96,23 @@ while not GAME_OVER:
         if keys[K_w] and keys[K_t]:
             key_events.key_w()
 
+        col = False
+
+        PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox)
+
+        for beast in BEAST_LIST:
+            if beast.APPEAR:
+                col = PLAYER.rect.colliderect(beast.rect)
+
+        if col == True:
+            print("Col = true")
+
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                 #print(str(PLAYER.PLAYER_POS[0]))
                 key_events.key_right()
-            elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:
+            elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
                 pass
             else:
                 key_events.key_right()
@@ -112,21 +123,21 @@ while not GAME_OVER:
     
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True:
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
                 pass
             else:
                 key_events.key_left() 
     
         # MOVE UP
         if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True:
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True or col == True:
                 pass
             else:
                 key_events.key_up()
     
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2:
+            if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2 or col == True:
                 pass
             else:
                 key_events.key_down()
@@ -208,27 +219,33 @@ while not GAME_OVER:
                         #print("coordinate: " + str(beast.POS[coordinate]))
                         beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
                         # col = beast.rect.colliderect(tree)
-                        col = tree.rect.colliderect(beast.rect) or TEMPLE.rect.colliderect(beast.rect)
+                        col = tree.rect.colliderect(beast.rect) or TEMPLE.rect.colliderect(beast.rect) or PLAYER.rect.colliderect(beast.rect)
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             if col == True:
-                                beast.POS[coordinate]-=1 * 2
+                                beast.POS[coordinate]-=0.1 * 2
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                             else:
-                                beast.POS[coordinate] += 1
+                                beast.POS[coordinate] += 0.5
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                         else:
                             if col == True:
-                                beast.POS[coordinate]+=1 * 2
+                                beast.POS[coordinate]+=0.1 * 2
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                             else:
-                                beast.POS[coordinate] -= 1
+                                beast.POS[coordinate] -= 0.5
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
+
+                        col = PLAYER.rect.colliderect(beast.rect)
+                        if col == True:
+                            beast.POS[coordinate] = beast.POS[coordinate]
+
+                                    
         
         # ORB PATH MOVEMENT ANIMATION
         elif (event.type == USEREVENT + 4):
