@@ -101,8 +101,8 @@ while not GAME_OVER:
         PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox)
 
         for beast in BEAST_LIST:
-            if beast.APPEAR:
-                col = PLAYER.rect.colliderect(beast.rect)
+            if PLAYER.rect.colliderect(beast.rect):  
+                col = True              
                 print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
         if col == True:
