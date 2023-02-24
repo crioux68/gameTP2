@@ -67,9 +67,9 @@ TIMED EVENTS
 # GANON MOVEMENT
 pygame.time.set_timer(USEREVENT, 200)
 # SPAWN BEAST
-pygame.time.set_timer(USEREVENT + 1, 7500)
+pygame.time.set_timer(USEREVENT + 1, 10000)
 # INCREMENT BEAST PORTAL FRAMES
-pygame.time.set_timer(USEREVENT + 2, 400)
+pygame.time.set_timer(USEREVENT + 2, 300)
 # MOVE BEASTS
 pygame.time.set_timer(USEREVENT + 3, 500)
 # ORB TRAVEL ON PATH
@@ -102,10 +102,12 @@ while not GAME_OVER:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                 #print(str(PLAYER.PLAYER_POS[0]))
                 key_events.key_right()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
             elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:
                 pass
             else:
                 key_events.key_right()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
                 #print(GRID[int(PLAYER.PLAYER_POS[1])])
             
         #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
@@ -131,6 +133,7 @@ while not GAME_OVER:
                 pass
             else:
                 key_events.key_down()
+                PLAYER.rect.update(PLAYER.PLAYER_POS[0] * TILESIZE, PLAYER.PLAYER_POS[1] * TILESIZE, 50, 50)
 
             # print(GRID[int(PLAYER.PLAYER_POS[1])])
     
@@ -152,27 +155,42 @@ while not GAME_OVER:
             if PORTAL.FRAME < 5:
                 PORTAL.FRAME += 1
             else:
+                #Draw Ganon rect
+                GANON.rect = pygame.rect.Rect(GANON.rect.left, GANON.rect.top, 75, 75)
+                #Booleen collision
+                colGanon = tree.rect.colliderect(GANON.rect) or TEMPLE.rect.colliderect(GANON.rect)
+
                 x = random.randint(1, 9)
                 y = random.randint(1, 9)
                 PORTAL.POS = [x, y]
                 #Make sure Ganon stay on map
                 ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                 ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
-                if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
-                    if GANON.GANON_POS[0] < -3:
-                        GANON.GANON_POS[0]+=10
+                if (GANON.GANON_POS[0] < 0 or GANON.GANON_POS[0] > 20) or (GANON.GANON_POS[1] < 0 or GANON.GANON_POS[1] > 10):
+                    if GANON.GANON_POS[0] < 0:
+                        ganonRandPOSx = GANON.GANON_POS[0] + 3
                         # print('Ganon is out the map on the side')
-                    elif GANON.GANON_POS[1] > 13:
-                        GANON.GANON_POS[1] -=10
+                    elif GANON.GANON_POS[0] >= 20:
+                        ganonRandPOSx= GANON.GANON_POS[0] - 3
+                        # print('Ganon is out the map on the side')
+                    elif GANON.GANON_POS[1] < 0:
+                        ganonRandPOSy = GANON.GANON_POS[1] + 3
+                        # print('Ganon is out the map on the top or bottom')
+                    elif GANON.GANON_POS[1] >= 10:
+                        ganonRandPOSy = GANON.GANON_POS[1] - 3
                         # print('Ganon is out the map on the top or bottom')
                     else:
                         ganonRandPOSx+=1
                         ganonRandPOSy+=1
                 else:
-                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
+                    print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' position en y : ' + str(ganonRandPOSy))
                 # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
+                if colGanon == True:
+                    ganonRandPOSx = GANON.GANON_POS[0] =-1
+                    ganonRandPOSy = GANON.GANON_POS[1] =-1
                 GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
                 print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
+                GANON.rect.update(GANON.GANON_POS[0] * TILESIZE, GANON.GANON_POS[1] * TILESIZE, 75, 75)
                 PORTAL.FRAME = 1
         
         # BEAST OBJECT GENERATOR 
@@ -190,7 +208,9 @@ while not GAME_OVER:
                     beast.PORTAL_APPEAR = False
                     beast.APPEAR = True
                     beast.SUMMONED = True
-                    beast.POS = [beast.PORTAL.POS[0], beast.PORTAL.POS[1]]
+                    portal_posX = 18
+                    portal_posY = 5
+                    beast.POS = [portal_posX, portal_posY]
                     beast.rect.left = beast.POS[0] * TILESIZE
                     beast.rect.top = beast.POS[1] * TILESIZE
                     #print("Left: " + str(beast.rect.left) + " Top: " + str(beast.rect.top))
@@ -213,6 +233,7 @@ while not GAME_OVER:
                         if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                             if col == True:
                                 beast.POS[coordinate]-=1 * 2
+                                # print('Position beast x = '+ str(beast.POS[0]) + ' Position en y de beast = ' + str(beast.POS[1]))
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
@@ -223,6 +244,7 @@ while not GAME_OVER:
                         else:
                             if col == True:
                                 beast.POS[coordinate]+=1 * 2
+                                # print('Position beast x = '+ str(beast.POS[0]) + ' Position en y de beast = ' + str(beast.POS[1]))
                                 # print('collision avec arbre')
                                 # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                 beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
@@ -294,8 +316,10 @@ while not GAME_OVER:
 
     # RENDER BEASTS AND PORTAL
     for beast in BEAST_LIST:
+        portal_posX = 18
+        portal_posY = 5
         if beast.PORTAL_APPEAR:
-            DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
+            DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (portal_posX*TILESIZE, portal_posY*TILESIZE))
         if beast.APPEAR:
             DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
             # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
@@ -350,6 +374,9 @@ while not GAME_OVER:
         DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                             tree, 4)
+    colPlayer = tree.rect.colliderect(PLAYER.rect) or TEMPLE.rect.colliderect(PLAYER.rect)
+    if colPlayer == True:
+        print('le joueur a fesser dequoi')
 
     # RENDER GANON AND PORTAL
     DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))

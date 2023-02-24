@@ -12,6 +12,7 @@ class GANON:
         self.GANON_POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
         self.HEALTH = 250
         self.VULNERABLE = True
+        self.rect = self.GANON.get_rect()
 
 class BEAST:
     def __init__(self):
