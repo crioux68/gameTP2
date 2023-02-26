@@ -105,8 +105,12 @@ while not GAME_OVER:
                 col = True              
                 print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
-        if col == True:
-            print("Col = true")
+        # Le problème ici, c'est que Link reste collé sur le temple quand il fonce dedans. Aussi, pygame dit que les arbres n'ont pas de rect...
+        #if PLAYER.rect.colliderect(TEMPLE.rect) : #or PLAYER.rect.colliderect(tree.rect)
+            #col = True
+
+
+        # Dans les 4 cas de déplacement ci-bas, j'ai réinitialisé col à False après qu'il n'ait pas pu avancer.
 
         # MOVE RIGHT
         if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
@@ -114,6 +118,7 @@ while not GAME_OVER:
                 #print(str(PLAYER.PLAYER_POS[0]))
                 key_events.key_right()
             elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                col = False
                 pass
             else:
                 key_events.key_right()
@@ -125,6 +130,7 @@ while not GAME_OVER:
         # MOVE LEFT
         if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                col = False
                 pass
             else:
                 key_events.key_left() 
@@ -132,6 +138,7 @@ while not GAME_OVER:
         # MOVE UP
         if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True or col == True:
+                col = False
                 pass
             else:
                 key_events.key_up()
@@ -139,6 +146,7 @@ while not GAME_OVER:
         # MOVE DOWN
         if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
             if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2 or col == True:
+                col = False
                 pass
             else:
                 key_events.key_down()
