@@ -84,7 +84,7 @@ def menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                    main()
+                    End() #main()
                     print(mouse[1])
                     running = False
 
