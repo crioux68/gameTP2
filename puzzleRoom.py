@@ -6,27 +6,38 @@ import random
 from key_events import KeyEvents
 import math
 
+PLAYER = heroes.LINK(5,5,75,75)
+key_events = KeyEvents(PLAYER)
+CHEST = items.CHEST()
+PUZZLE = [CHEST]
+BEAST_LIST = []
+
 #Room smaller than the map
-roomWidht = 10
-roomHeigth = 10
+# roomWidht = 500
+# roomHeigth = 500
 
 class Room:
     # Class to hold info about rooms/levels
 
     def __init__(self):
-        pygame.init
-        pygame.display.set_mode(roomWidht * TILESIZE, roomHeigth *TILESIZE)
-        window = (roomWidht, roomHeigth) 
-        background = pygame.Surface(window)
-        #### Populate the surface with objects to be displayed ####
-        pygame.draw.rect(background,(0,255,255),(20,20,40,40))
-        pygame.draw.rect(background,(255,0,255),(120,120,50,50))
+        
+        self.BEAST_LIST
+        self.PLAYER
+        self.key_events
+        # pygame.init
+        # pygame.display.set_mode(MAPWIDTH, MAPHEIGHT)
+        # window = (MAPWIDTH, MAPHEIGHT) 
+        # background = pygame.Surface(window)
+        # #### Populate the surface with objects to be displayed ####
+        # pygame.draw.rect(background,(0,255,255),(20,20,40,40))
+        # pygame.draw.rect(background,(255,0,255),(120,120,50,50))
         # self.wall_list = self.goal_list = self.enemy_list = self.victory_sprite = None
         # self.collectedCoins = 0
         # self.numCoins = 0
         
         # Voir quoi mettre dans cette fonction
         print('dequoi')
+        return Room
 
 # On definit la piece 1
 def setup_room_1():
@@ -34,8 +45,9 @@ def setup_room_1():
     #TODO code pour tester une piece
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
-            DISPLAYSURFACE.blit(TEXTURES[GRID[row][column]], (column*TILESIZE, row*TILESIZE))
+            DISPLAYSURFACE.blit(TEXTURES[GRID_OVERWORLD[row][column]], (column*TILESIZE, row*TILESIZE))
 
+    return setup_room_1
     #TODO code a faire pour dessiner la piece
 
     # room.wall_list = arcade.SpriteList(use_spatial_hash=True)
@@ -104,7 +116,7 @@ def setup_room_1():
     # # Load the background image for this level.
     # room.background = arcade.load_texture(":resources:images/backgrounds/abstract_1.jpg")
 
-    return room
+    # return room
 
 # On definit la piece 2
 # def setup_room_2():
