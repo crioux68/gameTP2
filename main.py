@@ -89,6 +89,93 @@ class gameState():
         else:
             GANON.VULNERABLE = False
 
+        """
+        RENDERING GRID, SPRITES, AND VIEWS
+        """
+        for row in range(MAPHEIGHT):
+            for column in range(MAPWIDTH):
+                DISPLAYSURFACE.blit(TEXTURES[GRID_OVERWORLD[row][column]], (column*TILESIZE, row*TILESIZE))
+
+        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+        PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
+
+        # RENDER TEMPLE
+        DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, 4)
+
+        # RENDERING ARMED ITEMS WITH PLAYER SPRITE
+        if PLAYER.WEAPON:
+            DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+
+        # RENDER BEASTS AND PORTAL
+        for beast in BEAST_LIST:
+            if beast.PORTAL_APPEAR:
+                DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
+            if beast.APPEAR:
+                DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
+                # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                beast.rect, 4)
+
+        # RENDER ITEMS
+        for item in GAME_ITEMS:
+                if item.PLACED == True:
+                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+        
+        for chests in PUZZLE:
+                if chests.PLACED == True:
+                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+
+        # RENDER ORBS
+        for orb in orbs_list:
+            if orb.POS == GANON.GANON_POS and GANON.VULNERABLE:
+                print('GANON HEALTH', GANON.HEALTH)
+                GANON.HEALTH -= 10
+            for beast in BEAST_LIST:
+                    if orb.POS == beast.POS:
+                        beast.APPEAR = False
+                        BEAST_LIST.remove(beast)
+                        orbs_list.remove(orb)
+            if orb.POS[0] > MAPWIDTH or orb.POS[0] < 0 or orb.POS[1] > MAPHEIGHT or orb.POS[1] < 0: 
+                orbs_list.remove(orb)
+
+            DISPLAYSURFACE.blit(orb.IMAGE, (orb.POS[0]*TILESIZE, orb.POS[1]*TILESIZE))
+
+        # RENDER PLAYER INVENTORY
+        INVENTORY_POSITION = 250
+        for item in PLAYER.PLAYER_INV:
+            DISPLAYSURFACE.blit(item.IMAGE, (INVENTORY_POSITION, MAPHEIGHT*TILESIZE+35))
+            INVENTORY_POSITION += 10 
+            INVENTORY_TEXT = INVFONT.render(item.NAME, True, WHITE, BLACK)
+            DISPLAYSURFACE.blit(INVENTORY_TEXT, (INVENTORY_POSITION, MAPHEIGHT*TILESIZE+15))
+            INVENTORY_POSITION += 100
+
+        # RENDER PLAYER HEALTH BAR
+        PLAYER_HEALTH_BAR_TEXT = HEALTHFONT.render('LINK HEALTH:', True, GREEN, BLACK)
+        DISPLAYSURFACE.blit(PLAYER_HEALTH_BAR_TEXT, (15, MAPHEIGHT*TILESIZE-500))
+        DISPLAYSURFACE.blit(HEALTHFONT.render(str(PLAYER.HEALTH), True, GREEN, BLACK), (225, MAPHEIGHT*TILESIZE - 500))
+
+        # RENDER GANON HEALTH BAR
+        PLAYER_MANA_BAR_TEXT = HEALTHFONT.render('GANON HEALTH:', True, RED, BLACK)
+        DISPLAYSURFACE.blit(PLAYER_MANA_BAR_TEXT, (650, MAPHEIGHT*TILESIZE-500))
+        DISPLAYSURFACE.blit(HEALTHFONT.render(str(GANON.HEALTH), True, RED, BLACK), (900, MAPHEIGHT*TILESIZE-500))
+
+        # RENDER TREES
+        for tree in sorted(trees, key=lambda t: t.Y_POS):
+            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
+            
+        if tree.rect.colliderect(PLAYER.rect):
+                print('le joueur a fesser un arbre')
+
+        elif TEMPLE.rect.colliderect(PLAYER.rect):
+            print('le joueur a fesser le temple')
+            self.state = 'puzzle_room'
+            TEMPLE.rect = None
+            pygame.display.flip()
+
         for event in pygame.event.get():
 
             keys = pygame.key.get_pressed()
@@ -281,95 +368,7 @@ class gameState():
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
 
-        """
-        RENDERING GRID, SPRITES, AND VIEWS
-        """
-
-
-        for row in range(MAPHEIGHT):
-            for column in range(MAPWIDTH):
-                DISPLAYSURFACE.blit(TEXTURES[GRID_OVERWORLD[row][column]], (column*TILESIZE, row*TILESIZE))
-
-        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-        PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
-        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
-
-        # RENDER TEMPLE
-        DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
-        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                TEMPLE, 4)
-
-        # RENDERING ARMED ITEMS WITH PLAYER SPRITE
-        if PLAYER.WEAPON:
-            DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-
-        # RENDER BEASTS AND PORTAL
-        for beast in BEAST_LIST:
-            if beast.PORTAL_APPEAR:
-                DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
-            if beast.APPEAR:
-                DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
-                # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                beast.rect, 4)
-
-        # RENDER ITEMS
-        for item in GAME_ITEMS:
-                if item.PLACED == True:
-                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
         
-        for chests in PUZZLE:
-                if chests.PLACED == True:
-                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
-
-        # RENDER ORBS
-        for orb in orbs_list:
-            if orb.POS == GANON.GANON_POS and GANON.VULNERABLE:
-                print('GANON HEALTH', GANON.HEALTH)
-                GANON.HEALTH -= 10
-            for beast in BEAST_LIST:
-                    if orb.POS == beast.POS:
-                        beast.APPEAR = False
-                        BEAST_LIST.remove(beast)
-                        orbs_list.remove(orb)
-            if orb.POS[0] > MAPWIDTH or orb.POS[0] < 0 or orb.POS[1] > MAPHEIGHT or orb.POS[1] < 0: 
-                orbs_list.remove(orb)
-
-            DISPLAYSURFACE.blit(orb.IMAGE, (orb.POS[0]*TILESIZE, orb.POS[1]*TILESIZE))
-
-        # RENDER PLAYER INVENTORY
-        INVENTORY_POSITION = 250
-        for item in PLAYER.PLAYER_INV:
-            DISPLAYSURFACE.blit(item.IMAGE, (INVENTORY_POSITION, MAPHEIGHT*TILESIZE+35))
-            INVENTORY_POSITION += 10 
-            INVENTORY_TEXT = INVFONT.render(item.NAME, True, WHITE, BLACK)
-            DISPLAYSURFACE.blit(INVENTORY_TEXT, (INVENTORY_POSITION, MAPHEIGHT*TILESIZE+15))
-            INVENTORY_POSITION += 100
-
-        # RENDER PLAYER HEALTH BAR
-        PLAYER_HEALTH_BAR_TEXT = HEALTHFONT.render('LINK HEALTH:', True, GREEN, BLACK)
-        DISPLAYSURFACE.blit(PLAYER_HEALTH_BAR_TEXT, (15, MAPHEIGHT*TILESIZE-500))
-        DISPLAYSURFACE.blit(HEALTHFONT.render(str(PLAYER.HEALTH), True, GREEN, BLACK), (225, MAPHEIGHT*TILESIZE - 500))
-
-        # RENDER GANON HEALTH BAR
-        PLAYER_MANA_BAR_TEXT = HEALTHFONT.render('GANON HEALTH:', True, RED, BLACK)
-        DISPLAYSURFACE.blit(PLAYER_MANA_BAR_TEXT, (650, MAPHEIGHT*TILESIZE-500))
-        DISPLAYSURFACE.blit(HEALTHFONT.render(str(GANON.HEALTH), True, RED, BLACK), (900, MAPHEIGHT*TILESIZE-500))
-
-        # RENDER TREES
-        for tree in sorted(trees, key=lambda t: t.Y_POS):
-            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                tree, 4)
-            
-        if tree.rect.colliderect(PLAYER.rect):
-                print('le joueur a fesser un arbre')
-
-        elif TEMPLE.rect.colliderect(PLAYER.rect):
-            print('le joueur a fesser le temple')
-            self.state = 'puzzle_room'
-            TEMPLE.rect = None
-            pygame.display.flip()
 
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
