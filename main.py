@@ -5,7 +5,6 @@ from grid import *
 import random
 from key_events import KeyEvents
 import math
-import puzzleRoom as pz
 
 # CHECK IF THE TILE IS AN OBSTACLE
 def CheckIfObstacles(posTileX, posTileY):
