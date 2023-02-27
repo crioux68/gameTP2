@@ -285,22 +285,11 @@ class gameState():
         RENDERING GRID, SPRITES, AND VIEWS
         """
 
-        # RENDER GAME GRID
-        pygame.display.init()
-        window = (MAPWIDTH, MAPHEIGHT) 
-        background = pygame.Surface(window)
-        #### Populate the surface with objects to be displayed ####
-        pygame.draw.rect(background,(0,255,255),(20,20,40,40))
-        pygame.draw.rect(background,(255,0,255),(120,120,50,50))
+
         for row in range(MAPHEIGHT):
             for column in range(MAPWIDTH):
                 DISPLAYSURFACE.blit(TEXTURES[GRID_OVERWORLD[row][column]], (column*TILESIZE, row*TILESIZE))
 
-        # RENDER LINK
-        # if PLAYER.TRANSFORM:
-        #     DISPLAYSURFACE.blit(PLAYER.WOLF, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-        # else:
-        #     DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
@@ -309,14 +298,6 @@ class gameState():
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 TEMPLE, 4)
-
-        # RENDER MIDNA
-        # MIDNA.APPEARED = True
-        # if MIDNA.APPEARED:
-        #     if PLAYER.TRANSFORM:
-        #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE + 20, PLAYER.PLAYER_POS[1] * TILESIZE + 35))
-        #     else:
-        #         DISPLAYSURFACE.blit(MIDNA.SPRITE_POS, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
 
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
         if PLAYER.WEAPON:
@@ -387,11 +368,8 @@ class gameState():
         elif TEMPLE.rect.colliderect(PLAYER.rect):
             print('le joueur a fesser le temple')
             self.state = 'puzzle_room'
-            # TEMPLE.rect.update(1000 * TILESIZE, 1000 * TILESIZE, 0, 0)
             TEMPLE.rect = None
             pygame.display.flip()
-            # mettre le teleporteur vers le temple
-            # pz.setup_room_1()
 
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
