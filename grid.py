@@ -45,7 +45,7 @@ TEXTURES = {
     GRASS_2: pygame.image.load('./textures/grass2.png'),
     GRASS_3: pygame.image.load('./textures/grass3.png'),
     GRASS_4: pygame.image.load('./textures/grass4.png'),
-    WATER_0: pygame.image.load('./textures/water0.png'),
+    WATER_0: pygame.image.load('./textures/floor.png'),
     WATER_1: pygame.image.load('./textures/water1.png'),
     WATER_2: pygame.image.load('./textures/water2.png'),
     WALL: pygame.image.load('./textures/wall.png'),
