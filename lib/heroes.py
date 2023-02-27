@@ -1,4 +1,5 @@
 import pygame.image
+import pygame.rect
 from grid import *
 
 class LINK:
