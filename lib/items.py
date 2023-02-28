@@ -1,5 +1,5 @@
 import pygame.image
-from grid import MAPHEIGHT, MAPWIDTH
+from grid import MAPHEIGHT, MAPWIDTH, TILESIZE
 import random
 
 rand = random.randint
@@ -17,7 +17,7 @@ class WAND:
         self.NAME = 'WAND'
         self.IMAGE = pygame.image.load('./sprites/wand.png')
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 35))
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
+        self.POS = [8, 8]
         self.PLACED = True
 
 class GOLD:
@@ -39,8 +39,11 @@ class KEY:
         self.IMAGE = pygame.image.load('./sprites/Key.png')
         self.IMAGE = pygame.transform.scale(self.IMAGE, (35, 35))
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (25, 25))
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
+        self.X_POS = 2
+        self.Y_POS = 2
+        self.POS = [2, 2]
         self.PLACED = True
+        self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 35, 35)
 
 class BOW:
     def __init__(self):

@@ -48,9 +48,10 @@ CHEST = CHEST()
 KEY = items.KEY()
 
 # GROUPINGS OF RELATED GAME OBJECTS
-GAME_ITEMS = [WAND, SWORD, SHIELD, KEY]
+GAME_ITEMS = [SWORD, SHIELD, KEY]
 GAME_WEAPONS = [WAND, BOW]
 PUZZLE = [CHEST]
+PUZZLE_KEY = []
 BEAST_LIST = []
 orbs_list = []
 
@@ -76,6 +77,7 @@ pygame.time.set_timer(USEREVENT + 4, 100)
 
 GAME_OVER = False
 # GAME LOOP
+haveKey = False
 while not GAME_OVER:
 
     GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
@@ -86,7 +88,7 @@ while not GAME_OVER:
         GANON.VULNERABLE = False
 
     for event in pygame.event.get():
-
+        #print(haveKey)
         keys = pygame.key.get_pressed()
         key_events.global_events()
     
@@ -248,10 +250,12 @@ while not GAME_OVER:
                     orb.POS[0] += 1
 
         # PICKUP ITEM CONDITIONS
+        itemSFX = pygame.mixer.Sound("./Sounds/pickup.wav")
         for item in GAME_ITEMS:
             if PLAYER.PLAYER_POS == item.POS and item.PLACED:
                 PLAYER.PLAYER_INV.append(item)
                 item.PLACED = False
+                pygame.mixer.Sound.play(itemSFX)
                 if item in GAME_WEAPONS:
                     PLAYER.WEAPON = item
 
@@ -283,16 +287,34 @@ while not GAME_OVER:
     # RENDER TEMPLE
     DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
     
-    # RENDER CHEST
-    DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
-    pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                            CHEST, 4)
-    
-    colChest = CHEST.rect.colliderect(PLAYER.rect)
-    #col  = pygame.sprite.collide_rect(LINK, CHEST)
-    
-    if colChest == True:
-        print("coffre")
+    # KEY FOR CHEST PUZZLE
+    for KEY in PUZZLE_KEY:
+
+        colKey = KEY.rect.colliderect(PLAYER.rect)
+        
+        if colKey:
+            #print("cle ramassee")
+            haveKey = True
+
+    # RENDER CHEST PUZZLE
+    for CHEST in PUZZLE:
+        
+        DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
+        
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                CHEST, 4)
+        
+        colChest = CHEST.rect.colliderect(PLAYER.rect)
+        
+        chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
+
+        if colChest & haveKey:
+            #print("coffre")
+            #print(haveKey)
+            PUZZLE.remove(CHEST)
+            GAME_ITEMS.append(WAND)
+            haveKey = False
+            pygame.mixer.Sound.play(chestSFX)
         
     
 
@@ -322,6 +344,8 @@ while not GAME_OVER:
     for item in GAME_ITEMS:
             if item.PLACED == True:
                 DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+            if item == KEY:
+                PUZZLE_KEY.append(KEY)
 
     # RENDER ORBS
     for orb in orbs_list:

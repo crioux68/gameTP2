@@ -18,6 +18,9 @@ TREE_0 = 11
 TREE_1 = 12
 TREE_2 = 13
 
+chestGroup = pygame.sprite.Group()
+
+
 class Tree:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
@@ -33,14 +36,16 @@ class TEMPLE:
         self.Y_POS = 0
         self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
 
-class CHEST:
+class CHEST():
     def __init__(self):
-        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/chest.png'), (45, 45))
-        self.X_POS = 9
-        self.Y_POS = 9
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/chest_0.png'), (50, 50))
+        
+        self.X_POS = 8
+        self.Y_POS = 8
         #self.rect = self.SPRITE.get_rect()
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 45, 45)
+        self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
         #pygame.draw.rect()
+
 
 num_trees = 3
 trees = [Tree() for x in range (num_trees)]
