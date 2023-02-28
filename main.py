@@ -85,7 +85,7 @@ pygame.time.set_timer(USEREVENT + 4, 100)
 #class to change the stage
 class gameState():
     def __init__(self) -> None:
-        self.state = 'main_game'
+        self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
@@ -438,8 +438,140 @@ class gameState():
             for column in range(MAPWIDTH):
                 DISPLAYSURFACE.blit(TEXTURES[GRID_TEMPLE[row][column]], (column*TILESIZE, row*TILESIZE))
 
+    def menu(self):
+    # CREATE THE GAME MENU SCREEN
+        BACKGROUNDCOLOR = (36,110,7)
+        DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+        # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
+        # RENDER PLAY GAME TEXT
+        PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
+        DISPLAYSURFACE.blit(PLAY_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - PLAY_GAME_TEXT.get_size()[0] / 2, 50))
+
+        # RENDER BUTTONS
+        width = DISPLAYSURFACE.get_width()
+        height = DISPLAYSURFACE.get_height()
+
+        # light shade of the button
+        color_light = (170,170,170)
+        
+        # dark shade of the button
+        color_dark = (100,100,100)
+
+        BUTTON_QUIT_TEXT = HEALTHFONT.render('PLAY', True, BLACK)
+        BUTTON_PLAY_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
+
+        # updates the frames of the game
+        pygame.display.update()
+
+        running = True
+
+        while running:
+            for event in pygame.event.get():  
+                if event.type == pygame.QUIT:  
+                    running = False
+                #RENDRE LE BOUTON CLIQUABLE
+                if event.type == pygame.MOUSEBUTTONDOWN:
+
+                    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                        self.state = 'main_game'
+                        print(mouse[1])
+                        running = False
+
+                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                        key_events.quit()
+
+            mouse = pygame.mouse.get_pos()
+
+            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
+                
+            else:
+                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+
+            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
+
+            else:
+                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
+            
+            # superimposing the text onto our button
+            DISPLAYSURFACE.blit(BUTTON_PLAY_TEXT , (width/2+50,height/2))        
+            DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+10,height/2-100))
+
+            # LOAD AUDIO FILE        
+            pygame.mixer.music.load("ZeldaMenuSong.mp3")
+            pygame.mixer.music.play(-1)
+            
+            
+            # updates the frames of the game
+            pygame.display.update()
+
+    def End():
+        # CREATE THE GAME OVER SCREEN
+        #pygame.init()
+        #screen = pygame.display.set_mode((800, 600))
+        BACKGROUNDCOLOR = (36,110,7)
+        DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+
+        # RENDER GAME OVER TEXT
+        GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
+        DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
+
+        # TODO RENDER BUTTONS
+        width = DISPLAYSURFACE.get_width()
+        height = DISPLAYSURFACE.get_height()
+
+        # light shade of the button
+        color_light = (170,170,170)
+        
+        # dark shade of the button
+        color_dark = (100,100,100)
+
+        BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
+        BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
+
+        pygame.display.update()
+
+        running = True
+
+        while running:
+            for event in pygame.event.get():  
+                if event.type == pygame.QUIT:  
+                    running = False
+                #RENDRE LE BOUTON CLIQUABLE
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                        key_events.quit()
+                    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                        running = False
+                        main()
+                        print(mouse[1])
+
+            mouse = pygame.mouse.get_pos()
+            
+            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
+                
+            else:
+                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+
+            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
+
+            else:
+                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
+            
+            # superimposing the text onto our button
+            DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
+            DISPLAYSURFACE.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
+            
+            # updates the frames of the game
+            pygame.display.update()
+
     def state_manager(self):
-        if self.state == 'main_game':
+        if self.state == 'menu':
+            self.menu()
+        elif self.state == 'main_game':
             self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
