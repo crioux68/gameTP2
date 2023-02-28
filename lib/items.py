@@ -19,7 +19,8 @@ class WAND:
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 35))
         self.X_POS = 8
         self.Y_POS = 8
-        self.POS = [self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 35, 35]
+        self.POS = [self.X_POS, self.Y_POS]
+        self.rect = [self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 35, 35]
         self.PLACED = True
 
 class GOLD:
