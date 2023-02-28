@@ -76,7 +76,7 @@ pygame.time.set_timer(USEREVENT + 3, 500)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
 # HAVE KEY OR NOT
-#haveKey = False
+haveKey = False
 
 #class to change the stage
 class gameState():
@@ -85,7 +85,8 @@ class gameState():
 
     def main_game(self, tree, TEMPLE, KEY):
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
-        haveKey = False
+        global haveKey
+
         if len(GANON_VULNERABLE_IF) < 1:
             GANON.VULNERABLE = True
         else:
@@ -169,7 +170,7 @@ class gameState():
                                 tree, 4)
             
         if tree.rect.colliderect(PLAYER.rect):
-                print('le joueur a fesser un arbre')
+            print('le joueur a fesser un arbre')
 
         elif TEMPLE.rect.colliderect(PLAYER.rect):
             print('le joueur a fesser le temple')
@@ -195,12 +196,14 @@ class gameState():
                                     CHEST, 4)
             
             colChest = CHEST.rect.colliderect(PLAYER.rect)
+
+            print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
-            if colChest & haveKey:
-                #print("coffre")
-                #print(haveKey)
+            if colChest and haveKey:
+                print("coffre")
+                print(haveKey)
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 haveKey = False
@@ -224,7 +227,7 @@ class gameState():
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):  
                     col = True              
-                    print("beast - index in list: " + str(BEAST_LIST.index(beast)))
+                    #print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
             # Le problème : pygame dit que les arbres n'ont pas de rect...
             #if PLAYER.rect.colliderect(TEMPLE.rect) : #or PLAYER.rect.colliderect(tree.rect)
