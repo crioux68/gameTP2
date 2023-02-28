@@ -43,7 +43,7 @@ class CHEST():
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
         #pygame.draw.rect()
 
-num_trees = 5
+num_trees = 1
 trees = [Tree() for x in range (num_trees)]
 
 # DICTIONARY LINKING TILES TO THEIR COLORS pygame.image.load('pic.png')
