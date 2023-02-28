@@ -44,14 +44,15 @@ GANON = enemies.GANON()
 PORTAL = enemies.PORTAL()
 TEMPLE = TEMPLE()
 MIDNA = heroes.MIDNA()
-CHEST = items.CHEST()
+CHEST = CHEST()
 KEY = items.KEY()
 tree = Tree()
 
 # GROUPINGS OF RELATED GAME OBJECTS
-GAME_ITEMS = [WAND, SWORD, SHIELD, KEY]
+GAME_ITEMS = [SWORD, SHIELD, KEY]
 GAME_WEAPONS = [WAND, BOW]
 PUZZLE = [CHEST]
+PUZZLE_KEY = []
 BEAST_LIST = []
 orbs_list = []
 
@@ -74,15 +75,17 @@ pygame.time.set_timer(USEREVENT + 2, 300)
 pygame.time.set_timer(USEREVENT + 3, 500)
 # ORB TRAVEL ON PATH
 pygame.time.set_timer(USEREVENT + 4, 100)
+# HAVE KEY OR NOT
+#haveKey = False
 
 #class to change the stage
 class gameState():
     def __init__(self) -> None:
         self.state = 'main_game'
 
-    def main_game(self, tree, TEMPLE):
+    def main_game(self, tree, TEMPLE, KEY):
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
-
+        haveKey = False
         if len(GANON_VULNERABLE_IF) < 1:
             GANON.VULNERABLE = True
         else:
@@ -119,12 +122,11 @@ class gameState():
 
         # RENDER ITEMS
         for item in GAME_ITEMS:
-                if item.PLACED == True:
-                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+            if item.PLACED == True:
+                DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+            if item == KEY:
+                PUZZLE_KEY.append(KEY)
         
-        for chests in PUZZLE:
-                if chests.PLACED == True:
-                    DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
 
         # RENDER ORBS
         for orb in orbs_list:
@@ -174,6 +176,35 @@ class gameState():
             self.state = 'puzzle_room'
             TEMPLE.rect = None
             pygame.display.flip()
+
+        # KEY FOR CHEST PUZZLE
+        for KEY in PUZZLE_KEY:
+
+            colKey = KEY.rect.colliderect(PLAYER.rect)
+            
+            if colKey:
+                #print("cle ramassee")
+                haveKey = True
+
+        # RENDER CHEST PUZZLE
+        for CHEST in PUZZLE:
+            
+            DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
+            
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                    CHEST, 4)
+            
+            colChest = CHEST.rect.colliderect(PLAYER.rect)
+            
+            chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
+
+            if colChest & haveKey:
+                #print("coffre")
+                #print(haveKey)
+                PUZZLE.remove(CHEST)
+                GAME_ITEMS.append(WAND)
+                haveKey = False
+                pygame.mixer.Sound.play(chestSFX)
 
         for event in pygame.event.get():
 
@@ -364,10 +395,12 @@ class gameState():
                         orb.POS[0] += 1
 
             # PICKUP ITEM CONDITIONS
+            itemSFX = pygame.mixer.Sound("./Sounds/pickup.wav")
             for item in GAME_ITEMS:
                 if PLAYER.PLAYER_POS == item.POS and item.PLACED:
                     PLAYER.PLAYER_INV.append(item)
                     item.PLACED = False
+                    pygame.mixer.Sound.play(itemSFX)
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
 
@@ -403,7 +436,7 @@ class gameState():
 
     def state_manager(self):
         if self.state == 'main_game':
-            self.main_game(Tree, TEMPLE)
+            self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
 
