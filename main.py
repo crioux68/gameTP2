@@ -506,9 +506,9 @@ class gameState():
             # updates the frames of the game
             pygame.display.update()
 
-    def End():
+    def End(self):
         # CREATE THE GAME OVER SCREEN
-        #pygame.init()
+
         #screen = pygame.display.set_mode((800, 600))
         BACKGROUNDCOLOR = (36,110,7)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
@@ -544,7 +544,7 @@ class gameState():
                         key_events.quit()
                     if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                         running = False
-                        main()
+                        self.state = 'menu'
                         print(mouse[1])
 
             mouse = pygame.mouse.get_pos()
@@ -575,6 +575,8 @@ class gameState():
             self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
+        elif self.state == 'end_game':
+            self.End()
 
 # GAME VARIABLE               
 GAME_OVER = False
