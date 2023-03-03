@@ -193,9 +193,11 @@ class gameState():
 
         elif TEMPLE.rect.colliderect(PLAYER.rect):
             print('le joueur a fesser le temple')
-            self.state = 'puzzle_room'
-            TEMPLE.rect = None
             pygame.display.flip()
+            TEMPLE.rect = None
+            self.state = 'puzzle_room'
+            
+            
 
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
@@ -246,14 +248,6 @@ class gameState():
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):  
                     col = True              
-                    #print("beast - index in list: " + str(BEAST_LIST.index(beast)))
-
-            # Le problème : pygame dit que les arbres n'ont pas de rect...
-            #if PLAYER.rect.colliderect(TEMPLE.rect) : #or PLAYER.rect.colliderect(tree.rect)
-                #col = True
-
-
-                # Dans les 4 cas de déplacement ci-bas, j'ai réinitialisé col à False après qu'il n'ait pas pu avancer.
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
@@ -425,6 +419,78 @@ class gameState():
             print('GAME OVER, YOU LOSE')     
 
     def puzzle_room(self):
+        #Control in the temple
+        
+        for event in pygame.event.get():
+
+            keys = pygame.key.get_pressed()
+            key_events.global_events()
+        
+            if event.type == QUIT:
+                key_events.quit()
+        
+            if keys[K_w] and keys[K_t]:
+                key_events.key_w()
+
+            col = False
+
+            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox)
+
+            for beast in BEAST_LIST:
+                if PLAYER.rect.colliderect(beast.rect):  
+                    col = True              
+
+            # MOVE RIGHT
+            if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
+                    #print(str(PLAYER.PLAYER_POS[0]))
+                    key_events.key_right()
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                    PLAYER.PLAYER_POS[0] -= 0.25
+                    col = False
+                    pass
+                else:
+                    key_events.key_right()
+        
+            # MOVE LEFT
+            if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                    PLAYER.PLAYER_POS[0] += 0.25
+                    col = False
+                    pass
+                else:
+                    key_events.key_left() 
+        
+            # MOVE UP
+            if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True or col == True:
+                    PLAYER.PLAYER_POS[1] += 0.25
+                    col = False
+                    pass
+                else:
+                    key_events.key_up()
+        
+            # MOVE DOWN
+            if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2 or col == True:
+                    PLAYER.PLAYER_POS[1] -= 0.25
+                    col = False
+                    pass
+                else:
+                    key_events.key_down()
+        
+            # PLACING DOWN ITEMS
+            
+            if (keys[K_SPACE]):
+                
+                key_events.key_space()
+        
+            # FIRE ORB FROM WAND
+            if (keys[K_f]):
+                if PLAYER.WEAPON == WAND:
+                    gunSFX.play()
+                    orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
+
         #TODO mettre la grid du temple
         #TODO mettre Link dans le temple 
         pygame.display.flip()
@@ -437,6 +503,11 @@ class gameState():
         for row in range(MAPHEIGHT):
             for column in range(MAPWIDTH):
                 DISPLAYSURFACE.blit(TEXTURES[GRID_TEMPLE[row][column]], (column*TILESIZE, row*TILESIZE))
+
+        #Player spawn in the temple
+        DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
+        PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
 
     def menu(self):
     # CREATE THE GAME MENU SCREEN
