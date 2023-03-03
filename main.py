@@ -66,6 +66,8 @@ HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
+gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+
 """
 TIMED EVENTS
 """
@@ -88,6 +90,10 @@ class gameState():
         self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
+        #SFX
+        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+        playerHurtSFX = pygame.mixer.Sound("./Sounds/smallAugh.mp3")
+
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
         global haveKey
 
@@ -146,8 +152,6 @@ class gameState():
         
 
         # RENDER ORBS
-        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
-
         for orb in orbs_list:
             if orb.POS == GANON.GANON_POS and GANON.VULNERABLE:
                 print('GANON HEALTH', GANON.HEALTH)
@@ -215,13 +219,13 @@ class gameState():
             
             colChest = CHEST.rect.colliderect(PLAYER.rect)
 
-            print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
+            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
             if colChest and haveKey:
-                print("coffre")
-                print(haveKey)
+                #print("coffre")
+                #print(haveKey)
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 haveKey = False
@@ -244,7 +248,8 @@ class gameState():
 
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):  
-                    col = True              
+                    col = True
+                    playerHurtSFX.play()              
                     #print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
             # Le problème : pygame dit que les arbres n'ont pas de rect...
@@ -308,7 +313,7 @@ class gameState():
             # FIRE ORB FROM WAND
             if (keys[K_f]):
                 if PLAYER.WEAPON == WAND:
-                    gunSFX.play()
+                    gunSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
             """
@@ -370,6 +375,7 @@ class gameState():
                     if beast.APPEAR:
                         if PLAYER.PLAYER_POS == beast.POS:
                             PLAYER.HEALTH -= 0
+
                         for coordinate in range(len(beast.POS)):
                             # if tree.treePOS[coordinate] == beast.POS[coordinate]:
                             #     beast.POS[coordinate]-=1
