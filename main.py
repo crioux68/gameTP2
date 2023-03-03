@@ -510,7 +510,7 @@ class gameState():
             DISPLAYSURFACE.blit(START_BUTTON_IMG , (width/2+10,height/2-100))
 
             # LOAD AUDIO FILE        
-            pygame.mixer.music.load("ZeldaMenuSong.mp3")
+            pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
             pygame.mixer.music.play(-1)
             
             
