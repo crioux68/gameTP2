@@ -128,6 +128,7 @@ class gameState():
             DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
 
         # RENDER BEASTS AND PORTAL
+        # beast spawn at fixe position
         for beast in BEAST_LIST:
             if beast.PORTAL_APPEAR:
                 DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
@@ -337,11 +338,8 @@ class gameState():
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
                     else:
-                        #print('Ganon is Ok x position = : '+ str(ganonRandPOSx) + ' poisition en y : ' + str(ganonRandPOSy))
                         pass
-                    # GANON.GANON_POS = [GANON.GANON_POS[0]+random.randint(-1,1), GANON.GANON_POS[0]+random.randint(-1,1)]
                     GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
-                    #print('x = ' + str(GANON.GANON_POS[0]) + ' y = ' + str(GANON.GANON_POS[1]))
                     PORTAL.FRAME = 1
             
             # BEAST OBJECT GENERATOR 
@@ -362,7 +360,6 @@ class gameState():
                         beast.POS = [beast.PORTAL.POS[0], beast.PORTAL.POS[1]]
                         beast.rect.left = beast.POS[0] * TILESIZE
                         beast.rect.top = beast.POS[1] * TILESIZE
-                        #print("Left: " + str(beast.rect.left) + " Top: " + str(beast.rect.top))
             
             # BEASTS MOVEMENTS HUNT PLAYER
             elif (event.type == USEREVENT + 3):
@@ -371,41 +368,23 @@ class gameState():
                         if PLAYER.PLAYER_POS == beast.POS:
                             PLAYER.HEALTH -= 0
                         for coordinate in range(len(beast.POS)):
-                            # if tree.treePOS[coordinate] == beast.POS[coordinate]:
-                            #     beast.POS[coordinate]-=1
-                            #     print('collision avec arbre')
-                            #col = tree.rect.colliderect(beast)
-                            #print("coordinate: " + str(beast.POS[coordinate]))
                             beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
-                            # col = beast.rect.colliderect(tree)
                             col = tree.rect.colliderect(beast.rect) or TEMPLE.rect.colliderect(beast.rect) or PLAYER.rect.colliderect(beast.rect)
                             if PLAYER.PLAYER_POS[coordinate] > beast.POS[coordinate]:
                                 if col == True:
                                     beast.POS[coordinate]-=0.1 * 2
-                                    # print('collision avec arbre')
-                                    # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                     beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                                 else:
                                     beast.POS[coordinate] += 0.5
-                                    # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                     beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                             else:
                                 if col == True:
                                     beast.POS[coordinate]+=0.1 * 2
-                                    # print('collision avec arbre')
-                                    # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                     beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
                                 else:
                                     beast.POS[coordinate] -= 0.5
-                                    # beast.rect = beast.rect.move(beast.POS[0]*-1 * 2, beast.POS[1] * 2)
                                     beast.rect.update(beast.POS[0] * TILESIZE, beast.POS[1] * TILESIZE, 75, 75)
 
-                            # col = PLAYER.rect.colliderect(beast.rect)
-                            # if col == True:
-                            #     beast.POS[coordinate] = beast.POS[coordinate]
-
-                                        
-            
             # ORB PATH MOVEMENT ANIMATION
             elif (event.type == USEREVENT + 4):
                 for orb in orbs_list:
@@ -432,6 +411,7 @@ class gameState():
 
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
+        # hide Ganon for this map
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         
         pygame.display.update()
