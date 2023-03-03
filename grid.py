@@ -31,7 +31,7 @@ class TEMPLE:
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (400, 255))
         self.X_POS = 3
         self.Y_POS = 0
-        self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+        self.rect = pygame.rect.Rect(self.X_POS+320, self.Y_POS+165, 60, 60)
 
 class CHEST():
     def __init__(self):

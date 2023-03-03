@@ -111,6 +111,18 @@ class gameState():
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, 4)
 
+        #Left side of the temple rect for collider
+        templeLeftRect = pygame.rect.Rect(170, 30, 150, 200)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 255, 0), templeLeftRect, 4)
+
+        #Right Side of the temple for collider
+        templeRightRect = pygame.rect.Rect(382, 30, 150, 200)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, 4)
+
+        #Top temple collider
+        templeTopRect = pygame.rect.Rect(250, 30., 200, 40)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, 4)
+
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
         if PLAYER.WEAPON:
             DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
