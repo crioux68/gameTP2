@@ -445,7 +445,7 @@ class gameState():
 
     def menu(self):
     # CREATE THE GAME MENU SCREEN
-        BACKGROUNDCOLOR = (36,110,7)
+        BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
         # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
         # RENDER PLAY GAME TEXT
@@ -502,7 +502,7 @@ class gameState():
                 #pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
-            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
             # LOAD AUDIO FILE        
