@@ -66,6 +66,8 @@ HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
+gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+
 """
 TIMED EVENTS
 """
@@ -134,8 +136,6 @@ class gameState():
         
 
         # RENDER ORBS
-        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
-
         for orb in orbs_list:
             if orb.POS == GANON.GANON_POS and GANON.VULNERABLE:
                 print('GANON HEALTH', GANON.HEALTH)
@@ -203,13 +203,13 @@ class gameState():
             
             colChest = CHEST.rect.colliderect(PLAYER.rect)
 
-            print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
+            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
             if colChest and haveKey:
-                print("coffre")
-                print(haveKey)
+                #print("coffre")
+                #print(haveKey)
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 haveKey = False
@@ -296,7 +296,7 @@ class gameState():
             # FIRE ORB FROM WAND
             if (keys[K_f]):
                 if PLAYER.WEAPON == WAND:
-                    gunSFX.play()
+                    gunSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
             """
@@ -515,8 +515,8 @@ class gameState():
             DISPLAYSURFACE.blit(START_BUTTON_IMG , (width/2+10,height/2-100))
 
             # LOAD AUDIO FILE        
-            pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
-            pygame.mixer.music.play(-1)
+            # pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+            # pygame.mixer.music.play(-1)
             
             
             # updates the frames of the game
