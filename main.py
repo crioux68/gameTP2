@@ -90,6 +90,10 @@ class gameState():
         self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
+        #SFX
+        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+        playerHurtSFX = pygame.mixer.Sound("./Sounds/smallAugh.mp3")
+
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
         global haveKey
 
@@ -232,7 +236,8 @@ class gameState():
 
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):  
-                    col = True              
+                    col = True
+                    playerHurtSFX.play()              
                     #print("beast - index in list: " + str(BEAST_LIST.index(beast)))
 
             # Le problème : pygame dit que les arbres n'ont pas de rect...
@@ -358,6 +363,7 @@ class gameState():
                     if beast.APPEAR:
                         if PLAYER.PLAYER_POS == beast.POS:
                             PLAYER.HEALTH -= 0
+
                         for coordinate in range(len(beast.POS)):
                             # if tree.treePOS[coordinate] == beast.POS[coordinate]:
                             #     beast.POS[coordinate]-=1
