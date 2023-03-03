@@ -11,29 +11,55 @@ pygame.mixer.init()
 
 
 # CHECK IF THE TILE IS AN OBSTACLE
-def CheckIfObstacles(posTileX, posTileY):
-    try:
-        # CHECK IF THE TILE IS WATER
-        if GRID_OVERWORLD[posTileY][posTileX] == WATER_0:
-            #print("water 0")
+def CheckIfObstacles(posTileX, posTileY, zone):
+    if zone == 'overworld':
+        try:
+            # CHECK IF THE TILE IS WATER
+            if GRID_OVERWORLD[posTileY][posTileX] == WATER_0:
+                #print("water 0")
+                return True
+            if GRID_OVERWORLD[posTileY][posTileX] == WATER_1:
+                #print("water 1")
+                return True
+            if GRID_OVERWORLD[posTileY][posTileX] == WATER_2:
+                #print("water 2")
+                return True
+            if GRID_OVERWORLD[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
+                #print("grass 1")
+                return 2
+            if GRID_OVERWORLD[posTileY][posTileX] == GRASS_3:
+                #print("grass 3")
+                return True
+            if GRID_OVERWORLD[posTileY][posTileX] == GRASS_4:
+                #print("grass 4")
+                return True
+        except IndexError:
             return True
-        if GRID_OVERWORLD[posTileY][posTileX] == WATER_1:
-            #print("water 1")
+    else:
+        try:
+            # CHECK IF THE TILE IS WATER
+            if GRID_TEMPLE[posTileY][posTileX] == WATER_0:
+                #print("water 0")
+                return True
+            if GRID_TEMPLE[posTileY][posTileX] == WATER_1:
+                #print("water 1")
+                return True
+            if GRID_TEMPLE[posTileY][posTileX] == WATER_2:
+                #print("water 2")
+                return True
+            if GRID_TEMPLE[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
+                #print("grass 1")
+                return 2
+            if GRID_TEMPLE[posTileY][posTileX] == GRASS_3:
+                #print("grass 3")
+                return True
+            if GRID_TEMPLE[posTileY][posTileX] == GRASS_4:
+                #print("grass 4")
+                return True
+        except IndexError:
             return True
-        if GRID_OVERWORLD[posTileY][posTileX] == WATER_2:
-            #print("water 2")
-            return True
-        if GRID_OVERWORLD[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
-            #print("grass 1")
-            return 2
-        if GRID_OVERWORLD[posTileY][posTileX] == GRASS_3:
-            #print("grass 3")
-            return True
-        if GRID_OVERWORLD[posTileY][posTileX] == GRASS_4:
-            #print("grass 4")
-            return True
-    except IndexError:
-        return True
+
+    
 
 
 # INSTANCES OF GAME OBJECTS
@@ -90,7 +116,7 @@ class gameState():
     def main_game(self, tree, TEMPLE, KEY):
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
         global haveKey
-
+        zone = 'overworld'
         if len(GANON_VULNERABLE_IF) < 1:
             GANON.VULNERABLE = True
         else:
@@ -185,8 +211,7 @@ class gameState():
         # RENDER TREES
         for tree in sorted(trees, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                tree, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, 4)
             
         if tree.rect.colliderect(PLAYER.rect):
             print('le joueur a fesser un arbre')
@@ -198,7 +223,6 @@ class gameState():
             self.state = 'puzzle_room'
             
             
-
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
 
@@ -251,23 +275,19 @@ class gameState():
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == 2:
                     #print(str(PLAYER.PLAYER_POS[0]))
                     key_events.key_right()
-                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
                     PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
                     pass
                 else:
                     key_events.key_right()
-                    #print(GRID[int(PLAYER.PLAYER_POS[1])])
-                
-            #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
-            #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
         
             # MOVE LEFT
             if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
                     PLAYER.PLAYER_POS[0] += 0.25
                     col = False
                     pass
@@ -276,7 +296,7 @@ class gameState():
         
             # MOVE UP
             if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25),zone) == True or col == True:
                     PLAYER.PLAYER_POS[1] += 0.25
                     col = False
                     pass
@@ -285,14 +305,12 @@ class gameState():
         
             # MOVE DOWN
             if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2 or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == 2 or col == True:
                     PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
                     pass
                 else:
                     key_events.key_down()
-
-                # print(GRID[int(PLAYER.PLAYER_POS[1])])
         
             # PLACING DOWN ITEMS
             
@@ -401,8 +419,6 @@ class gameState():
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
 
-        
-
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         # hide Ganon for this map
@@ -420,7 +436,8 @@ class gameState():
 
     def puzzle_room(self):
         #Control in the temple
-        
+        pygame.display.update()
+        zone = 'temple_overworld'
         for event in pygame.event.get():
 
             keys = pygame.key.get_pressed()
@@ -442,10 +459,10 @@ class gameState():
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == 2:
                     #print(str(PLAYER.PLAYER_POS[0]))
                     key_events.key_right()
-                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
                     PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
                     pass
@@ -454,7 +471,7 @@ class gameState():
         
             # MOVE LEFT
             if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
                     PLAYER.PLAYER_POS[0] += 0.25
                     col = False
                     pass
@@ -463,7 +480,7 @@ class gameState():
         
             # MOVE UP
             if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25),zone) == True or col == True:
                     PLAYER.PLAYER_POS[1] += 0.25
                     col = False
                     pass
@@ -472,7 +489,7 @@ class gameState():
         
             # MOVE DOWN
             if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2 or col == True:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25),zone) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == 2 or col == True:
                     PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
                     pass
