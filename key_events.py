@@ -97,9 +97,11 @@ class KeyEvents:
             self.wolf_counter_lr = (self.wolf_counter_lr + 1) % len(wolf_r_images)
 
     def key_space(self):
+        placeSFX = pygame.mixer.Sound("./Sounds/putDown.wav")
         if self.PLAYER.WEAPON:
             self.PLAYER.PLAYER_INV.remove(self.PLAYER.WEAPON)
             self.PLAYER.WEAPON.PLACED = True
+            pygame.mixer.Sound.play(placeSFX)
 
             # DROP WEAPON LOCATION
             if self.PLAYER.DIRECTION == 'd':

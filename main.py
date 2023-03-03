@@ -7,7 +7,7 @@ import random
 from key_events import KeyEvents
 import math
 
-mixer.init()
+pygame.mixer.init()
 
 
 # CHECK IF THE TILE IS AN OBSTACLE
@@ -134,6 +134,8 @@ class gameState():
         
 
         # RENDER ORBS
+        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+
         for orb in orbs_list:
             if orb.POS == GANON.GANON_POS and GANON.VULNERABLE:
                 print('GANON HEALTH', GANON.HEALTH)
@@ -286,12 +288,15 @@ class gameState():
                 # print(GRID[int(PLAYER.PLAYER_POS[1])])
         
             # PLACING DOWN ITEMS
+            
             if (keys[K_SPACE]):
+                
                 key_events.key_space()
         
             # FIRE ORB FROM WAND
             if (keys[K_f]):
                 if PLAYER.WEAPON == WAND:
+                    gunSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
             """
