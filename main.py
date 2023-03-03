@@ -460,7 +460,7 @@ class gameState():
         # dark shade of the button
         color_dark = (100,100,100)
 
-        # TODO Images boutons
+        # TODO Images boutons.
         #START_BUTTON_IMG = pygame.image.load('./textures/boutons/boutonStart.png')
         START_BUTTON_IMG = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonStart.png'), (250, 100))
 
