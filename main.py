@@ -446,7 +446,7 @@ class gameState():
     def menu(self):
     # CREATE THE GAME MENU SCREEN
         BACKGROUNDCOLOR = (60,179,113)
-        BACKGROUNDIMAGE = ()
+        #BACKGROUNDIMAGE =  pygame.transform.scale(pygame.image.load('./textures/BG_IMG/BG_IMG_1.png'), (150, 75))
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
         # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
         # RENDER PLAY GAME TEXT
@@ -457,14 +457,7 @@ class gameState():
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
-        # light shade of the button
-        #color_light = (170,170,170)
-        
-        # dark shade of the button
-        color_dark = (100,100,100)
-
         # TODO Images boutons.
-        #START_BUTTON_IMG = pygame.image.load('./textures/boutons/boutonStart.png')
         START_BUTTON_IMG = btnstart.SPRITE
         QUIT_BUTTON_IMG = btnquit.SPRITE
 
