@@ -43,6 +43,20 @@ class CHEST():
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
         #pygame.draw.rect()
 
+class BTNStart():
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonStart.png'), (150, 75))
+        self.X_POS = 425
+        self.Y_POS = 125
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
+
+class BTNQuit():
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonQuit.png'), (150, 75))
+        self.X_POS = 425
+        self.Y_POS = 230
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
+
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
 

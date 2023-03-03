@@ -51,6 +51,8 @@ MIDNA = heroes.MIDNA()
 CHEST = CHEST()
 KEY = items.KEY()
 tree = Tree()
+btnstart = BTNStart()
+btnquit = BTNQuit()
 
 # GROUPINGS OF RELATED GAME OBJECTS
 GAME_ITEMS = [SWORD, SHIELD, KEY]
@@ -455,18 +457,24 @@ class gameState():
         height = DISPLAYSURFACE.get_height()
 
         # light shade of the button
-        color_light = (170,170,170)
+        #color_light = (170,170,170)
         
         # dark shade of the button
         color_dark = (100,100,100)
 
         # TODO Images boutons.
         #START_BUTTON_IMG = pygame.image.load('./textures/boutons/boutonStart.png')
-        START_BUTTON_IMG = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonStart.png'), (250, 100))
+        START_BUTTON_IMG = btnstart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
+
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
 
 
-        #BUTTON_PLAY_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG)
-        #BUTTON_QUIT_IMAGE = HEALTHFONT.render('QUIT', True, BLACK)
+        
+
+        BUTTON_START_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
+        BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
         # updates the frames of the game
         pygame.display.update()
@@ -480,7 +488,7 @@ class gameState():
                 #RENDRE LE BOUTON CLIQUABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
 
-                    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                    if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
                         self.state = 'main_game'
                         print(mouse[1])
                         running = False
@@ -491,23 +499,11 @@ class gameState():
             mouse = pygame.mouse.get_pos()
 
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
-                #pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                #tree, 4)
-                
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+                #pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
             if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
-
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
-            
-            # superimposing the text onto our button
-            #DISPLAYSURFACE.blit(BUTTON_QUIT_IMAGE , (width/2+50,height/2))  
-                  
-            DISPLAYSURFACE.blit(START_BUTTON_IMG , (width/2+10,height/2-100))
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
