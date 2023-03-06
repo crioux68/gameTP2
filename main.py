@@ -316,9 +316,7 @@ class gameState():
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                     #print(str(PLAYER.PLAYER_POS[0]))
-                    key_events.key_right()
-                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:              # or col == True      
-                    #PLAYER.PLAYER_POS[0] -= 0.25
+                    key_events.key_right()                
                 elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:              # or col == True      
                     #PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
@@ -331,9 +329,7 @@ class gameState():
             #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
         
             # MOVE LEFT
-            if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True: # or col == True
-                    #PLAYER.PLAYER_POS[0] += 0.25
+            if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True: # or col == True
                     #PLAYER.PLAYER_POS[0] += 0.25
                     col = False
@@ -342,9 +338,7 @@ class gameState():
                     key_events.key_left() 
         
             # MOVE UP
-            if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True: # or col == True
-                    #PLAYER.PLAYER_POS[1] += 0.25
+            if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True: # or col == True
                     #PLAYER.PLAYER_POS[1] += 0.25
                     col = False
@@ -353,9 +347,7 @@ class gameState():
                     key_events.key_up()
         
             # MOVE DOWN
-            if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: # or col == True
-                    #PLAYER.PLAYER_POS[1] -= 0.25
+            if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: # or col == True
                     #PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
