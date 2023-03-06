@@ -497,7 +497,7 @@ class gameState():
                     if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                         key_events.quit()
 
-            # INITIATE THE MOUSE VARIABLE TO GET ITS POSITION
+            # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
             # INDICATING THE CLICKABLE PLACE FOR THE START BUTTON
@@ -546,32 +546,34 @@ class gameState():
         # updates the frames of the game
         pygame.display.update()
 
-        #
+        # INITIATING running AS TRUE
         running = True
-        #
+
+        # WHILE LOOP
         while running:
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:  
                     running = False
-                #RENDRE LE BOUTON CLIQUABLE
+                # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
 
-                    #
-                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                        key_events.quit()
-
-                    #    
+                    # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE MENU
                     if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                         running = False
                         self.state = 'menu'
                         print(mouse[1])
 
-            #
+                    # IF WE CLICK ON THE QUIT BUTTON IT CLOSES THE GAME
+                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                        key_events.quit()
+
+            # INITIATING MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
             
+            # INDICATION THE CLICKABLE PLACE FOR THE RESTART BUTTON
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnrestart, 4)
-
+            # INDICATION THE CLICKABLE PLACE FOR THE QUIT BUTTON
             elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
             
