@@ -27,6 +27,7 @@ FLOOR_6 = 20
 FLOOR_7 = 21
 FLOOR_8 = 22
 
+# Class to initialize trees and their positions on the board
 class Tree:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
@@ -48,6 +49,7 @@ class Tree3:
         self.Y_POS = 25
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)        
     
+# Class to initialize the temple and its position on the board   
 class TEMPLE:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (400, 255))
@@ -55,6 +57,7 @@ class TEMPLE:
         self.Y_POS = 0
         self.rect = pygame.rect.Rect(self.X_POS+320, self.Y_POS+165, 60, 60)
 
+# Class to initialize the chest and its position on the board  
 class CHEST():
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/chest_0.png'), (50, 50))
@@ -65,6 +68,7 @@ class CHEST():
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
         #pygame.draw.rect()
 
+# command to generate the tree
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
 trees2 = [Tree2() for x in range (num_trees)]
@@ -110,7 +114,7 @@ GRID_OVERWORLD = [
     [GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_2, GRASS_0, GRASS_1, WATER_0, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0, WATER_1]
 ]
 
-#Tiles for the temple
+# TILES TO BE DISPLAYED IN DUNGEON
 GRID_TEMPLE = [
     [FLOOR_8, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_0, FLOOR_0, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_7],
     [FLOOR_4, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_3],

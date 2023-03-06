@@ -136,23 +136,23 @@ class gameState():
 
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 65)    
-        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,   0,   0), PLAYER.hitbox, -1)
 
         # RENDER TEMPLE
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
-        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, -1)
 
         #Left side of the temple rect for collider
         templeLeftRect = pygame.rect.Rect(170, 30, 150, 200)
-        pygame.draw.rect(DISPLAYSURFACE, (0, 255, 0), templeLeftRect, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 255, 0), templeLeftRect, -1)
 
         #Right Side of the temple for collider
         templeRightRect = pygame.rect.Rect(382, 30, 150, 200)
-        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, -1)
 
         #Top temple collider
         templeTopRect = pygame.rect.Rect(250, 30., 200, 40)
-        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, -1)
 
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
         if PLAYER.WEAPON:
@@ -167,7 +167,7 @@ class gameState():
                 DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
                 # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                beast.rect, 4)
+                                beast.rect, -1)
 
         # RENDER ITEMS
         for item in GAME_ITEMS:
@@ -214,20 +214,17 @@ class gameState():
         # RENDER TREES
         for tree in sorted(trees, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                tree, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
         
         for tree in sorted(trees2, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                tree, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
         
         for tree in sorted(trees3, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                tree, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
 
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
             
 
         if TEMPLE.rect.colliderect(PLAYER.rect):
@@ -248,8 +245,7 @@ class gameState():
             
             DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
             
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                    CHEST, 4)
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), CHEST, -1)
             
             # CHECK IF THE CHEST COLLIDE WITH THE PLAYER
             colChest = CHEST.rect.colliderect(PLAYER.rect)
@@ -638,7 +634,7 @@ class gameState():
         #Player spawn in the temple
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
-        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, -1)
 
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
