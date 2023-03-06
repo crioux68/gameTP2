@@ -304,7 +304,7 @@ class gameState():
                     colBeast = True 
                     playerHurtSFX.play()  
                     #takeDamage(damageTimer)
-                    PLAYER.HEALTH -= 10
+                    PLAYER.HEALTH -= 4
                     print("Sante " + str(PLAYER.HEALTH)) 
                     beastCoord = beast.rect 
                     #print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
