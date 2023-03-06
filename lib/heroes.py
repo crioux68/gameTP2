@@ -18,6 +18,7 @@ class LINK:
         
         self.DIRECTION = False
         self.TRANSFORM = False
+        
         self.WOLF = pygame.image.load('./sprites/wolf/wolf_f0.png')
     
     def TRANSFORMING(self):
