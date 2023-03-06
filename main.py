@@ -71,7 +71,6 @@ BOW = items.BOW()
 GANON = enemies.GANON()
 PORTAL = enemies.PORTAL()
 TEMPLE = TEMPLE()
-MIDNA = heroes.MIDNA()
 CHEST = CHEST()
 KEY = items.KEY()
 tree = Tree()
@@ -227,7 +226,6 @@ class gameState():
             colKey = KEY.rect.colliderect(PLAYER.rect)
             
             if colKey:
-                #print("cle ramassee")
                 haveKey = True
 
         # RENDER CHEST PUZZLE
@@ -239,14 +237,10 @@ class gameState():
                                     CHEST, 4)
             
             colChest = CHEST.rect.colliderect(PLAYER.rect)
-
-            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
             if colChest and haveKey:
-                #print("coffre")
-                #print(haveKey)
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 haveKey = False
@@ -433,10 +427,8 @@ class gameState():
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
                         if GANON.GANON_POS[0] < -3:
                             GANON.GANON_POS[0]+=10
-                            print('Ganon is out the map on the side')
                         elif GANON.GANON_POS[1] > 13:
                             GANON.GANON_POS[1] -=10
-                            print('Ganon is out the map on the top or bottom')
                         else:
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
@@ -526,6 +518,7 @@ class gameState():
             GAME_OVER = True
             print('GAME OVER, YOU LOSE')     
 
+    # Create the puzzle room when you enter the cave
     def puzzle_room(self):
         #Control in the temple
         pygame.display.update()
@@ -599,9 +592,7 @@ class gameState():
                 if PLAYER.WEAPON == WAND:
                     gunSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
-
-        #TODO mettre la grid du temple
-        #TODO mettre Link dans le temple 
+ 
         pygame.display.flip()
         for event in pygame.event.get():
             keys = pygame.key.get_pressed()
@@ -618,6 +609,7 @@ class gameState():
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
 
+    # create an opening windows
     def menu(self):
     # CREATE THE GAME MENU SCREEN
         BACKGROUNDCOLOR = (36,110,7)
@@ -694,6 +686,7 @@ class gameState():
             # updates the frames of the game
             pygame.display.update()
 
+    #Create an ending windows
     def End(self):
         # CREATE THE GAME OVER SCREEN
 
@@ -756,6 +749,7 @@ class gameState():
             # updates the frames of the game
             pygame.display.update()
 
+    # function to switch windows during the game
     def state_manager(self):
         if self.state == 'menu':
             self.menu()
@@ -781,6 +775,7 @@ pygame.draw.rect(background,(255,0,255),(120,120,50,50))
 
 # GAME LOOP
 while not GAME_OVER:
+    # The function to call to start the game at the first windows
     GAME_STATE.state_manager()
 
 # END OF GAME LOOP
