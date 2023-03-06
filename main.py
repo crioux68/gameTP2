@@ -215,21 +215,11 @@ class gameState():
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, 4)
             
-        #if tree.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser un arbre')
-        #if tree.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser un arbre')
 
-        #elif TEMPLE.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser le temple')
-           # self.state = 'puzzle_room'
-            #TEMPLE.rect = None
-           # pygame.display.flip()
-        #elif TEMPLE.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser le temple')
-           # self.state = 'puzzle_room'
-            #TEMPLE.rect = None
-           # pygame.display.flip()
+        if TEMPLE.rect.colliderect(PLAYER.rect):
+            self.state = 'puzzle_room'
+            TEMPLE.rect = None
+            pygame.display.flip()
 
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
@@ -307,14 +297,17 @@ class gameState():
                     print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
             # Check if we make contact with an obstacle and if so we put the tree or temple's rect in environmentCoord, which is used later
-            if PLAYER.rect.colliderect(TEMPLE.rect) or PLAYER.rect.colliderect(tree.rect):
+            if PLAYER.rect.colliderect(templeLeftRect) or PLAYER.rect.colliderect(tree.rect) or PLAYER.rect.colliderect(templeRightRect) or PLAYER.rect.colliderect(templeTopRect):
                 colEnvironment = True
                 if PLAYER.rect.colliderect(tree.rect):
                     environmentCoord = tree.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
-                    #print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
-                elif PLAYER.rect.colliderect(TEMPLE.rect):
-                    environmentCoord = TEMPLE.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
-                    #print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
+                elif PLAYER.rect.colliderect(templeRightRect):
+                    environmentCoord = templeRightRect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+                elif PLAYER.rect.colliderect(templeLeftRect):
+                    environmentCoord = templeLeftRect
+                elif PLAYER.rect.colliderect(templeTopRect):
+                    environmentCoord = templeTopRect
+                       
 
             # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
             # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
