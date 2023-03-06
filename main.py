@@ -60,8 +60,6 @@ def CheckIfObstacles(posTileX, posTileY, zone):
         except IndexError:
             return True
 
-    
-
 
 # INSTANCES OF GAME OBJECTS
 PLAYER = heroes.LINK(5, 5, 75, 75)
@@ -74,7 +72,6 @@ BOW = items.BOW()
 GANON = enemies.GANON()
 PORTAL = enemies.PORTAL()
 TEMPLE = TEMPLE()
-MIDNA = heroes.MIDNA()
 CHEST = CHEST()
 KEY = items.KEY()
 tree = Tree()
@@ -230,13 +227,20 @@ class gameState():
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 tree, 4)
 
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, 4)
+            
+
+        if TEMPLE.rect.colliderect(PLAYER.rect):
+            self.state = 'puzzle_room'
+            TEMPLE.rect = None
+            pygame.display.flip()
+
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
 
             colKey = KEY.rect.colliderect(PLAYER.rect)
             
             if colKey:
-                #print("cle ramassee")
                 haveKey = True
 
         # RENDER CHEST PUZZLE
@@ -249,16 +253,12 @@ class gameState():
             
             # CHECK IF THE CHEST COLLIDE WITH THE PLAYER
             colChest = CHEST.rect.colliderect(PLAYER.rect)
-
-            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             # THE SOUND OF THE CHEST OPENING
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
             # OPEN THE CHEST IF THE PLAYER HAVE THE KEY AND THE CHEST COLLIDE WITH THE PLAYER
             if colChest and haveKey:
-                #print("coffre")
-                #print(haveKey)
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 haveKey = False
@@ -310,14 +310,17 @@ class gameState():
                     #print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
             # Check if we make contact with an obstacle and if so we put the tree or temple's rect in environmentCoord, which is used later
-            if PLAYER.rect.colliderect(TEMPLE.rect) or PLAYER.rect.colliderect(tree.rect):
+            if PLAYER.rect.colliderect(templeLeftRect) or PLAYER.rect.colliderect(tree.rect) or PLAYER.rect.colliderect(templeRightRect) or PLAYER.rect.colliderect(templeTopRect):
                 colEnvironment = True
                 if PLAYER.rect.colliderect(tree.rect):
-                    environmentCoord = tree.rect
-                    #print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
-                elif PLAYER.rect.colliderect(TEMPLE.rect):
-                    environmentCoord = TEMPLE.rect 
-                    #print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
+                    environmentCoord = tree.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
+                elif PLAYER.rect.colliderect(templeRightRect):
+                    environmentCoord = templeRightRect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+                elif PLAYER.rect.colliderect(templeLeftRect):
+                    environmentCoord = templeLeftRect
+                elif PLAYER.rect.colliderect(templeTopRect):
+                    environmentCoord = templeTopRect
+                       
 
             # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
             # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
@@ -371,36 +374,36 @@ class gameState():
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == 2:
                     #print(str(PLAYER.PLAYER_POS[0]))
-                    key_events.key_right()
-                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
-                    PLAYER.PLAYER_POS[0] -= 0.25
+                    key_events.key_right()                
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True:              # or col == True      
+                    #PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
                     pass
                 else:
                     key_events.key_right()
         
             # MOVE LEFT
-            if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
-                    PLAYER.PLAYER_POS[0] += 0.25
+            if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:                
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1]),zone) == True: # or col == True
+                    #PLAYER.PLAYER_POS[0] += 0.25
                     col = False
                     pass
                 else:
                     key_events.key_left() 
         
             # MOVE UP
-            if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25),zone) == True or col == True:
-                    PLAYER.PLAYER_POS[1] += 0.25
+            if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:                
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25), zone) == True: # or col == True
+                    #PLAYER.PLAYER_POS[1] += 0.25
                     col = False
                     pass
                 else:
                     key_events.key_up()
         
             # MOVE DOWN
-            if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == 2 or col == True:
-                    PLAYER.PLAYER_POS[1] -= 0.25
+            if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:                
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25),zone) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == 2: # or col == True
+                    #PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
                     pass
                 else:
@@ -436,10 +439,8 @@ class gameState():
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
                         if GANON.GANON_POS[0] < -3:
                             GANON.GANON_POS[0]+=10
-                            print('Ganon is out the map on the side')
                         elif GANON.GANON_POS[1] > 13:
                             GANON.GANON_POS[1] -=10
-                            print('Ganon is out the map on the top or bottom')
                         else:
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
@@ -513,11 +514,6 @@ class gameState():
                     pygame.mixer.Sound.play(itemSFX)
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
-
-        # RENDER GANON AND PORTAL
-        DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
-        # hide Ganon for this map
-        DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         
         # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
@@ -530,6 +526,7 @@ class gameState():
             GAME_OVER = True
             print('GAME OVER, YOU LOSE')     
 
+    # Create the puzzle room when you enter the cave
     def puzzle_room(self):
         #Control in the temple
         pygame.display.update()
@@ -603,9 +600,30 @@ class gameState():
                 if PLAYER.WEAPON == WAND:
                     gunSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
-
-        #TODO mettre la grid du temple
-        #TODO mettre Link dans le temple 
+            
+            if (event.type == USEREVENT):
+                if PORTAL.FRAME < 5:
+                    PORTAL.FRAME += 1
+                else:
+                    x = random.randint(1, 9)
+                    y = random.randint(1, 9)
+                    PORTAL.POS = [x, y]
+                    #Make sure Ganon stay on map
+                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
+                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                        if GANON.GANON_POS[0] < -3:
+                            GANON.GANON_POS[0]+=10
+                        elif GANON.GANON_POS[1] > 13:
+                            GANON.GANON_POS[1] -=10
+                        else:
+                            ganonRandPOSx+=1
+                            ganonRandPOSy+=1
+                    else:
+                        pass
+                    GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
+                    PORTAL.FRAME = 1
+ 
         pygame.display.flip()
         for event in pygame.event.get():
             keys = pygame.key.get_pressed()
@@ -622,6 +640,12 @@ class gameState():
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
 
+        # RENDER GANON AND PORTAL
+        DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
+        # hide Ganon for this map
+        DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
+
+    # create an opening windows
     def menu(self):
     # CREATE THE GAME MENU SCREEN
         BACKGROUNDCOLOR = (36,110,7)
@@ -698,6 +722,7 @@ class gameState():
             # updates the frames of the game
             pygame.display.update()
 
+    #Create an ending windows
     def End(self):
         # CREATE THE GAME OVER SCREEN
 
@@ -759,8 +784,8 @@ class gameState():
             
             # updates the frames of the game
             pygame.display.update()
-    
-    # SWITCH THE STATE OF THE GAME
+
+    # function to switch windows during the game
     def state_manager(self):
         if self.state == 'menu':
             self.menu()
@@ -786,6 +811,7 @@ pygame.draw.rect(background,(255,0,255),(120,120,50,50))
 
 # GAME LOOP
 while not GAME_OVER:
+    # The function to call to start the game at the first windows
     GAME_STATE.state_manager()
 
 # END OF GAME LOOP

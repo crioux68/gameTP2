@@ -23,11 +23,6 @@ class LINK:
     def TRANSFORMING(self):
         self.TRANSFORM = not self.TRANSFORM
 
-class MIDNA:
-    def __init__(self):
-        self.SPRITE_POS = pygame.transform.scale(pygame.image.load('./sprites/midna.png'), (50, 75))
-        self.APPEARED = False
-
 class ORB:
     def __init__(self, X, Y, DIRECTION):
         self.IMAGE = pygame.transform.scale(pygame.image.load('./sprites/orb.png'), (25, 25))
