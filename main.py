@@ -514,8 +514,6 @@ class gameState():
 
     def End(self):
         # CREATE THE GAME OVER SCREEN
-
-        #screen = pygame.display.set_mode((800, 600))
         BACKGROUNDCOLOR = (36,110,7)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
