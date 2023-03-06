@@ -63,7 +63,13 @@ class BTNOptions():
         self.X_POS = 0
         self.Y_POS = 0
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
-        
+
+class BTNRestart():
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonRestart.png'), (150, 75))
+        self.X_POS = 0
+        self.Y_POS = 0
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
 
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
