@@ -450,7 +450,9 @@ class gameState():
         BACKGROUNDCOLOR = (60,179,113)
         #BACKGROUNDIMAGE =  pygame.transform.scale(pygame.image.load('./textures/BG_IMG/BG_IMG_1.png'), (150, 75))
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+
         # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
+
         # RENDER PLAY GAME TEXT
         PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
         DISPLAYSURFACE.blit(PLAY_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - PLAY_GAME_TEXT.get_size()[0] / 2, 50))
@@ -487,7 +489,7 @@ class gameState():
                     
                     # IF WE CLICK ON THE START BUTTON THE MAIN GAME PLAYS
                     if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
-                        self.state = 'main_game'
+                        self.state = 'end_game'
                         print(mouse[1])
                         running = False
                     
@@ -516,7 +518,7 @@ class gameState():
 
     def End(self):
         # CREATE THE GAME OVER SCREEN
-        BACKGROUNDCOLOR = (36,110,7)
+        BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
         # RENDER GAME OVER TEXT
