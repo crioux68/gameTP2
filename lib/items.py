@@ -9,7 +9,8 @@ class SWORD():
         self.NAME = 'SWORD'
         self.IMAGE = pygame.image.load('./sprites/sword.png')
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 35))
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
+        self.POS = [2, 3]
+        self.rect = [self.POS[0] * TILESIZE, self.POS[1] * TILESIZE, 35, 35]
         self.PLACED = True
 
 class WAND:
@@ -33,7 +34,8 @@ class SHIELD:
     def __init__(self):
         self.NAME = 'SHIELD'
         self.IMAGE = pygame.image.load('./sprites/shield.png')
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
+        self.POS = [1, 3]
+        self.rect = [self.POS[0] * TILESIZE, self.POS[1] * TILESIZE, 35, 35]
         self.PLACED = True
 
 class KEY:
@@ -53,6 +55,7 @@ class BOW:
         self.NAME = 'BOW'
         self.IMAGE = pygame.transform.scale(pygame.image.load('./sprites/bow.png'), (50, 75))
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 20))
-        self.POS = [rand(0, MAPWIDTH-1), rand(0, MAPHEIGHT-1)]
+        self.POS = [1, 2]
+        self.rect = [self.POS[0] * TILESIZE, self.POS[1] * TILESIZE, 35, 35]
         self.PLACED = True
 

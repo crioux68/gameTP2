@@ -242,11 +242,24 @@ class gameState():
 
             PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
 
+            damageTimer = 50
+
+            def takeDamage(beastCoord, playerCoord):
+                if damageTimer > 0:
+                    pass
+                else:
+                    PLAYER.HEALTH -= 10
+                    damageTimer = 50
+
+
             # Check if we make contact with an ennemy and if so we put the ennemy's rect in beastCoord, which is used later
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):                         
                     colBeast = True 
-                    playerHurtSFX.play()      
+                    playerHurtSFX.play()  
+                    
+
+                    print("Sante " + str(PLAYER.HEALTH)) 
                     beastCoord = beast.rect # pour info, dans main.py: beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
                     print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
@@ -483,7 +496,7 @@ class gameState():
             # PICKUP ITEM CONDITIONS
             itemSFX = pygame.mixer.Sound("./Sounds/pickup.wav")
             for item in GAME_ITEMS:
-                if PLAYER.PLAYER_POS == item.POS and item.PLACED:
+                if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     PLAYER.PLAYER_INV.append(item)
                     item.PLACED = False
                     pygame.mixer.Sound.play(itemSFX)
