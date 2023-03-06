@@ -7,6 +7,7 @@ import random
 from key_events import KeyEvents
 import math
 
+# INIT THE SOUND EFFECT MANAGER
 pygame.mixer.init()
 
 
@@ -15,23 +16,18 @@ def CheckIfObstacles(posTileX, posTileY):
     try:
         # CHECK IF THE TILE IS WATER
         if GRID_OVERWORLD[posTileY][posTileX] == WATER_0:
-            #print("water 0")
             return True
         if GRID_OVERWORLD[posTileY][posTileX] == WATER_1:
-            #print("water 1")
             return True
         if GRID_OVERWORLD[posTileY][posTileX] == WATER_2:
-            #print("water 2")
             return True
+
         # CHECK IF THE TILE IS A CORNER OF GRASS NEXT TO WATER
         if GRID_OVERWORLD[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
-            #print("grass 1")
             return 2
         if GRID_OVERWORLD[posTileY][posTileX] == GRASS_3:
-            #print("grass 3")
             return True
         if GRID_OVERWORLD[posTileY][posTileX] == GRASS_4:
-            #print("grass 4")
             return True
     except IndexError:
         return True
@@ -67,6 +63,7 @@ HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
+# SOUNDS
 gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
 
 """
@@ -85,13 +82,13 @@ pygame.time.set_timer(USEREVENT + 4, 100)
 # HAVE KEY OR NOT
 haveKey = False
 
-#class to change the stage
+# CLASS TO CHANGE THE STATE
 class gameState():
     def __init__(self) -> None:
         self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
-        #SFX
+        # SFX
         gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
         playerHurtSFX = pygame.mixer.Sound("./Sounds/smallAugh.mp3")
 
@@ -223,12 +220,15 @@ class gameState():
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                     CHEST, 4)
             
+            # CHECK IF THE CHEST COLLIDE WITH THE PLAYER
             colChest = CHEST.rect.colliderect(PLAYER.rect)
 
             #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
+            # THE SOUND OF THE CHEST OPENING
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
+            # OPEN THE CHEST IF THE PLAYER HAVE THE KEY AND THE CHEST COLLIDE WITH THE PLAYER
             if colChest and haveKey:
                 #print("coffre")
                 #print(haveKey)
@@ -237,6 +237,7 @@ class gameState():
                 haveKey = False
                 pygame.mixer.Sound.play(chestSFX)
 
+        # GAME EVENTS
         for event in pygame.event.get():
 
             keys = pygame.key.get_pressed()
@@ -344,7 +345,7 @@ class gameState():
             #else:
                 #move()                   
 
-            # This section moves the player
+            # This section moves the player and checks if it collides with a obstacle tile
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
@@ -442,7 +443,7 @@ class gameState():
                 NEW_BEAST.PORTAL = enemies.PORTAL()
                 BEAST_LIST.append(NEW_BEAST)
 
-        # BEAST W/PORTAL GENERATOR 
+            # BEAST W/PORTAL GENERATOR 
             elif (event.type == USEREVENT + 2):
                 for beast in BEAST_LIST:
                     if beast.PORTAL_APPEAR and beast.PORTAL.FRAME < 5:
@@ -527,6 +528,7 @@ class gameState():
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         
+        # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
 
         if GANON.HEALTH <= 0:
@@ -688,7 +690,8 @@ class gameState():
             
             # updates the frames of the game
             pygame.display.update()
-
+    
+    # SWITCH THE STATE OF THE GAME
     def state_manager(self):
         if self.state == 'menu':
             self.menu()
