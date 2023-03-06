@@ -27,6 +27,7 @@ FLOOR_6 = 20
 FLOOR_7 = 21
 FLOOR_8 = 22
 
+# Class to initialize trees and their positions on the board
 class Tree:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
@@ -48,14 +49,15 @@ class Tree3:
         self.Y_POS = 25
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)        
     
+# Class to initialize the temple and its position on the board   
 class TEMPLE:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/temple.png'), (400, 255))
         self.X_POS = 3
         self.Y_POS = 0
-        self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+        self.rect = pygame.rect.Rect(self.X_POS+320, self.Y_POS+165, 60, 60)
 
-# THIS CLASS CREATES A CHEST
+# Class to initialize the chest and its position on the board  
 class CHEST():
     def __init__(self):
         # LOCATION OF THE CHEST SPRITE
@@ -67,6 +69,7 @@ class CHEST():
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
         
 
+# command to generate the tree
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
 trees2 = [Tree2() for x in range (num_trees)]
@@ -98,7 +101,7 @@ TEXTURES = {
     FLOOR_8: pygame.image.load('./textures/floor8.png')
 }
 
-# TILES TO BE DISPLAYED
+# Tiles for the outside(beginning)
 GRID_OVERWORLD = [
     [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_0, WATER_1, WATER_0],
     [GRASS_0, GRASS_2, GRASS_0, GRASS_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_0, GRASS_0, GRASS_0, GRASS_0, GRASS_1, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0],
@@ -112,7 +115,7 @@ GRID_OVERWORLD = [
     [GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_2, GRASS_0, GRASS_1, WATER_0, WATER_0, WATER_0, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0, WATER_1]
 ]
 
-#TODO Ajouter une grid temple
+# TILES TO BE DISPLAYED IN DUNGEON
 GRID_TEMPLE = [
     [FLOOR_8, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_0, FLOOR_0, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_2, FLOOR_7],
     [FLOOR_4, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_3],
