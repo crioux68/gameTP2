@@ -241,23 +241,30 @@ class gameState():
             colEnvironment = False
 
             PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
+            '''
+            damageTimer = 1000
+            run = False
 
-            damageTimer = 50
-
-            def takeDamage(beastCoord, playerCoord):
-                if damageTimer > 0:
-                    pass
-                else:
-                    PLAYER.HEALTH -= 10
-                    damageTimer = 50
-
+            def takeDamage(damageTimer):
+                pygame.time.set_timer(USEREVENT, 1000)
+                
+                run = True
+                while run:
+                    if damageTimer > 0:
+                        damageTimer -= 1
+                        print("Timer " + str(damageTimer))
+                    else:
+                        PLAYER.HEALTH -= 10
+                        damageTimer = 1000
+                        run = False
+            '''
 
             # Check if we make contact with an ennemy and if so we put the ennemy's rect in beastCoord, which is used later
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):                         
                     colBeast = True 
                     playerHurtSFX.play()  
-                    
+                    #takeDamage(damageTimer)
 
                     print("Sante " + str(PLAYER.HEALTH)) 
                     beastCoord = beast.rect # pour info, dans main.py: beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
@@ -268,24 +275,24 @@ class gameState():
                 colEnvironment = True
                 if PLAYER.rect.colliderect(tree.rect):
                     environmentCoord = tree.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
-                    print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
+                    #print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
                 elif PLAYER.rect.colliderect(TEMPLE.rect):
                     environmentCoord = TEMPLE.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
-                    print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
+                    #print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
 
             # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
             # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
             def checkContact(coord):   
-                if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]):
+                if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect[1] <= coord.top : #and PLAYER.rect.right <= coord.left
                     contactPoint = "bottom"
                     #print("player bottom " + str(PLAYER.rect.bottom) + " coord top " + str(coord.top) + " 2e 1 " + str(coord.bottom - PLAYER.rect.top) + " 2e 2 " + str(PLAYER.rect[3] + coord[3]))  
-                elif PLAYER.rect.right >= coord.left and (coord.right - PLAYER.rect.left) > 100 and (coord.right - PLAYER.rect.left) <= (PLAYER.rect[2] + coord[2]):
+                elif PLAYER.rect.right >= coord.left and (coord.right - PLAYER.rect.left) > 100 and (coord.right - PLAYER.rect.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.left:
                     contactPoint = "right"
                     #print("player right " + str(PLAYER.rect.right) + " coord left " + str(coord.left))                           
-                elif PLAYER.rect.top <= coord.bottom and (PLAYER.rect.bottom - coord.top) <= (PLAYER.rect[3] + coord[3]): #and (PLAYER.rect.bottom - coord.top) > 100
+                elif PLAYER.rect.top <= coord.bottom and (PLAYER.rect.bottom - coord.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect.bottom >= coord.bottom: #  and PLAYER.rect.left >= coord.right
                     contactPoint = "top"
                     #print("player top " + str(PLAYER.rect.top) + " coord bottom " + str(coord.bottom))
-                elif PLAYER.rect.left <= coord.right and (PLAYER.rect.right - coord.left) <= (PLAYER.rect[2] + coord[2]): #and (PLAYER.rect.right - coord.left) > 100
+                elif PLAYER.rect.left <= coord.right and (PLAYER.rect.right - coord.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.right: #and (PLAYER.rect.right - coord.left) > 100
                     contactPoint = "left"
                     #print("player left " + str(PLAYER.rect.left) + " coord right " + str(coord.right))                
                 return contactPoint
