@@ -7,6 +7,7 @@ import random
 from key_events import KeyEvents
 import math
 
+# INIT THE SOUND EFFECT MANAGER
 pygame.mixer.init()
 
 
@@ -63,7 +64,7 @@ def CheckIfObstacles(posTileX, posTileY, zone):
 
 
 # INSTANCES OF GAME OBJECTS
-PLAYER = heroes.LINK(5,5,75,75)
+PLAYER = heroes.LINK(5, 5, 75, 75)
 key_events = KeyEvents(PLAYER)
 WAND = items.WAND()
 GOLD = items.GOLD()
@@ -92,6 +93,7 @@ HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
+# SOUNDS
 gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
 
 """
@@ -110,13 +112,13 @@ pygame.time.set_timer(USEREVENT + 4, 100)
 # HAVE KEY OR NOT
 haveKey = False
 
-#class to change the stage
+# CLASS TO CHANGE THE STATE
 class gameState():
     def __init__(self) -> None:
         self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
-        #SFX
+        # SFX
         gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
         playerHurtSFX = pygame.mixer.Sound("./Sounds/smallAugh.mp3")
 
@@ -136,7 +138,7 @@ class gameState():
                 DISPLAYSURFACE.blit(TEXTURES[GRID_OVERWORLD[row][column]], (column*TILESIZE, row*TILESIZE))
 
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
-        PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
+        PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 65)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
 
         # RENDER TEMPLE
@@ -215,18 +217,19 @@ class gameState():
         # RENDER TREES
         for tree in sorted(trees, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, 4)
-            
-        if tree.rect.colliderect(PLAYER.rect):
-            print('le joueur a fesser un arbre')
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
+        
+        for tree in sorted(trees2, key=lambda t: t.Y_POS):
+            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
+        
+        for tree in sorted(trees3, key=lambda t: t.Y_POS):
+            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
 
-        elif TEMPLE.rect.colliderect(PLAYER.rect):
-            print('le joueur a fesser le temple')
-            pygame.display.flip()
-            TEMPLE.rect = None
-            self.state = 'puzzle_room'
-            
-            
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
 
@@ -244,12 +247,15 @@ class gameState():
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                     CHEST, 4)
             
+            # CHECK IF THE CHEST COLLIDE WITH THE PLAYER
             colChest = CHEST.rect.colliderect(PLAYER.rect)
 
             #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
+            # THE SOUND OF THE CHEST OPENING
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
+            # OPEN THE CHEST IF THE PLAYER HAVE THE KEY AND THE CHEST COLLIDE WITH THE PLAYER
             if colChest and haveKey:
                 #print("coffre")
                 #print(haveKey)
@@ -258,6 +264,7 @@ class gameState():
                 haveKey = False
                 pygame.mixer.Sound.play(chestSFX)
 
+        # GAME EVENTS
         for event in pygame.event.get():
 
             keys = pygame.key.get_pressed()
@@ -269,22 +276,96 @@ class gameState():
             if keys[K_w] and keys[K_t]:
                 key_events.key_w()
 
-            col = False
+            colBeast = False
+            colEnvironment = False
 
-            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox)
+            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) 
+            '''
+            damageTimer = 1000
+            run = False
 
+            def takeDamage(damageTimer):
+                pygame.time.set_timer(USEREVENT, 1000)
+                
+                run = True
+                while run:
+                    if damageTimer > 0:
+                        damageTimer -= 1
+                        print("Timer " + str(damageTimer))
+                    else:
+                        PLAYER.HEALTH -= 10
+                        damageTimer = 1000
+                        run = False
+            '''
+
+            # Check if we make contact with an ennemy and if so we put the ennemy's rect in beastCoord, which is used later
             for beast in BEAST_LIST:
-                if PLAYER.rect.colliderect(beast.rect):  
-                    col = True
-                    playerHurtSFX.play()              
-                    #print("beast - index in list: " + str(BEAST_LIST.index(beast)))
+                if PLAYER.rect.colliderect(beast.rect):                         
+                    colBeast = True 
+                    playerHurtSFX.play()  
+                    #takeDamage(damageTimer)
 
-            # Le problème : pygame dit que les arbres n'ont pas de rect...
-            #if PLAYER.rect.colliderect(TEMPLE.rect) : #or PLAYER.rect.colliderect(tree.rect)
-                #col = True
+                    print("Sante " + str(PLAYER.HEALTH)) 
+                    beastCoord = beast.rect 
+                    #print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
+
+            # Check if we make contact with an obstacle and if so we put the tree or temple's rect in environmentCoord, which is used later
+            if PLAYER.rect.colliderect(TEMPLE.rect) or PLAYER.rect.colliderect(tree.rect):
+                colEnvironment = True
+                if PLAYER.rect.colliderect(tree.rect):
+                    environmentCoord = tree.rect
+                    #print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
+                elif PLAYER.rect.colliderect(TEMPLE.rect):
+                    environmentCoord = TEMPLE.rect 
+                    #print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
+
+            # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
+            # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
+            def checkContact(coord):   
+                if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect[1] <= coord.top :
+                    contactPoint = "bottom"                      
+                elif PLAYER.rect.right >= coord.left and (coord.right - PLAYER.rect.left) > 100 and (coord.right - PLAYER.rect.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.left:
+                    contactPoint = "right"                                               
+                elif PLAYER.rect.top <= coord.bottom and (PLAYER.rect.bottom - coord.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect.bottom >= coord.bottom: 
+                    contactPoint = "top"                    
+                elif PLAYER.rect.left <= coord.right and (PLAYER.rect.right - coord.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.right:
+                    contactPoint = "left"               
+                return contactPoint
+            
+            # This function pushes the player back, if there's space on the screen, in the direction opposite of the contact point (more or less: a few discrepancies remain)
+            def bounce(contact):
+                if contact == "bottom":
+                    if PLAYER.PLAYER_POS[1] > 0 :
+                        PLAYER.PLAYER_POS[1] -= 0.25
+                    else:
+                        print("Pas de place")
+                elif contact == "right":
+                    if PLAYER.PLAYER_POS[0] > 0:
+                        PLAYER.PLAYER_POS[0] -= 0.25
+                    else:
+                        print("Pas de place")
+                elif contact == "top":
+                    if PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
+                        PLAYER.PLAYER_POS[1] += 0.25
+                    else:
+                        print("Pas de place")
+                elif contact == "left":
+                    if PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
+                        PLAYER.PLAYER_POS[0] += 0.25
+                    else:
+                        print("Pas de place")
 
 
-                # Dans les 4 cas de déplacement ci-bas, j'ai réinitialisé col à False après qu'il n'ait pas pu avancer.
+            # This part launches the functions checkContact() and bounce() if there's been a contact
+            if colBeast:
+                contactPoint = checkContact(beastCoord)                
+                bounce(contactPoint)
+            elif colEnvironment:
+                contactPoint = checkContact(environmentCoord)                
+                bounce(contactPoint)
+
+
+            # This section moves the player and checks if it collides with a obstacle tile
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
@@ -373,7 +454,7 @@ class gameState():
                 NEW_BEAST.PORTAL = enemies.PORTAL()
                 BEAST_LIST.append(NEW_BEAST)
 
-        # BEAST W/PORTAL GENERATOR 
+            # BEAST W/PORTAL GENERATOR 
             elif (event.type == USEREVENT + 2):
                 for beast in BEAST_LIST:
                     if beast.PORTAL_APPEAR and beast.PORTAL.FRAME < 5:
@@ -426,7 +507,7 @@ class gameState():
             # PICKUP ITEM CONDITIONS
             itemSFX = pygame.mixer.Sound("./Sounds/pickup.wav")
             for item in GAME_ITEMS:
-                if PLAYER.PLAYER_POS == item.POS and item.PLACED:
+                if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     PLAYER.PLAYER_INV.append(item)
                     item.PLACED = False
                     pygame.mixer.Sound.play(itemSFX)
@@ -438,6 +519,7 @@ class gameState():
         # hide Ganon for this map
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         
+        # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
 
         if GANON.HEALTH <= 0:
@@ -677,7 +759,8 @@ class gameState():
             
             # updates the frames of the game
             pygame.display.update()
-
+    
+    # SWITCH THE STATE OF THE GAME
     def state_manager(self):
         if self.state == 'menu':
             self.menu()
