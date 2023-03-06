@@ -10,7 +10,7 @@ class GANON:
     def __init__(self):
         self.GANON = pygame.image.load('./sprites/ganon_0.png')
         #Make Ganon appear ouside of the map
-        self.GANON_POS = [8000, 8000]
+        self.GANON_POS = [6, 1]
         self.HEALTH = 250
         self.VULNERABLE = True
         self.rect = self.GANON.get_rect()

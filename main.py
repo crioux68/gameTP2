@@ -502,11 +502,6 @@ class gameState():
                     pygame.mixer.Sound.play(itemSFX)
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
-
-        # RENDER GANON AND PORTAL
-        DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
-        # hide Ganon for this map
-        DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         
         pygame.display.update()
 
@@ -592,6 +587,29 @@ class gameState():
                 if PLAYER.WEAPON == WAND:
                     gunSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
+            
+            if (event.type == USEREVENT):
+                if PORTAL.FRAME < 5:
+                    PORTAL.FRAME += 1
+                else:
+                    x = random.randint(1, 9)
+                    y = random.randint(1, 9)
+                    PORTAL.POS = [x, y]
+                    #Make sure Ganon stay on map
+                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
+                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
+                        if GANON.GANON_POS[0] < -3:
+                            GANON.GANON_POS[0]+=10
+                        elif GANON.GANON_POS[1] > 13:
+                            GANON.GANON_POS[1] -=10
+                        else:
+                            ganonRandPOSx+=1
+                            ganonRandPOSy+=1
+                    else:
+                        pass
+                    GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
+                    PORTAL.FRAME = 1
  
         pygame.display.flip()
         for event in pygame.event.get():
@@ -608,6 +626,11 @@ class gameState():
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, 4)
+
+        # RENDER GANON AND PORTAL
+        DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
+        # hide Ganon for this map
+        DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
 
     # create an opening windows
     def menu(self):
