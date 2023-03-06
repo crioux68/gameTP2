@@ -178,6 +178,16 @@ class gameState():
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 tree, 4)
+        
+        for tree in sorted(trees2, key=lambda t: t.Y_POS):
+            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
+        
+        for tree in sorted(trees3, key=lambda t: t.Y_POS):
+            DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
+            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
+                                tree, 4)
             
         #if tree.rect.colliderect(PLAYER.rect):
             #print('le joueur a fesser un arbre')

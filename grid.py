@@ -30,9 +30,23 @@ FLOOR_8 = 22
 class Tree:
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
-        self.X_POS = random.randint(50, 300)
-        self.Y_POS = random.randint(50, 450)
+        self.X_POS = 90
+        self.Y_POS = 360
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
+
+class Tree2:
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
+        self.X_POS = 50
+        self.Y_POS = 80
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
+
+class Tree3:
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/trees/tree.png'), (75, 75))
+        self.X_POS = 600
+        self.Y_POS = 25
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)        
     
 class TEMPLE:
     def __init__(self):
@@ -53,6 +67,8 @@ class CHEST():
 
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
+trees2 = [Tree2() for x in range (num_trees)]
+trees3 = [Tree3() for x in range (num_trees)]
 
 # DICTIONARY LINKING TILES TO THEIR COLORS pygame.image.load('pic.png')
 TEXTURES = {
