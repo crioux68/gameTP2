@@ -64,7 +64,7 @@ portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
 # SOUNDS
-gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+#gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
 
 """
 TIMED EVENTS
@@ -129,10 +129,11 @@ class gameState():
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 beast.rect, 4)
 
-        # RENDER ITEMS
+        # RENDER ITEMS ON THE GROUND
         for item in GAME_ITEMS:
             if item.PLACED == True:
                 DISPLAYSURFACE.blit(item.IMAGE, (item.POS[0]*TILESIZE, item.POS[1]*TILESIZE))
+            # IF THE ITEM IS A KEY, ADD IT TO THE LIST OF KEYS HELD BY THE PLAYER
             if item == KEY:
                 PUZZLE_KEY.append(KEY)
         
@@ -190,35 +191,39 @@ class gameState():
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
 
+            # KEY COLLISION
             colKey = KEY.rect.colliderect(PLAYER.rect)
             
+            # WHEN THE PLAYER COLLIDES WITH A KEY, HE IS ABLE TO USE IT
             if colKey:
-                #print("cle ramassee")
                 haveKey = True
 
         # RENDER CHEST PUZZLE
         for CHEST in PUZZLE:
             
+            # DISPLAY CHEST ON THE OVERWORLD
             DISPLAYSURFACE.blit(CHEST.SPRITE, (CHEST.X_POS*TILESIZE, CHEST.Y_POS*TILESIZE))
             
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                     CHEST, 4)
             
-            # CHECK IF THE CHEST COLLIDE WITH THE PLAYER
+            # CHECK IF THE CHEST COLLIDES WITH THE PLAYER
             colChest = CHEST.rect.colliderect(PLAYER.rect)
-
-            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             # THE SOUND OF THE CHEST OPENING
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
-            # OPEN THE CHEST IF THE PLAYER HAVE THE KEY AND THE CHEST COLLIDE WITH THE PLAYER
+            # OPEN THE CHEST IF THE PLAYER HAS THE KEY AND THE CHEST IS COLLIDING WITH THE PLAYER
             if colChest and haveKey:
-                #print("coffre")
-                #print(haveKey)
+                
+                # CHEST IS REMOVED AND WAND APPEARS IN ITS PLACE
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
+                
+                # KEY HAS BEEN USED AND CANNOT OPEN ANOTHER CHEST
                 haveKey = False
+
+                # CONGRATULATIONS! YOU HAVE OPENED A CHEST AND A SOUND HAS PLAYED TO LET YOU KNOW
                 pygame.mixer.Sound.play(chestSFX)
 
         # GAME EVENTS
@@ -261,10 +266,8 @@ class gameState():
                     colBeast = True 
                     playerHurtSFX.play()  
                     #takeDamage(damageTimer)
-
                     print("Sante " + str(PLAYER.HEALTH)) 
                     beastCoord = beast.rect 
-                    #print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
             # Check if we make contact with an obstacle and if so we put the tree or temple's rect in environmentCoord, which is used later
             if PLAYER.rect.colliderect(TEMPLE.rect) or PLAYER.rect.colliderect(tree.rect):
@@ -480,11 +483,14 @@ class gameState():
 
             # PICKUP ITEM CONDITIONS
             itemSFX = pygame.mixer.Sound("./Sounds/pickup.wav")
+            # FOR EACH ITEM THAT IS ON THE GROUND AND ALSO COLLIDES WITH THE PLAYER, SAID ITEM IS PICKED UP
             for item in GAME_ITEMS:
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     PLAYER.PLAYER_INV.append(item)
                     item.PLACED = False
+                    # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
                     pygame.mixer.Sound.play(itemSFX)
+                    # CONFIRMS IF THE ITEM WAS A WEAPON
                     if item in GAME_WEAPONS:
                         PLAYER.WEAPON = item
 

@@ -38,16 +38,21 @@ class SHIELD:
         self.rect = [self.POS[0] * TILESIZE, self.POS[1] * TILESIZE, 35, 35]
         self.PLACED = True
 
+
 class KEY:
     def __init__(self):
         self.NAME = 'KEY'
+        # DEFINE KEY'S SPRITE
         self.IMAGE = pygame.image.load('./sprites/Key.png')
         self.IMAGE = pygame.transform.scale(self.IMAGE, (35, 35))
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (25, 25))
+        # KEY'S POSITION ON THE GRID
         self.X_POS = 5
         self.Y_POS = 8
         self.POS = [self.X_POS, self.Y_POS]
+        # PLACED ON THE GRID
         self.PLACED = True
+        # CREATE KEY'S COLLISION
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
 
 class BOW:

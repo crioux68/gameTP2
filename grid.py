@@ -55,15 +55,17 @@ class TEMPLE:
         self.Y_POS = 0
         self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
 
+# THIS CLASS CREATES A CHEST
 class CHEST():
     def __init__(self):
+        # LOCATION OF THE CHEST SPRITE
         self.SPRITE = pygame.transform.scale(pygame.image.load('./sprites/chest_0.png'), (50, 50))
-        
+        # POSITION OF THE CHEST ON THE GRID
         self.X_POS = 8
         self.Y_POS = 8
-        #self.rect = self.SPRITE.get_rect()
+        # CREATE CHEST COLLISION
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
-        #pygame.draw.rect()
+        
 
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]

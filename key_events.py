@@ -101,6 +101,7 @@ class KeyEvents:
         if self.PLAYER.WEAPON:
             self.PLAYER.PLAYER_INV.remove(self.PLAYER.WEAPON)
             self.PLAYER.WEAPON.PLACED = True
+            # A SOUND EFFECT PLAYS WHEN A WEAPON IS PLACED ON THE GRID
             pygame.mixer.Sound.play(placeSFX)
 
             # DROP WEAPON LOCATION
