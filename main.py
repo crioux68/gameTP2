@@ -175,7 +175,14 @@ class gameState():
             
         #if tree.rect.colliderect(PLAYER.rect):
             #print('le joueur a fesser un arbre')
+        #if tree.rect.colliderect(PLAYER.rect):
+            #print('le joueur a fesser un arbre')
 
+        #elif TEMPLE.rect.colliderect(PLAYER.rect):
+            #print('le joueur a fesser le temple')
+           # self.state = 'puzzle_room'
+            #TEMPLE.rect = None
+           # pygame.display.flip()
         #elif TEMPLE.rect.colliderect(PLAYER.rect):
             #print('le joueur a fesser le temple')
            # self.state = 'puzzle_room'
@@ -202,6 +209,7 @@ class gameState():
             colChest = CHEST.rect.colliderect(PLAYER.rect)
 
             #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
+            #print("ColChest: " + str(colChest) + " | " + "haveKey: " + str(haveKey))
             
             chestSFX = pygame.mixer.Sound("./Sounds/chest.wav")
 
@@ -226,7 +234,10 @@ class gameState():
 
             colBeast = False
             colEnvironment = False
+            colBeast = False
+            colEnvironment = False
 
+            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
             PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
 
             # Check if we make contact with an ennemy and if so we put the ennemy's rect in beastCoord, which is used later
@@ -300,12 +311,14 @@ class gameState():
                 #move()                   
 
             # This section moves the player
-            
+
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
                     #print(str(PLAYER.PLAYER_POS[0]))
                     key_events.key_right()
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:              # or col == True      
+                    #PLAYER.PLAYER_POS[0] -= 0.25
                 elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:              # or col == True      
                     #PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
@@ -321,6 +334,8 @@ class gameState():
             if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True: # or col == True
                     #PLAYER.PLAYER_POS[0] += 0.25
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True: # or col == True
+                    #PLAYER.PLAYER_POS[0] += 0.25
                     col = False
                     pass
                 else:
@@ -330,6 +345,8 @@ class gameState():
             if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True: # or col == True
                     #PLAYER.PLAYER_POS[1] += 0.25
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True: # or col == True
+                    #PLAYER.PLAYER_POS[1] += 0.25
                     col = False
                     pass
                 else:
@@ -337,6 +354,8 @@ class gameState():
         
             # MOVE DOWN
             if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: # or col == True
+                    #PLAYER.PLAYER_POS[1] -= 0.25
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: # or col == True
                     #PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
