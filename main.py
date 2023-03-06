@@ -457,52 +457,57 @@ class gameState():
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
-        # TODO Images boutons.
+        # BUTTON IMAGES 
         START_BUTTON_IMG = btnstart.SPRITE
         QUIT_BUTTON_IMG = btnquit.SPRITE
 
+        # DRAW BUTTONS
         pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, 4)
         pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
 
-
-        
-
+        # SET THE BUTTON IMAGES
         BUTTON_START_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
         BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
         # updates the frames of the game
         pygame.display.update()
 
+        # INITIATING running AS TRUE
         running = True
 
+        # WHILE LOOP 
         while running:
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:  
                     running = False
-                #RENDRE LE BOUTON CLIQUABLE
+                # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-
+                    
+                    # IF WE CLICK ON THE START BUTTON THE MAIN GAME PLAYS
                     if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
                         self.state = 'main_game'
                         print(mouse[1])
                         running = False
-
+                    
+                    # IF WE CLICK ON THE QUIT BUTTON THE GAME CLOSES
                     if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                         key_events.quit()
 
+            # INITIATE THE MOUSE VARIABLE TO GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
+            # INDICATING THE CLICKABLE PLACE FOR THE START BUTTON
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                #pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
+            # INDICATING THE CLICKABLE PLACE FOR THE QUIT BUTTON
             elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
 
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+            # PLAY THE MUSIC
             pygame.mixer.music.play(-1)
-            
             
             # updates the frames of the game
             pygame.display.update()
