@@ -186,22 +186,6 @@ class gameState():
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 tree, 4)
-            
-        #if tree.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser un arbre')
-        #if tree.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser un arbre')
-
-        #elif TEMPLE.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser le temple')
-           # self.state = 'puzzle_room'
-            #TEMPLE.rect = None
-           # pygame.display.flip()
-        #elif TEMPLE.rect.colliderect(PLAYER.rect):
-            #print('le joueur a fesser le temple')
-           # self.state = 'puzzle_room'
-            #TEMPLE.rect = None
-           # pygame.display.flip()
 
         # KEY FOR CHEST PUZZLE
         for KEY in PUZZLE_KEY:
@@ -252,7 +236,7 @@ class gameState():
             colBeast = False
             colEnvironment = False
 
-            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
+            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) 
             '''
             damageTimer = 1000
             run = False
@@ -279,34 +263,30 @@ class gameState():
                     #takeDamage(damageTimer)
 
                     print("Sante " + str(PLAYER.HEALTH)) 
-                    beastCoord = beast.rect # pour info, dans main.py: beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
-                    print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
+                    beastCoord = beast.rect 
+                    #print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
             # Check if we make contact with an obstacle and if so we put the tree or temple's rect in environmentCoord, which is used later
             if PLAYER.rect.colliderect(TEMPLE.rect) or PLAYER.rect.colliderect(tree.rect):
                 colEnvironment = True
                 if PLAYER.rect.colliderect(tree.rect):
-                    environmentCoord = tree.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
+                    environmentCoord = tree.rect
                     #print("tree " + str(tree.rect) + "player " + str(PLAYER.rect))
                 elif PLAYER.rect.colliderect(TEMPLE.rect):
-                    environmentCoord = TEMPLE.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+                    environmentCoord = TEMPLE.rect 
                     #print("temple " + str(TEMPLE.rect)  + "player " + str(PLAYER.rect))
 
             # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
             # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
             def checkContact(coord):   
-                if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect[1] <= coord.top : #and PLAYER.rect.right <= coord.left
-                    contactPoint = "bottom"
-                    #print("player bottom " + str(PLAYER.rect.bottom) + " coord top " + str(coord.top) + " 2e 1 " + str(coord.bottom - PLAYER.rect.top) + " 2e 2 " + str(PLAYER.rect[3] + coord[3]))  
+                if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect[1] <= coord.top :
+                    contactPoint = "bottom"                      
                 elif PLAYER.rect.right >= coord.left and (coord.right - PLAYER.rect.left) > 100 and (coord.right - PLAYER.rect.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.left:
-                    contactPoint = "right"
-                    #print("player right " + str(PLAYER.rect.right) + " coord left " + str(coord.left))                           
-                elif PLAYER.rect.top <= coord.bottom and (PLAYER.rect.bottom - coord.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect.bottom >= coord.bottom: #  and PLAYER.rect.left >= coord.right
-                    contactPoint = "top"
-                    #print("player top " + str(PLAYER.rect.top) + " coord bottom " + str(coord.bottom))
-                elif PLAYER.rect.left <= coord.right and (PLAYER.rect.right - coord.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.right: #and (PLAYER.rect.right - coord.left) > 100
-                    contactPoint = "left"
-                    #print("player left " + str(PLAYER.rect.left) + " coord right " + str(coord.right))                
+                    contactPoint = "right"                                               
+                elif PLAYER.rect.top <= coord.bottom and (PLAYER.rect.bottom - coord.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect.bottom >= coord.bottom: 
+                    contactPoint = "top"                    
+                elif PLAYER.rect.left <= coord.right and (PLAYER.rect.right - coord.left) <= (PLAYER.rect[2] + coord[2]) and PLAYER.rect[0] <= coord.right:
+                    contactPoint = "left"               
                 return contactPoint
             
             # This function pushes the player back, if there's space on the screen, in the direction opposite of the contact point (more or less: a few discrepancies remain)
@@ -335,38 +315,28 @@ class gameState():
 
             # This part launches the functions checkContact() and bounce() if there's been a contact
             if colBeast:
-                contactPoint = checkContact(beastCoord)
-                print("ContacPoint " + contactPoint)
+                contactPoint = checkContact(beastCoord)                
                 bounce(contactPoint)
             elif colEnvironment:
-                contactPoint = checkContact(environmentCoord)
-                print("ContacPoint " + contactPoint)
+                contactPoint = checkContact(environmentCoord)                
                 bounce(contactPoint)
-            #else:
-                #move()                   
+
 
             # This section moves the player and checks if it collides with a obstacle tile
 
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:
-                    #print(str(PLAYER.PLAYER_POS[0]))
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == 2:                    
                     key_events.key_right()                
-                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:              # or col == True      
-                    #PLAYER.PLAYER_POS[0] -= 0.25
+                elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1])) == True:          
                     col = False
                     pass
                 else:
                     key_events.key_right()
-                    #print(GRID[int(PLAYER.PLAYER_POS[1])])
-                
-            #    print("x:" + str(int(PLAYER.PLAYER_POS[0])) + ", y:" + str(int(PLAYER.PLAYER_POS[1])))
-            #    print(str(CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1]))))
         
             # MOVE LEFT
             if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:                
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True: # or col == True
-                    #PLAYER.PLAYER_POS[0] += 0.25
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1])) == True:                     
                     col = False
                     pass
                 else:
@@ -374,8 +344,7 @@ class gameState():
         
             # MOVE UP
             if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:                
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True: # or col == True
-                    #PLAYER.PLAYER_POS[1] += 0.25
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25)) == True:
                     col = False
                     pass
                 else:
@@ -383,14 +352,11 @@ class gameState():
         
             # MOVE DOWN
             if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:                
-                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: # or col == True
-                    #PLAYER.PLAYER_POS[1] -= 0.25
+                if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25)) == 2: 
                     col = False
                     pass
                 else:
                     key_events.key_down()
-
-                # print(GRID[int(PLAYER.PLAYER_POS[1])])
         
             # PLACING DOWN ITEMS
             
