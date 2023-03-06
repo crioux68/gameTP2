@@ -451,7 +451,7 @@ class gameState():
         #BACKGROUNDIMAGE =  pygame.transform.scale(pygame.image.load('./textures/BG_IMG/BG_IMG_1.png'), (150, 75))
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
-        # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
+        # TODO AJOUTER UN IMAGE DE FOND POUR LE MENU
 
         # RENDER PLAY GAME TEXT
         PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
@@ -521,11 +521,13 @@ class gameState():
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
+         # TODO AJOUTER UN IMAGE DE FOND POUR LE END
+
         # RENDER GAME OVER TEXT
         GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
         DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
 
-        # TODO RENDER BUTTONS
+        # RENDER BUTTONS
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
@@ -535,11 +537,25 @@ class gameState():
         # dark shade of the button
         color_dark = (100,100,100)
 
+        # BUTTON IMAGES 
+        RESTART_BUTTON_IMG = btnrestart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
+
+        # DRAW BUTTONS
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnrestart, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
+
+        # SET THE BUTTON IMAGES
+        BUTTON_RESTART_IMAGE = DISPLAYSURFACE.blit(RESTART_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
+        BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
+
         BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
         BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
 
+        # updates the frames of the game
         pygame.display.update()
 
+        #
         running = True
 
         while running:
@@ -548,13 +564,18 @@ class gameState():
                     running = False
                 #RENDRE LE BOUTON CLIQUABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
+
+                    #
                     if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                         key_events.quit()
+
+                    #    
                     if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                         running = False
                         self.state = 'menu'
                         print(mouse[1])
 
+            #
             mouse = pygame.mouse.get_pos()
             
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
