@@ -259,11 +259,8 @@ class gameState():
 
             # OPEN THE CHEST IF THE PLAYER HAS THE KEY AND THE CHEST IS COLLIDING WITH THE PLAYER
             if colChest and haveKey:
-<<<<<<< HEAD
                 
                 # CHEST IS REMOVED AND WAND APPEARS IN ITS PLACE
-=======
->>>>>>> 3baffa8a06e6ba0cbf24c493aaeed4efb58fd221
                 PUZZLE.remove(CHEST)
                 GAME_ITEMS.append(WAND)
                 
@@ -313,10 +310,7 @@ class gameState():
                     colBeast = True 
                     playerHurtSFX.play()  
                     #takeDamage(damageTimer)
-<<<<<<< HEAD
-=======
                     PLAYER.HEALTH -= 4
->>>>>>> 3baffa8a06e6ba0cbf24c493aaeed4efb58fd221
                     print("Sante " + str(PLAYER.HEALTH)) 
                     beastCoord = beast.rect 
 
