@@ -239,16 +239,14 @@ class gameState():
 
             colBeast = False
             colEnvironment = False
-            colBeast = False
-            colEnvironment = False
 
-            PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
             PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) # left, top, width, height
 
             # Check if we make contact with an ennemy and if so we put the ennemy's rect in beastCoord, which is used later
             for beast in BEAST_LIST:
                 if PLAYER.rect.colliderect(beast.rect):                         
                     colBeast = True 
+                    playerHurtSFX.play()      
                     beastCoord = beast.rect # pour info, dans main.py: beast.rect = pygame.rect.Rect(beast.rect.left, beast.rect.top, 75, 75)
                     print("beast " + str(beast.rect)  + "player " + str(PLAYER.rect))
 
