@@ -531,12 +531,6 @@ class gameState():
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
-        # light shade of the button
-        color_light = (170,170,170)
-        
-        # dark shade of the button
-        color_dark = (100,100,100)
-
         # BUTTON IMAGES 
         RESTART_BUTTON_IMG = btnrestart.SPRITE
         QUIT_BUTTON_IMG = btnquit.SPRITE
@@ -549,15 +543,12 @@ class gameState():
         BUTTON_RESTART_IMAGE = DISPLAYSURFACE.blit(RESTART_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
         BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
-        BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
-        BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
-
         # updates the frames of the game
         pygame.display.update()
 
         #
         running = True
-
+        #
         while running:
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:  
@@ -579,20 +570,10 @@ class gameState():
             mouse = pygame.mouse.get_pos()
             
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
-                
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnrestart, 4)
 
-            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
-
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
-            
-            # superimposing the text onto our button
-            DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
-            DISPLAYSURFACE.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
+            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
             
             # updates the frames of the game
             pygame.display.update()
