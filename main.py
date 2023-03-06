@@ -53,6 +53,8 @@ KEY = items.KEY()
 tree = Tree()
 btnstart = BTNStart()
 btnquit = BTNQuit()
+btnoptions = BTNOptions()
+btnrestart = BTNRestart()
 
 # GROUPINGS OF RELATED GAME OBJECTS
 GAME_ITEMS = [SWORD, SHIELD, KEY]
