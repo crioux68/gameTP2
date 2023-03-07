@@ -29,5 +29,5 @@ class BEAST:
 class PORTAL:
     def __init__(self):
         self.PORTAL = pygame.image.load('./textures/portal/portal_1.png')
-        self.POS = [13, 1]
+        self.POS = [9, 8]
         self.FRAME = 0

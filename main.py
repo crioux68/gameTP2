@@ -623,11 +623,15 @@ class gameState():
                     #Make sure Ganon stay on map
                     ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                     ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
-                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
-                        if GANON.GANON_POS[0] < -3:
-                            GANON.GANON_POS[0]+=10
+                    if (GANON.GANON_POS[0] < 1 and GANON.GANON_POS[0] > 9) or (GANON.GANON_POS[1] < 1 and GANON.GANON_POS[1] > 9):
+                        if GANON.GANON_POS[0] < -1:
+                            GANON.GANON_POS[0]+=3
+                        elif GANON.GANON_POS[0] > 10:
+                            GANON.GANON_POS[0]-=3
                         elif GANON.GANON_POS[1] > 13:
                             GANON.GANON_POS[1] -=10
+                        elif GANON.GANON_POS[1] < -1:
+                            GANON.GANON_POS[1] +=3
                         else:
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
