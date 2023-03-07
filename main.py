@@ -15,17 +15,23 @@ pygame.mixer.init()
 MINIMUM_PYGAME_VERSION = [2, 1, 3]
 PYGAME_VERSION = version('pygame').split('.')
 
-validVersion = True
+# validVersion = True
 
-if (int(PYGAME_VERSION[0]) < MINIMUM_PYGAME_VERSION[0]):
-    validVersion = False
-if (int(PYGAME_VERSION[1]) < MINIMUM_PYGAME_VERSION[1]):
-    validVersion = False
-if (int(PYGAME_VERSION[2]) < MINIMUM_PYGAME_VERSION[2]):
-    validVersion = False
-if not validVersion:
+PYGAME_VERSION_INT = (int(PYGAME_VERSION[0]) * 100) + (int(PYGAME_VERSION[1]) * 10) + int(PYGAME_VERSION[2])
+
+MINIMUM_PYGAME_VERSION_INT = (int(MINIMUM_PYGAME_VERSION[0]) * 100) + (int(MINIMUM_PYGAME_VERSION[1]) * 10) + int(MINIMUM_PYGAME_VERSION[2])
+
+if (PYGAME_VERSION_INT < MINIMUM_PYGAME_VERSION):
+    # validVersion = False
     print("The version of pygame: " + version('pygame') + " is invalid \n The minimum version is " + str(MINIMUM_PYGAME_VERSION[0]) + "." + str(MINIMUM_PYGAME_VERSION[1]) + "." + str(MINIMUM_PYGAME_VERSION[2]) +"\n Please run: pip install --upgrade pygame")
     exit()
+# if (int(PYGAME_VERSION[1]) < MINIMUM_PYGAME_VERSION[1]):
+#      validVersion = False
+# if (int(PYGAME_VERSION[2]) < MINIMUM_PYGAME_VERSION[2]):
+#      validVersion = False
+# if not validVersion:
+#     print("The version of pygame: " + version('pygame') + " is invalid \n The minimum version is " + str(MINIMUM_PYGAME_VERSION[0]) + "." + str(MINIMUM_PYGAME_VERSION[1]) + "." + str(MINIMUM_PYGAME_VERSION[2]) +"\n Please run: pip install --upgrade pygame")
+#     exit()
 
 # CHECK AND UPDATE THE VERSION OF PYGAME IN REQUIREMENTS.TXT
 new_requirements = []
