@@ -563,6 +563,8 @@ class gameState():
 
     # Create the puzzle room when you enter the cave
     def puzzle_room(self):
+        # this line was put to remove the bug while pressing f in the temple
+        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
         #Control in the temple
         pygame.display.update()
         zone = 'temple_overworld'
