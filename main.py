@@ -75,6 +75,10 @@ TEMPLE = TEMPLE()
 CHEST = CHEST()
 KEY = items.KEY()
 tree = Tree()
+btnstart = BTNStart()
+btnquit = BTNQuit()
+btnoptions = BTNOptions()
+btnrestart = BTNRestart()
 
 # GROUPINGS OF RELATED GAME OBJECTS
 GAME_ITEMS = [SWORD, SHIELD, KEY]
@@ -528,11 +532,11 @@ class gameState():
 
         if GANON.HEALTH <= 0:
             GAME_OVER = True
-            print('GAME OVER, YOU WIN!')
+            self.state = 'end_game'
         
         if PLAYER.HEALTH <= 0:
             GAME_OVER = True
-            print('GAME OVER, YOU LOSE')     
+            self.state = 'end_game'    
 
     # Create the puzzle room when you enter the cave
     def puzzle_room(self):
@@ -653,12 +657,23 @@ class gameState():
         # hide Ganon for this map
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
 
+        if GANON.HEALTH <= 0:
+            GAME_OVER = True
+            self.state = 'end_game'
+        
+        if PLAYER.HEALTH <= 0:
+            GAME_OVER = True
+            self.state = 'end_game' 
+
     # create an opening windows
     def menu(self):
-    # CREATE THE GAME MENU SCREEN
-        BACKGROUNDCOLOR = (36,110,7)
+        # CREATE THE GAME MENU SCREEN
+        BACKGROUNDCOLOR = (60,179,113)
+        #BACKGROUNDIMAGE =  pygame.transform.scale(pygame.image.load('./textures/BG_IMG/BG_IMG_1.png'), (150, 75))
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
-        # TODO AJOUTER UN IMAGE DE FOND POUR LE JEU
+
+        # TODO AJOUTER UN IMAGE DE FOND POUR LE MENU
+
         # RENDER PLAY GAME TEXT
         PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
         DISPLAYSURFACE.blit(PLAY_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - PLAY_GAME_TEXT.get_size()[0] / 2, 50))
@@ -667,65 +682,57 @@ class gameState():
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
-        # light shade of the button
-        color_light = (170,170,170)
-        
-        # dark shade of the button
-        color_dark = (100,100,100)
+        # BUTTON IMAGES 
+        START_BUTTON_IMG = btnstart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
 
-        # TODO Images boutons.
-        #START_BUTTON_IMG = pygame.image.load('./textures/boutons/boutonStart.png')
-        START_BUTTON_IMG = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonStart.png'), (250, 100))
+        # DRAW BUTTONS
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
 
-
-        #BUTTON_PLAY_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG)
-        #BUTTON_QUIT_IMAGE = HEALTHFONT.render('QUIT', True, BLACK)
+        # SET THE BUTTON IMAGES
+        BUTTON_START_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
+        BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
         # updates the frames of the game
         pygame.display.update()
 
+        # INITIATING running AS TRUE
         running = True
 
+        # WHILE LOOP 
         while running:
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:  
                     running = False
-                #RENDRE LE BOUTON CLIQUABLE
+                # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-
-                    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                    
+                    # IF WE CLICK ON THE START BUTTON THE MAIN GAME PLAYS
+                    if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
                         self.state = 'main_game'
                         print(mouse[1])
                         running = False
-
+                    
+                    # IF WE CLICK ON THE QUIT BUTTON THE GAME CLOSES
                     if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
                         key_events.quit()
 
+            # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
+            # INDICATING THE CLICKABLE PLACE FOR THE START BUTTON
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
-                #pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
-                                #tree, 4)
-                
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
 
-            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
-
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
-            
-            # superimposing the text onto our button
-            #DISPLAYSURFACE.blit(BUTTON_QUIT_IMAGE , (width/2+50,height/2))  
-                  
-            DISPLAYSURFACE.blit(START_BUTTON_IMG , (width/2+10,height/2-100))
+            # INDICATING THE CLICKABLE PLACE FOR THE QUIT BUTTON
+            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
 
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+            # PLAY THE MUSIC
             pygame.mixer.music.play(-1)
-            
             
             # updates the frames of the game
             pygame.display.update()
@@ -733,62 +740,64 @@ class gameState():
     #Create an ending windows
     def End(self):
         # CREATE THE GAME OVER SCREEN
-
-        #screen = pygame.display.set_mode((800, 600))
-        BACKGROUNDCOLOR = (36,110,7)
+        BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+
+         # TODO AJOUTER UN IMAGE DE FOND POUR LE END
 
         # RENDER GAME OVER TEXT
         GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
         DISPLAYSURFACE.blit(GAME_OVER_TEXT, (pygame.display.get_window_size()[0] / 2 - GAME_OVER_TEXT.get_size()[0] / 2, 50))
 
-        # TODO RENDER BUTTONS
+        # RENDER BUTTONS
         width = DISPLAYSURFACE.get_width()
         height = DISPLAYSURFACE.get_height()
 
-        # light shade of the button
-        color_light = (170,170,170)
-        
-        # dark shade of the button
-        color_dark = (100,100,100)
+        # BUTTON IMAGES 
+        RESTART_BUTTON_IMG = btnrestart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
 
-        BUTTON_QUIT_TEXT = HEALTHFONT.render('QUIT', True, BLACK)
-        BUTTON_RESTART_TEXT = HEALTHFONT.render('RESTART', True, BLACK)
+        # DRAW BUTTONS
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnrestart, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
 
+        # SET THE BUTTON IMAGES
+        BUTTON_RESTART_IMAGE = DISPLAYSURFACE.blit(RESTART_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
+        BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
+
+        # updates the frames of the game
         pygame.display.update()
 
+        # INITIATING running AS TRUE
         running = True
 
+        # WHILE LOOP
         while running:
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:  
                     running = False
-                #RENDRE LE BOUTON CLIQUABLE
+                # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                        key_events.quit()
+
+                    # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE MENU
                     if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
                         running = False
                         self.state = 'menu'
                         print(mouse[1])
 
+                    # IF WE CLICK ON THE QUIT BUTTON IT CLOSES THE GAME
+                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                        key_events.quit()
+
+            # INITIATING MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
             
+            # INDICATION THE CLICKABLE PLACE FOR THE RESTART BUTTON
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2,140,40])
-                
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2,140,40])
-
-            if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE,color_light,[width/2,height/2-100,140,40])
-
-            else:
-                pygame.draw.rect(DISPLAYSURFACE,color_dark,[width/2,height/2-100,140,40])
-            
-            # superimposing the text onto our button
-            DISPLAYSURFACE.blit(BUTTON_QUIT_TEXT , (width/2+50,height/2))
-            DISPLAYSURFACE.blit(BUTTON_RESTART_TEXT , (width/2+10,height/2-100))
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnrestart, 4)
+            # INDICATION THE CLICKABLE PLACE FOR THE QUIT BUTTON
+            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
+                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
             
             # updates the frames of the game
             pygame.display.update()
