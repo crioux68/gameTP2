@@ -43,4 +43,5 @@ When the game ends, there is a menu with 2 buttons the RESTART and QUIT buttons.
 
 
 !!!-KNOWN BUGS
+
 -When you click on the RESTART button the game reloads with link having the items he already had when the game ended (doesn't reset the complete game).
