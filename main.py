@@ -6,10 +6,29 @@ from grid import *
 import random
 from key_events import KeyEvents
 import math
+from importlib.metadata import version
 
 # INIT THE SOUND EFFECT MANAGER
 pygame.mixer.init()
 
+# CHECK THE VERSION OF PYGAME INSTALLED LOCALLY
+minimumPygameVersion = [2, 1, 3]
+pygameVersion = version('pygame').split('.')
+
+# CHECK THE VERSION OF PYGAME IN REQUIREMENTS.TXT
+with open('requirements.txt') as txt:
+    lines = txt.readlines()
+    for line in lines:
+        module = line.split('==')
+        if module[0] == "pygame":
+            moduleVersion = module[1].split('.')
+            if int(moduleVersion[0]) < minimumPygameVersion[0] or int(moduleVersion[1]) < minimumPygameVersion[1] or int(moduleVersion[2]) < minimumPygameVersion[2]:
+                print('The version of pygame in requirements.txt is invalid')
+                exit()
+            else:
+                if int(pygameVersion[0]) < minimumPygameVersion[0] or int(pygameVersion[1]) < minimumPygameVersion[1] or int(pygameVersion[2]) < minimumPygameVersion[2]:
+                    print("The version of pygame: " + version('pygame') + " is invalid \n The minimum version is " + str(minimumPygameVersion[0]) + "." + str(minimumPygameVersion[1]) + "." + str(minimumPygameVersion[2]) +"\n Please run: pip install --upgrade pygame")
+                    exit()
 
 # CHECK IF THE TILE IS AN OBSTACLE
 def CheckIfObstacles(posTileX, posTileY, zone):
