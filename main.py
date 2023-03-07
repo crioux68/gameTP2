@@ -21,7 +21,7 @@ PYGAME_VERSION_INT = (int(PYGAME_VERSION[0]) * 100) + (int(PYGAME_VERSION[1]) * 
 
 MINIMUM_PYGAME_VERSION_INT = (int(MINIMUM_PYGAME_VERSION[0]) * 100) + (int(MINIMUM_PYGAME_VERSION[1]) * 10) + int(MINIMUM_PYGAME_VERSION[2])
 
-if (PYGAME_VERSION_INT < MINIMUM_PYGAME_VERSION):
+if (PYGAME_VERSION_INT < MINIMUM_PYGAME_VERSION_INT):
     # validVersion = False
     print("The version of pygame: " + version('pygame') + " is invalid \n The minimum version is " + str(MINIMUM_PYGAME_VERSION[0]) + "." + str(MINIMUM_PYGAME_VERSION[1]) + "." + str(MINIMUM_PYGAME_VERSION[2]) +"\n Please run: pip install --upgrade pygame")
     exit()
