@@ -25,6 +25,8 @@ def CheckIfObstacles(posTileX, posTileY, zone):
             if GRID_OVERWORLD[posTileY][posTileX] == WATER_2:
                 #print("water 2")
                 return True
+
+            # CHECK IF THE TILE IS A CORNER OF GRASS NEXT TO WATER
             if GRID_OVERWORLD[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
                 #print("grass 1")
                 return 2
@@ -48,6 +50,8 @@ def CheckIfObstacles(posTileX, posTileY, zone):
             if GRID_TEMPLE[posTileY][posTileX] == WATER_2:
                 #print("water 2")
                 return True
+            
+            # CHECK IF THE TILE IS A CORNER OF GRASS NEXT TO WATER
             if GRID_TEMPLE[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
                 #print("grass 1")
                 return 2
