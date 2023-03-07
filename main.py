@@ -696,10 +696,12 @@ class gameState():
 
     # create an opening windows
     def menu(self):
-        # CREATE THE GAME MENU SCREEN
+        # CREATE THE GAME MENU SCREEN<
+        bgMenu = pygame.image.load('textures/boutons/bg_menu.png')
+        bgMenu = pygame.transform.scale(bgMenu, (1000, 500))
         BACKGROUNDCOLOR = (60,179,113)
-        #BACKGROUNDIMAGE =  pygame.transform.scale(pygame.image.load('./textures/BG_IMG/BG_IMG_1.png'), (150, 75))
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
+        DISPLAYSURFACE.blit(bgMenu, (0,0))
 
         # TODO AJOUTER UN IMAGE DE FOND POUR LE MENU
 
@@ -759,6 +761,8 @@ class gameState():
 
     #Create an ending windows
     def End(self):
+        # Stop the music when the end screen
+        pygame.mixer.music.stop()
         # CREATE THE GAME OVER SCREEN
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
