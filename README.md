@@ -51,7 +51,19 @@ When the game ends, there is a menu with 2 buttons the RESTART and QUIT buttons:
 
 -If you press on the QUIT button the game closes
 
+To travel around the windows of the game, you have to change the self.state in the function to change. 
+To add level in this game, you only need to add another function like puzzle_room on main Game.
+In this function needed to be fixe is to put the function in another page so main game can be a smaller code that we could import our function.
+
+Ganon stay in the temple.
+
+Link spawn in the temple, walking around the temple is the only thing he can do. No collider were added in the temple.
+
+A background image is added at the beginning, one missing at the end of the game. 
+
 
 !!!-KNOWN BUGS
 
 -When you click on the RESTART button the game reloads with link having the items he already had when the game ended (doesn't reset the complete game).
+-Link spawn in the temple with the staff because the f button work but he have no staff.
+
