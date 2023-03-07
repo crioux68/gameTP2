@@ -27,21 +27,28 @@ All the sprites (almost everything that is not part of the grid) are in the spri
 Every sound effects are in the "Sounds" file and are used in the code to make the game more fun. The current sound effects/songs are :
 
 -picking up an item
+
 -dropping a weapon
+
 -opening a chest
+
 -using the wand
+
 -player taking damage
+
 -Main menu song (also plays in the overworld and the dungeon)
 
 
 When the game starts, there is a menu with 2 buttons the buttons START and QUIT buttons : 
 
 -If you press on the START button the game starts
+
 -If you press on the QUIT button the game closes
 
-When the game ends, there is a menu with 2 buttons the RESTART and QUIT buttons.
+When the game ends, there is a menu with 2 buttons the RESTART and QUIT buttons:
 
--If you press on the RESTART button the game comes back to the starting menu where you have the options to START and QUIT the game :
+-If you press on the RESTART button the game comes back to the starting menu where you have the options to START and QUIT the game.
+
 -If you press on the QUIT button the game closes
 
 
