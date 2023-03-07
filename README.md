@@ -22,4 +22,12 @@ In the items.py page, the gold and the bow have no use. The others have a rect a
 
 The landscape is separated in two grid, one for the overworld and another for the dungeon, each is 20 x 10 tiles. Changing a tile will change the grid appearance. every texture id stored in grid.py lines 79-100.
 
-All the sprites (almost everything that is not part of the grid) is in the sprites files. Link for example, has his own file. Every last bit of his animation is divided in pngs, we also have animation for the staff attacking, the shield blocking and the sword attacking.
+All the sprites (almost everything that is not part of the grid) are in the sprites files. Link for example, has his own file. Every last bit of his animation is divided in pngs, we also have animation for the staff attacking, the shield blocking and the sword attacking.
+
+Every sound effects are in the "Sounds" file and are used in the code to make the game more fun. The current sound effects/songs are :
+-picking up an item
+-dropping a weapon
+-opening a chest
+-using the wand
+-player taking damage
+-Main menu song (also plays in the overworld and the dungeon)
