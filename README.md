@@ -25,9 +25,33 @@ The landscape is separated in two grid, one for the overworld and another for th
 All the sprites (almost everything that is not part of the grid) are in the sprites files. Link for example, has his own file. Every last bit of his animation is divided in pngs, we also have animation for the staff attacking, the shield blocking and the sword attacking.
 
 Every sound effects are in the "Sounds" file and are used in the code to make the game more fun. The current sound effects/songs are :
+
 -picking up an item
+
 -dropping a weapon
+
 -opening a chest
+
 -using the wand
+
 -player taking damage
+
 -Main menu song (also plays in the overworld and the dungeon)
+
+
+When the game starts, there is a menu with 2 buttons the buttons START and QUIT buttons : 
+
+-If you press on the START button the game starts
+
+-If you press on the QUIT button the game closes
+
+When the game ends, there is a menu with 2 buttons the RESTART and QUIT buttons:
+
+-If you press on the RESTART button the game comes back to the starting menu where you have the options to START and QUIT the game.
+
+-If you press on the QUIT button the game closes
+
+
+!!!-KNOWN BUGS
+
+-When you click on the RESTART button the game reloads with link having the items he already had when the game ended (doesn't reset the complete game).
