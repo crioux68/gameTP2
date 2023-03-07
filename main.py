@@ -695,12 +695,12 @@ class gameState():
         QUIT_BUTTON_IMG = btnquit.SPRITE
 
         # DRAW BUTTONS
-        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, 4)
-        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, 4)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, -1)
 
         # SET THE BUTTON IMAGES
-        BUTTON_START_IMAGE = DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
-        BUTTON_QUIT_IMAGE = DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
+        DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
+        DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
         # updates the frames of the game
         pygame.display.update()
@@ -715,29 +715,18 @@ class gameState():
                     running = False
                 # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    
-                    # IF WE CLICK ON THE START BUTTON THE MAIN GAME PLAYS
-                    if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
+
+                    if btnstart.rect.collidepoint(mouse[0], mouse[1]):
                         PLAYER.HEALTH = 100
                         BEAST_LIST.clear()
                         self.state = 'main_game'
-                        print(mouse[1])
                         running = False
-                    
-                    # IF WE CLICK ON THE QUIT BUTTON THE GAME CLOSES
-                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+
+                    if btnquit.rect.collidepoint(mouse[0], mouse[1]):
                         key_events.quit()
 
             # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
-
-            # INDICATING THE CLICKABLE PLACE FOR THE START BUTTON
-            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnstart, 4)
-
-            # INDICATING THE CLICKABLE PLACE FOR THE QUIT BUTTON
-            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
 
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
@@ -788,27 +777,17 @@ class gameState():
                     running = False
                 # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-
                     # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE MENU
-                    if width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                        running = False
+                    if btnrestart.rect.collidepoint(mouse[0], mouse[1]):
                         self.state = 'menu'
-                        print(mouse[1])
+                        running = False
 
-                    # IF WE CLICK ON THE QUIT BUTTON IT CLOSES THE GAME
-                    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                    if btnquit.rect.collidepoint(mouse[0], mouse[1]):
                         key_events.quit()
 
             # INITIATING MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
-            
-            # INDICATION THE CLICKABLE PLACE FOR THE RESTART BUTTON
-            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnrestart, 4)
-            # INDICATION THE CLICKABLE PLACE FOR THE QUIT BUTTON
-            elif width/2 <= mouse[0] <= width/2+140 and height/2-100 <= mouse[1] <= height/2-60:
-                pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), btnquit, 4)
-            
+
             # updates the frames of the game
             pygame.display.update()
 

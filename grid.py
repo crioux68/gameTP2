@@ -74,7 +74,7 @@ class BTNStart():
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonStart.png'), (150, 75))
         self.X_POS = 425
         self.Y_POS = 125
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 500, 75)
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
 
 # Class to initialize the QUIT button
 class BTNQuit():
@@ -82,7 +82,7 @@ class BTNQuit():
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonQuit.png'), (150, 75))
         self.X_POS = 425
         self.Y_POS = 230
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 250, 75)
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)
 
 # Class to initialize the OPTIONS button
 class BTNOptions():
@@ -96,9 +96,9 @@ class BTNOptions():
 class BTNRestart():
     def __init__(self):
         self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonRestart.png'), (150, 75))
-        self.X_POS = 0
-        self.Y_POS = 0
-        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 250, 75)        
+        self.X_POS = 425
+        self.Y_POS = 125
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)        
         
 
 # command to generate the tree
