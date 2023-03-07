@@ -19,3 +19,7 @@ The player takes damage (a lot of it) upon contact with the ennemies. An attempt
 In the heroes.py page, Link's transformation and the Midna character have been set aside.
 
 In the items.py page, the gold and the bow have no use. The others have a rect attribute that allows them to be picked up.
+
+The landscape is separated in two grid, one for the overworld and another for the dungeon, each is 20 x 10 tiles. Changing a tile will change the grid appearance. every texture id stored in grid.py lines 79-100.
+
+All the sprites (almost everything that is not part of the grid) is in the sprites files. Link for example, has his own file. Every last bit of his animation is divided in pngs, we also have animation for the staff attacking, the shield blocking and the sword attacking.
