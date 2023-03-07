@@ -718,6 +718,8 @@ class gameState():
                     
                     # IF WE CLICK ON THE START BUTTON THE MAIN GAME PLAYS
                     if width/2 <= mouse[0] <= width/2+75 and height/2-150 <= mouse[1] <= height/2-60:
+                        PLAYER.HEALTH = 100
+                        BEAST_LIST.clear()
                         self.state = 'main_game'
                         print(mouse[1])
                         running = False
