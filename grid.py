@@ -101,7 +101,7 @@ class BTNRestart():
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)        
         
 
-# command to generate the tree
+# Command to generate the tree
 num_trees = 1
 trees = [Tree() for x in range (num_trees)]
 trees2 = [Tree2() for x in range (num_trees)]

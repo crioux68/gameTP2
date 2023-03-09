@@ -14,8 +14,7 @@ class LINK:
 
         self.rect = self.SPRITE_POS.get_rect()
         self.hitbox = (self.PLAYER_POS[0], self.PLAYER_POS[1], width, height)
-        #self.rect = pygame.rect.Rect(self.PLAYER_POS[0], self.PLAYER_POS[1], width, height)
-        
+                
         self.DIRECTION = False
         self.TRANSFORM = False
         

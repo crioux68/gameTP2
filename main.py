@@ -46,25 +46,19 @@ def CheckIfObstacles(posTileX, posTileY, zone):
     if zone == 'overworld':
         try:
             # CHECK IF THE TILE IS WATER
-            if GRID_OVERWORLD[posTileY][posTileX] == WATER_0:
-                #print("water 0")
+            if GRID_OVERWORLD[posTileY][posTileX] == WATER_0:                
                 return True
             if GRID_OVERWORLD[posTileY][posTileX] == WATER_1:
-                #print("water 1")
                 return True
             if GRID_OVERWORLD[posTileY][posTileX] == WATER_2:
-                #print("water 2")
                 return True
 
             # CHECK IF THE TILE IS A CORNER OF GRASS NEXT TO WATER
             if GRID_OVERWORLD[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
-                #print("grass 1")
                 return 2
             if GRID_OVERWORLD[posTileY][posTileX] == GRASS_3:
-                #print("grass 3")
                 return True
             if GRID_OVERWORLD[posTileY][posTileX] == GRASS_4:
-                #print("grass 4")
                 return True
         except IndexError:
             return True
@@ -72,24 +66,18 @@ def CheckIfObstacles(posTileX, posTileY, zone):
         try:
             # CHECK IF THE TILE IS WATER
             if GRID_TEMPLE[posTileY][posTileX] == WATER_0:
-                #print("water 0")
                 return True
             if GRID_TEMPLE[posTileY][posTileX] == WATER_1:
-                #print("water 1")
                 return True
             if GRID_TEMPLE[posTileY][posTileX] == WATER_2:
-                #print("water 2")
                 return True
             
             # CHECK IF THE TILE IS A CORNER OF GRASS NEXT TO WATER
             if GRID_TEMPLE[posTileY+1][posTileX] == GRASS_1 and GRID_OVERWORLD[posTileY][posTileX+1] == GRASS_4 and GRID_OVERWORLD[posTileY][posTileX+2] == GRASS_3 and GRID_OVERWORLD[posTileY][posTileX-1] != DIRT_1:
-                #print("grass 1")
                 return 2
             if GRID_TEMPLE[posTileY][posTileX] == GRASS_3:
-                #print("grass 3")
                 return True
             if GRID_TEMPLE[posTileY][posTileX] == GRASS_4:
-                #print("grass 4")
                 return True
         except IndexError:
             return True
@@ -127,9 +115,6 @@ INVFONT = pygame.font.SysFont('FreeSansBold.ttf', 20)
 HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
-
-# SOUNDS
-#gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
 
 """
 TIMED EVENTS
@@ -180,16 +165,16 @@ class gameState():
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, -1)
 
-        #Left side of the temple rect for collider
+        # Left side of the temple rect for collider
         templeLeftRect = pygame.rect.Rect(170, 30, 150, 200)
         pygame.draw.rect(DISPLAYSURFACE, (0, 255, 0), templeLeftRect, -1)
 
-        #Right Side of the temple for collider
+        # Right side of the temple rect for collider
         templeRightRect = pygame.rect.Rect(382, 30, 150, 200)
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, -1)
 
-        #Top temple collider
-        templeTopRect = pygame.rect.Rect(250, 30., 200, 40)
+        # Top temple rect collider
+        templeTopRect = pygame.rect.Rect(250, 30, 200, 40)
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, -1)
 
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
@@ -197,13 +182,12 @@ class gameState():
             DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
 
         # RENDER BEASTS AND PORTAL
-        # beast spawn at fixe position
+        # beasts spawn at a fixed position
         for beast in BEAST_LIST:
             if beast.PORTAL_APPEAR:
                 DISPLAYSURFACE.blit(pygame.image.load(portal_images[beast.PORTAL.FRAME]), (beast.PORTAL.POS[0]*TILESIZE, beast.PORTAL.POS[1]*TILESIZE))
             if beast.APPEAR:
                 DISPLAYSURFACE.blit(beast.SPRITE, (beast.POS[0]*TILESIZE, beast.POS[1]*TILESIZE))
-                # beast.rect = pygame.rect.Rect(beast.POS[0], beast.POS[1], 100,100)
                 pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0),
                                 beast.rect, -1)
 
@@ -261,8 +245,6 @@ class gameState():
         
         for tree in sorted(trees3, key=lambda t: t.Y_POS):
             DISPLAYSURFACE.blit(tree.SPRITE, (tree.X_POS, tree.Y_POS))
-            pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
-
             pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), tree, -1)
             
 
@@ -324,6 +306,7 @@ class gameState():
             colEnvironment = False
 
             PLAYER.rect = pygame.rect.Rect(PLAYER.hitbox) 
+
             '''
             damageTimer = 1000
             run = False
@@ -356,16 +339,16 @@ class gameState():
             if PLAYER.rect.colliderect(templeLeftRect) or PLAYER.rect.colliderect(tree.rect) or PLAYER.rect.colliderect(templeRightRect) or PLAYER.rect.colliderect(templeTopRect):
                 colEnvironment = True
                 if PLAYER.rect.colliderect(tree.rect):
-                    environmentCoord = tree.rect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 75, 75)
+                    environmentCoord = tree.rect 
                 elif PLAYER.rect.colliderect(templeRightRect):
-                    environmentCoord = templeRightRect # pour info, dans grid.py: self.rect = pygame.rect.Rect(self.X_POS+150, self.Y_POS+100, 400, 150)
+                    environmentCoord = templeRightRect 
                 elif PLAYER.rect.colliderect(templeLeftRect):
                     environmentCoord = templeLeftRect
                 elif PLAYER.rect.colliderect(templeTopRect):
                     environmentCoord = templeTopRect
                        
 
-            # This function takes a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
+            # This function takes as a parameter the coordinates of the beast or environment established with one of the previous 2 non-functions
             # We check if the contact is made with the player's rectangle's bottom, top, right or left and return it as a string
             def checkContact(coord):   
                 if PLAYER.rect.bottom >= coord.top and (coord.bottom - PLAYER.rect.top) > 100 and (coord.bottom - PLAYER.rect.top) <= (PLAYER.rect[3] + coord[3]) and PLAYER.rect[1] <= coord.top :
@@ -416,10 +399,8 @@ class gameState():
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == 2:
-                    #print(str(PLAYER.PLAYER_POS[0]))
                     key_events.key_right()                
                 elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True:              # or col == True      
-                    #PLAYER.PLAYER_POS[0] -= 0.25
                     col = False
                     pass
                 else:
@@ -428,7 +409,6 @@ class gameState():
             # MOVE LEFT
             if (keys[K_LEFT]) and PLAYER.PLAYER_POS[0] > 0:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] - 1), int(PLAYER.PLAYER_POS[1]),zone) == True: # or col == True
-                    #PLAYER.PLAYER_POS[0] += 0.25
                     col = False
                     pass
                 else:
@@ -437,7 +417,6 @@ class gameState():
             # MOVE UP
             if (keys[K_UP]) and PLAYER.PLAYER_POS[1] > 0:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] - 0.25), zone) == True: # or col == True
-                    #PLAYER.PLAYER_POS[1] += 0.25
                     col = False
                     pass
                 else:
@@ -446,7 +425,6 @@ class gameState():
             # MOVE DOWN
             if (keys[K_DOWN]) and PLAYER.PLAYER_POS[1] < MAPHEIGHT - 1:                
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25),zone) == True or CheckIfObstacles(int(PLAYER.PLAYER_POS[0]), int(PLAYER.PLAYER_POS[1] + 0.25), zone) == 2: # or col == True
-                    #PLAYER.PLAYER_POS[1] -= 0.25
                     col = False
                     pass
                 else:
@@ -454,8 +432,7 @@ class gameState():
         
             # PLACING DOWN ITEMS
             
-            if (keys[K_SPACE]):
-                
+            if (keys[K_SPACE]):                
                 key_events.key_space()
         
             # FIRE ORB FROM WAND
@@ -476,7 +453,7 @@ class gameState():
                     x = random.randint(1, 9)
                     y = random.randint(1, 9)
                     PORTAL.POS = [x, y]
-                    #Make sure Ganon stay on map
+                    # Make sure Ganon stays on map
                     ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                     ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
@@ -601,7 +578,6 @@ class gameState():
             # MOVE RIGHT
             if (keys[K_RIGHT]) and PLAYER.PLAYER_POS[0] < MAPWIDTH - 1:
                 if CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == 2:
-                    #print(str(PLAYER.PLAYER_POS[0]))
                     key_events.key_right()
                 elif CheckIfObstacles(int(PLAYER.PLAYER_POS[0] + 1), int(PLAYER.PLAYER_POS[1]), zone) == True or col == True:
                     PLAYER.PLAYER_POS[0] -= 0.25
@@ -656,7 +632,7 @@ class gameState():
                     x = random.randint(1, 9)
                     y = random.randint(1, 9)
                     PORTAL.POS = [x, y]
-                    #Make sure Ganon stay on map
+                    # Make sure Ganon stays on map
                     ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
                     ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
                     if (GANON.GANON_POS[0] < 1 and GANON.GANON_POS[0] > 9) or (GANON.GANON_POS[1] < 1 and GANON.GANON_POS[1] > 9):
@@ -687,14 +663,14 @@ class gameState():
             for column in range(MAPWIDTH):
                 DISPLAYSURFACE.blit(TEXTURES[GRID_TEMPLE[row][column]], (column*TILESIZE, row*TILESIZE))
 
-        #Player spawn in the temple
+        # Player spawns in the temple
         DISPLAYSURFACE.blit(PLAYER.SPRITE_POS, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 50)    
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), PLAYER.hitbox, -1)
 
         # RENDER GANON AND PORTAL
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
-        # hide Ganon for this map
+        # Hide Ganon for this map
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
 
         if GANON.HEALTH <= 0:
@@ -705,16 +681,13 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
-    # create an opening windows
-    def menu(self):
-        # CREATE THE GAME MENU SCREEN<
+    # CREATE THE GAME MENU SCREEN
+    def menu(self):        
         bgMenu = pygame.image.load('textures/boutons/bg_menu.png')
         bgMenu = pygame.transform.scale(bgMenu, (1000, 500))
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
         DISPLAYSURFACE.blit(bgMenu, (0,0))
-
-        # TODO AJOUTER UN IMAGE DE FOND POUR LE MENU
 
         # RENDER PLAY GAME TEXT
         PLAY_GAME_TEXT = HEALTHFONT.render('PLAY GAME', True, GREEN, BLACK)
@@ -736,7 +709,7 @@ class gameState():
         DISPLAYSURFACE.blit(START_BUTTON_IMG, (btnstart.X_POS, btnstart.Y_POS))
         DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (btnquit.X_POS, btnquit.Y_POS))
 
-        # updates the frames of the game
+        # Updates the frames of the game
         pygame.display.update()
 
         # INITIATING running AS TRUE
@@ -767,18 +740,15 @@ class gameState():
             # PLAY THE MUSIC
             pygame.mixer.music.play(-1)
             
-            # updates the frames of the game
+            # Updates the frames of the game
             pygame.display.update()
 
-    #Create an ending windows
+    # CREATE THE GAME OVER SCREEN
     def End(self):
         # Stop the music when the end screen
-        pygame.mixer.music.stop()
-        # CREATE THE GAME OVER SCREEN
+        pygame.mixer.music.stop()        
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
-
-         # TODO AJOUTER UN IMAGE DE FOND POUR LE END
 
         # RENDER GAME OVER TEXT
         GAME_OVER_TEXT = HEALTHFONT.render('GAME OVER', True, GREEN, BLACK)
@@ -824,10 +794,10 @@ class gameState():
             # INITIATING MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
-            # updates the frames of the game
+            # Updates the frames of the game
             pygame.display.update()
 
-    # function to switch windows during the game
+    # Function to switch windows during the game
     def state_manager(self):
         if self.state == 'menu':
             self.menu()
@@ -842,18 +812,19 @@ class gameState():
 GAME_OVER = False
 GAME_STATE = gameState()
 
-# draw the canvas of the map
+# Draw the canvas of the map
 # RENDER GAME GRID
 pygame.display.init()
 window = (MAPWIDTH, MAPHEIGHT) 
 background = pygame.Surface(window)
-#### Populate the surface with objects to be displayed ####
+
+# Populate the surface with objects to be displayed
 pygame.draw.rect(background,(0,255,255),(20,20,40,40))
 pygame.draw.rect(background,(255,0,255),(120,120,50,50))
 
 # GAME LOOP
 while not GAME_OVER:
-    # The function to call to start the game at the first windows
+    # The function to call to start the game at the first window
     GAME_STATE.state_manager()
 
 # END OF GAME LOOP
