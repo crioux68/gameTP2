@@ -532,6 +532,9 @@ class gameState():
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     PLAYER.PLAYER_INV.append(item)
                     item.PLACED = False
+                    pause = True
+                    print("changer l'etat ici")
+                    self.state = 'enigme'
                     # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
                     pygame.mixer.Sound.play(itemSFX)
                     # CONFIRMS IF THE ITEM WAS A WEAPON
@@ -797,6 +800,21 @@ class gameState():
             # Updates the frames of the game
             pygame.display.update()
 
+    # MANAGE ENIGME
+    def enigme(self):
+        # INITIATING engime AS TRUE
+        paused = True
+
+        # WHILE LOOP
+        while paused:
+            for event in pygame.event.get(): 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        paused = False
+                        print("backed")
+                        self.state = 'main_game'
+
+
     # Function to switch windows during the game
     def state_manager(self):
         if self.state == 'menu':
@@ -805,6 +823,8 @@ class gameState():
             self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
+        elif self.state == 'enigme':
+            self.enigme()
         elif self.state == 'end_game':
             self.End()
 
