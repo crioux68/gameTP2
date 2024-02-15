@@ -132,6 +132,8 @@ pygame.time.set_timer(USEREVENT + 4, 100)
 # HAVE KEY OR NOT
 haveKey = False
 
+enigmeTrue = False
+
 # CLASS TO CHANGE THE STATE
 class gameState():
     def __init__(self) -> None:
@@ -530,16 +532,19 @@ class gameState():
             # FOR EACH ITEM THAT IS ON THE GROUND AND ALSO COLLIDES WITH THE PLAYER, SAID ITEM IS PICKED UP
             for item in GAME_ITEMS:
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
-                    PLAYER.PLAYER_INV.append(item)
-                    item.PLACED = False
-                    pause = True
-                    print("changer l'etat ici")
-                    self.state = 'enigme'
-                    # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
-                    pygame.mixer.Sound.play(itemSFX)
-                    # CONFIRMS IF THE ITEM WAS A WEAPON
-                    if item in GAME_WEAPONS:
-                        PLAYER.WEAPON = item
+                    #enigmeTrue = False
+                    #self.state = 'enigme'
+                    self.enigme()
+                    #self.state = 'main_game'
+                    print(enigmeTrue)
+                    if(enigmeTrue == True):
+                        PLAYER.PLAYER_INV.append(item)
+                        item.PLACED = False
+                        # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
+                        pygame.mixer.Sound.play(itemSFX)
+                        # CONFIRMS IF THE ITEM WAS A WEAPON
+                        if item in GAME_WEAPONS:
+                            PLAYER.WEAPON = item
         
         # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
@@ -804,15 +809,16 @@ class gameState():
     def enigme(self):
         # INITIATING engime AS TRUE
         paused = True
-
+        global enigmeTrue 
         # WHILE LOOP
         while paused:
             for event in pygame.event.get(): 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        paused = False
-                        print("backed")
+                    if event.key == pygame.K_a:
+                        enigmeTrue = True
+                        print("yes")
                         self.state = 'main_game'
+                        paused = False         
 
 
     # Function to switch windows during the game
@@ -823,8 +829,8 @@ class gameState():
             self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
-        elif self.state == 'enigme':
-            self.enigme()
+        #elif self.state == 'enigme':
+            #self.enigme()
         elif self.state == 'end_game':
             self.End()
 
