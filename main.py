@@ -139,7 +139,7 @@ class gameState():
 
     def main_game(self, tree, TEMPLE, KEY):
         # SFX
-        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+        wandSFX = pygame.mixer.Sound("./Sounds/wand.wav")
         playerHurtSFX = pygame.mixer.Sound("./Sounds/smallAugh.mp3")
 
         GANON_VULNERABLE_IF = [beast for beast in BEAST_LIST if beast.APPEAR == True]
@@ -438,7 +438,7 @@ class gameState():
             # FIRE ORB FROM WAND
             if (keys[K_f]):
                 if PLAYER.WEAPON == WAND:
-                    gunSFX.play(maxtime=350)
+                    wandSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
             """
@@ -552,7 +552,7 @@ class gameState():
     # Create the puzzle room when you enter the cave
     def puzzle_room(self):
         # this line was put to remove the bug while pressing f in the temple
-        gunSFX = pygame.mixer.Sound("./Sounds/gun.wav")
+        wandSFX = pygame.mixer.Sound("./Sounds/gun.wav")
         #Control in the temple
         pygame.display.update()
         zone = 'temple_overworld'
@@ -622,7 +622,7 @@ class gameState():
             # FIRE ORB FROM WAND
             if (keys[K_f]):
                 if PLAYER.WEAPON == WAND:
-                    gunSFX.play()
+                    wandSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
             
             if (event.type == USEREVENT):
