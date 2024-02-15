@@ -1,7 +1,50 @@
 import pygame
-import random
-from pygame.locals import *
+import pytmx
+from pytmx import load_pygame
 
+
+class Tile(pygame.sprite.Sprite):
+    def __init__(self,pos,surf,groups):
+        super().__init__(groups)
+        self.image = surf
+        self.rect = self.image.get_rect(topleft = pos)
+
+        
+
+
+pygame.init()
+screen = pygame.display.set_mode((1280,720))
+tmx_data = load_pygame("map.tmx")
+spriteGroup = pygame.sprite.Group()
+
+
+
+for layer in tmx_data.visible_layers:
+    if hasattr(layer,"data"):
+        for x,y,surf in layer.tiles():
+          pos= (x * 50,y * 50) 
+          Tile(pos= pos,surf= surf, groups= spriteGroup)
+for obj in tmx_data.objects:
+    pos = obj.x,obj.y
+    if obj.image:
+        Tile(pos = pos, surf = obj.image, groups = spriteGroup)
+
+
+
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+    screen.fill("black")
+    spriteGroup.draw(screen)
+    pygame.display.update()
+
+
+
+
+
+"""
 # TILES
 DIRT_0 = 0
 DIRT_1 = 1
@@ -102,7 +145,7 @@ class BTNRestart():
         
 
 # Command to generate the tree
-num_trees = 1
+num_trees = 2
 trees = [Tree() for x in range (num_trees)]
 trees2 = [Tree2() for x in range (num_trees)]
 trees3 = [Tree3() for x in range (num_trees)]
@@ -135,6 +178,7 @@ TEXTURES = {
 
 # Tiles for the outside(beginning)
 GRID_OVERWORLD = [
+    [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_0, WATER_1, WATER_0],
     [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_0, WATER_1, WATER_0],
     [GRASS_0, GRASS_2, GRASS_0, GRASS_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_1, DIRT_0, DIRT_0, GRASS_0, GRASS_0, GRASS_0, GRASS_1, WATER_0, WATER_1, WATER_0, WATER_0, WATER_0],
     [GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, GRASS_0, DIRT_0, DIRT_1, DIRT_0, DIRT_0, DIRT_0, GRASS_0, GRASS_2, GRASS_4, GRASS_3, WATER_1, WATER_1, WATER_2, WATER_0, WATER_0],
@@ -176,3 +220,4 @@ BLACK = (0, 0, 0)
 BLUE = (30, 144, 255)
 GREEN = (60, 179, 113)
 RED = (178, 0, 0)
+"""
