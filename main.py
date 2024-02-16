@@ -807,6 +807,13 @@ class gameState():
 
     # MANAGE ENIGME
     def enigme(self):
+        #pygame.draw.rect(DISPLAYSURFACE, (128, 128, 128, 150),[0, 0, MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE])
+        #DISPLAYSURFACE.blit(background,(0,0))
+        boxcleaness = pygame.Surface((1000, 500), pygame.SRCALPHA)
+        boxcleaness.fill((100, 100, 100, 150))
+        boxcleaness.blit(background, (0, 0)) 
+        DISPLAYSURFACE.blit(boxcleaness, (0,0))
+        pygame.display.flip()
         # INITIATING engime AS TRUE
         paused = True
         global enigmeTrue 
@@ -842,7 +849,7 @@ GAME_STATE = gameState()
 # RENDER GAME GRID
 pygame.display.init()
 window = (MAPWIDTH, MAPHEIGHT) 
-background = pygame.Surface(window)
+background = pygame.Surface((window),pygame.SRCALPHA)
 
 # Populate the surface with objects to be displayed
 pygame.draw.rect(background,(0,255,255),(20,20,40,40))
