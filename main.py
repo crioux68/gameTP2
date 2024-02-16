@@ -807,25 +807,49 @@ class gameState():
 
     # MANAGE ENIGME
     def enigme(self):
-        #pygame.draw.rect(DISPLAYSURFACE, (128, 128, 128, 150),[0, 0, MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE])
-        #DISPLAYSURFACE.blit(background,(0,0))
         boxcleaness = pygame.Surface((1000, 500), pygame.SRCALPHA)
         boxcleaness.fill((100, 100, 100, 150))
         boxcleaness.blit(background, (0, 0)) 
         DISPLAYSURFACE.blit(boxcleaness, (0,0))
-        pygame.display.flip()
+
+        # RENDER TITLE RIDDLE TEXT
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("RIDDLE", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
+
+        # RENDER QUESTION RIDDLE TEXT
+        TEXT = "je marche tu marche, je cour tu cour qui suis-je?"
+        RIDDLE_GAME_TEXT = HEALTHFONT.render(TEXT, True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, 125))
+
+        # RENDER ANSWER TITLE TEXT
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("Reponse :", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, 230))
+
+        
         # INITIATING engime AS TRUE
         paused = True
         global enigmeTrue 
+        user_text = ''
+
+        input_rect = pygame.Rect(350,230,140,30)
         # WHILE LOOP
         while paused:
             for event in pygame.event.get(): 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
-                        enigmeTrue = True
-                        print("yes")
-                        self.state = 'main_game'
-                        paused = False         
+                    if event.key == pygame.K_BACKSPACE:
+                        user_text = user_text[:-1]
+                    else:
+                        user_text += event.unicode
+
+            pygame.draw.rect(DISPLAYSURFACE,WHITE,input_rect,5)
+            RIDDLE_GAME_TEXT = HEALTHFONT.render(user_text, True, WHITE, BLACK)
+            DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (input_rect.x + 5, input_rect.y + 5))
+            input_rect.w = RIDDLE_GAME_TEXT.get_width() + 10
+
+            pygame.display.update()
+            """ enigmeTrue = True
+            self.state = 'main_game'
+            paused = False """         
 
 
     # Function to switch windows during the game
