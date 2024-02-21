@@ -830,8 +830,9 @@ class gameState():
         paused = True
         global enigmeTrue 
         user_text = ''
+        lengh_answer = 160
 
-        input_rect = pygame.Rect(350,230,140,30)
+        input_rect = pygame.Rect(350,230,lengh_answer,40)
         # WHILE LOOP
         while paused:
             for event in pygame.event.get(): 
@@ -840,11 +841,12 @@ class gameState():
                         user_text = user_text[:-1]
                     else:
                         user_text += event.unicode
-
+            DISPLAYSURFACE.fill((0, 0, 0, 150),input_rect)
             pygame.draw.rect(DISPLAYSURFACE,WHITE,input_rect,5)
-            RIDDLE_GAME_TEXT = HEALTHFONT.render(user_text, True, WHITE, BLACK)
+            RIDDLE_GAME_TEXT = HEALTHFONT.render(user_text, True, WHITE)
             DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (input_rect.x + 5, input_rect.y + 5))
-            input_rect.w = RIDDLE_GAME_TEXT.get_width() + 10
+            print(RIDDLE_GAME_TEXT.get_width())
+            #input_rect.w = max(lengh_answer,RIDDLE_GAME_TEXT.get_width() + 10)
 
             pygame.display.update()
             """ enigmeTrue = True
