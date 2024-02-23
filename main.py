@@ -537,7 +537,7 @@ class gameState():
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     self.enigme()
                     print(enigmeTrue)
-                    if(enigmeTrue == False):
+                    if(enigmeTrue == True):
                         PLAYER.PLAYER_INV.append(item)
                         item.PLACED = False
                         # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
@@ -545,6 +545,10 @@ class gameState():
                         # CONFIRMS IF THE ITEM WAS A WEAPON
                         if item in GAME_WEAPONS:
                             PLAYER.WEAPON = item
+                    if(enigmeTrue == False):
+                        PLAYER.PLAYER_POS[0] -= 2
+                        PLAYER.PLAYER_POS[1] -= 2
+
         # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
 
@@ -865,10 +869,13 @@ class gameState():
                             enigmeTrue = True
                             self.state = 'main_game'
                             paused = False
+                            continue
                         else: 
+                            print(event.key)
                             enigmeTrue = False
                             self.state = 'main_game'
                             paused = False
+                            continue
                     else:
                         if lengh_user_text < lengh_answer:
                             user_text += event.unicode
@@ -889,8 +896,6 @@ class gameState():
             self.main_game(Tree, TEMPLE, KEY)
         elif self.state == 'puzzle_room':
             self.puzzle_room()
-        #elif self.state == 'enigme':
-            #self.enigme()
         elif self.state == 'end_game':
             self.End()
 
