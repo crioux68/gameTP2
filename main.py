@@ -431,9 +431,9 @@ class gameState():
                     key_events.key_down()
         
             # PLACING DOWN ITEMS
-            
             if (keys[K_SPACE]):                
                 key_events.key_space()
+                WAND.POS = [PLAYER.PLAYER_POS[0], PLAYER.PLAYER_POS[1]]
         
             # FIRE ORB FROM WAND
             if (keys[K_f]):
