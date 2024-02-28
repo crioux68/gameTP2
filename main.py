@@ -536,7 +536,6 @@ class gameState():
             for item in GAME_ITEMS:
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
                     self.enigme()
-                    print(enigmeTrue)
                     if(enigmeTrue == True):
                         PLAYER.PLAYER_INV.append(item)
                         item.PLACED = False
@@ -545,9 +544,23 @@ class gameState():
                         # CONFIRMS IF THE ITEM WAS A WEAPON
                         if item in GAME_WEAPONS:
                             PLAYER.WEAPON = item
-                    if(enigmeTrue == False):
-                        PLAYER.PLAYER_POS[0] -= 2
-                        PLAYER.PLAYER_POS[1] -= 2
+                    else:
+                        position_x = PLAYER.PLAYER_POS[0] - item.POS[0]
+                        position_y = PLAYER.PLAYER_POS[1] - item.POS[1]
+                        if(position_x > 0 and position_y < 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x + 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y -0.25)
+                        elif(position_x > 0 and position_y > 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x + 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y +0.25)
+                        elif(position_x < 0 and position_y > 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x - 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y +0.25)
+                        else:
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x - 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y - 0.25)
+                        
+                    break
 
         # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
@@ -810,10 +823,11 @@ class gameState():
 
     # MANAGE ENIGME
     def enigme(self):
-        boxcleaness = pygame.Surface((1000, 500), pygame.SRCALPHA)
-        boxcleaness.fill((100, 100, 100, 150))
-        boxcleaness.blit(background, (0, 0)) 
-        DISPLAYSURFACE.blit(boxcleaness, (0,0))
+        #initiation du fond d'écran de l'énigme
+        enigmeBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
+        enigmeBackground.fill((100, 100, 100, 150))
+        enigmeBackground.blit(background, (0, 0)) 
+        DISPLAYSURFACE.blit(enigmeBackground, (0,0))
 
         # RENDER TITLE RIDDLE TEXT
         RIDDLE_GAME_TEXT = HEALTHFONT.render("RIDDLE", True, WHITE, BLACK)
@@ -821,14 +835,16 @@ class gameState():
 
         # RENDER QUESTION RIDDLE TEXT
         TEXT_ANSWER = ""
-        nombre_aleatoire = random.randint(1, 35)
-        with open('engimes_file.txt','r') as fichier:
+        nombre_aleatoire = random.randint(1, 32)
+        with open('engimes_file.txt','r',encoding='UTF-8') as fichier:
             lignes = fichier.readlines()
             TEXT_ANSWER = lignes[nombre_aleatoire].split('?')
 
         
         TEXT = TEXT_ANSWER[0] + '?'
-        ANSWER = TEXT_ANSWER[0]
+        ANSWER = TEXT_ANSWER[1].replace(".","")
+        ANSWER = ANSWER.replace(" ","")
+        print(ANSWER)
         TEXT_HEIGH = 100
         # Séparer le texte en lignes individuelles
         lignes = []
@@ -854,7 +870,7 @@ class gameState():
         paused = True
         global enigmeTrue 
         user_text = ''
-        lengh_answer = 160
+        lengh_answer = 250
         lengh_user_text = 0
 
         input_rect = pygame.Rect(350,TEXT_HEIGH + 40,lengh_answer + 100,40)
@@ -865,17 +881,16 @@ class gameState():
                     if event.key == pygame.K_BACKSPACE:
                         user_text = user_text[:-1]
                     elif event.key == pygame.K_RETURN:
-                        if(ANSWER == user_text):
+                        user_text = user_text.replace(" ","")
+                        print(str(ANSWER) == str(user_text))
+                        if((ANSWER == user_text) == True):
                             enigmeTrue = True
                             self.state = 'main_game'
                             paused = False
-                            continue
                         else: 
-                            print(event.key)
                             enigmeTrue = False
                             self.state = 'main_game'
                             paused = False
-                            continue
                     else:
                         if lengh_user_text < lengh_answer:
                             user_text += event.unicode

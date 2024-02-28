@@ -9,7 +9,7 @@ class SWORD():
         self.NAME = 'SWORD'
         self.IMAGE = pygame.image.load('./sprites/sword.png')
         self.IMAGE_ARMED = pygame.transform.scale(self.IMAGE, (35, 35))
-        self.POS = [2, 3]
+        self.POS = [1, 8]
         self.rect = [self.POS[0] * TILESIZE, self.POS[1] * TILESIZE, 35, 35]
         self.PLACED = True
 
