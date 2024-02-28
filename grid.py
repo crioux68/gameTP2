@@ -2,6 +2,13 @@ import pygame
 import pytmx
 from pytmx import load_pygame
 
+# GAME DIMENSIONS, CONFIG
+TILESIZE = 50
+MAPWIDTH = 2000
+MAPHEIGHT = 1000
+pygame.init()
+pygame.display.set_caption('LINKS ADVENTURE')
+# MAPHEIGHT + 125 for inventory
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self,pos,surf,groups):
@@ -9,11 +16,11 @@ class Tile(pygame.sprite.Sprite):
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
 
-        
+    
 
 
 pygame.init()
-screen = pygame.display.set_mode((1280,720))
+screen = pygame.display.set_mode((MAPWIDTH,MAPHEIGHT))
 tmx_data = load_pygame("map.tmx")
 spriteGroup = pygame.sprite.Group()
 
@@ -25,9 +32,10 @@ for layer in tmx_data.visible_layers:
           pos= (x * 50,y * 50) 
           Tile(pos= pos,surf= surf, groups= spriteGroup)
 for obj in tmx_data.objects:
-    pos = obj.x,obj.y
+    pos = (obj.x , obj.y)
     if obj.image:
         Tile(pos = pos, surf = obj.image, groups = spriteGroup)
+        print(pos)
 
 
 
@@ -110,7 +118,7 @@ class CHEST():
         self.Y_POS = 8
         # CREATE CHEST COLLISION
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
-
+"""
 # Class to initialize the START button
 class BTNStart():
     def __init__(self):
@@ -143,7 +151,7 @@ class BTNRestart():
         self.Y_POS = 125
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)        
         
-
+"""
 # Command to generate the tree
 num_trees = 2
 trees = [Tree() for x in range (num_trees)]
@@ -204,6 +212,7 @@ GRID_TEMPLE = [
     [FLOOR_4, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_3],
     [FLOOR_5, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_0, FLOOR_0, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_6]
 ]
+"""
 # GAME DIMENSIONS, CONFIG
 TILESIZE = 50
 MAPWIDTH = 20
@@ -220,4 +229,3 @@ BLACK = (0, 0, 0)
 BLUE = (30, 144, 255)
 GREEN = (60, 179, 113)
 RED = (178, 0, 0)
-"""
