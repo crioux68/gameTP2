@@ -135,7 +135,7 @@ haveKey = False
 # CLASS TO CHANGE THE STATE
 class gameState():
     def __init__(self) -> None:
-        self.state = 'menu'
+        self.state = 'load_music'
 
     def main_game(self, tree, TEMPLE, KEY):
         # SFX
@@ -681,6 +681,17 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
+    def load_music(self):
+        # LOAD THE MUSIC
+        pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        pygame.mixer.music.play(-1)
+        
+        # Updates the frames of the game
+        pygame.display.update()
+
+        self.state = 'menu'
+
     # CREATE THE GAME MENU SCREEN
     def menu(self):        
         bgMenu = pygame.image.load('textures/boutons/bg_menu.png')
@@ -799,7 +810,13 @@ class gameState():
 
     # Function to switch windows during the game
     def state_manager(self):
+        if self.state == 'menu_music':
+            self.load_music()
         if self.state == 'menu':
+            # LOAD AUDIO FILE        
+            pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+            # PLAY THE MUSIC
+            pygame.mixer.music.play(0)
             self.menu()
         elif self.state == 'main_game':
             self.main_game(Tree, TEMPLE, KEY)
