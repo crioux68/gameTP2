@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+from grid import *
 
 """
 Lib for all key events
@@ -108,15 +108,21 @@ class KeyEvents:
             if self.PLAYER.DIRECTION == 'd':
                     self.PLAYER.WEAPON.POS[0] = self.PLAYER.PLAYER_POS[0]
                     self.PLAYER.WEAPON.POS[1] = self.PLAYER.PLAYER_POS[1] - 1
+                    self.PLAYER.WEAPON.rect = [self.PLAYER.WEAPON.POS[0] * TILESIZE, self.PLAYER.WEAPON.POS[1] * TILESIZE, 35, 35]
             elif self.PLAYER.DIRECTION == 'u':
                     self.PLAYER.WEAPON.POS[0] = self.PLAYER.PLAYER_POS[0]
                     self.PLAYER.WEAPON.POS[1] = self.PLAYER.PLAYER_POS[1] + 1
+                    self.PLAYER.WEAPON.rect = [self.PLAYER.WEAPON.POS[0] * TILESIZE, self.PLAYER.WEAPON.POS[1] * TILESIZE, 35, 35]
             elif self.PLAYER.DIRECTION == 'r':
                     self.PLAYER.WEAPON.POS[0] = self.PLAYER.PLAYER_POS[0] - 1
                     self.PLAYER.WEAPON.POS[1] = self.PLAYER.PLAYER_POS[1]
+                    self.PLAYER.WEAPON.rect = [self.PLAYER.WEAPON.POS[0] * TILESIZE, self.PLAYER.WEAPON.POS[1] * TILESIZE, 35, 35]
             elif self.PLAYER.DIRECTION == 'l':
                     self.PLAYER.WEAPON.POS[0] = self.PLAYER.PLAYER_POS[0] + 1
                     self.PLAYER.WEAPON.POS[1] = self.PLAYER.PLAYER_POS[1]
+                    self.PLAYER.WEAPON.rect = [self.PLAYER.WEAPON.POS[0] * TILESIZE, self.PLAYER.WEAPON.POS[1] * TILESIZE, 35, 35]
+
+            
 
         self.PLAYER.WEAPON = False
     
