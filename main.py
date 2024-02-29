@@ -254,6 +254,11 @@ class gameState():
             
 
         if TEMPLE.rect.colliderect(PLAYER.rect):
+            pygame.mixer.music.stop()
+            # LOAD AUDIO FILE        
+            pygame.mixer.music.load("./Sounds/TempleMusic.mp3")
+            # PLAY THE MUSIC
+            pygame.mixer.music.play(-1)
             self.state = 'puzzle_room'
             TEMPLE.rect = None
             pygame.display.flip()
@@ -726,6 +731,16 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
+
+    def load_music(self):
+        # LOAD THE MUSIC
+        pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        pygame.mixer.music.play(-1)
+
+        pygame.mixer.music.pause()
+        self.state = 'menu'
+
     # CREATE THE GAME MENU SCREEN
     def menu(self):        
         bgMenu = pygame.image.load('textures/boutons/bg_menu.png')
@@ -758,8 +773,15 @@ class gameState():
         pygame.display.update()
 
         # INITIATING running AS TRUE
-        running = True
+        running = True 
 
+        # LOAD AUDIO FILE        
+        pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        pygame.mixer.music.play(-1)
+        
+        # Updates the frames of the game
+        pygame.display.update()
         # WHILE LOOP 
         while running:
             for event in pygame.event.get():  
@@ -771,6 +793,11 @@ class gameState():
                     if btnstart.rect.collidepoint(mouse[0], mouse[1]):
                         PLAYER.HEALTH = 100
                         BEAST_LIST.clear()
+                        pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        # PLAY THE MUSIC
+                        pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         running = False
 
@@ -780,18 +807,12 @@ class gameState():
             # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
-            # LOAD AUDIO FILE        
-            pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
-            # PLAY THE MUSIC
-            pygame.mixer.music.play(-1)
             
-            # Updates the frames of the game
-            pygame.display.update()
 
     # CREATE THE GAME OVER SCREEN
     def End(self):
         # Stop the music when the end screen
-        pygame.mixer.music.stop()        
+        pygame.mixer.music.pause()        
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
@@ -925,7 +946,13 @@ class gameState():
 
     # Function to switch windows during the game
     def state_manager(self):
+        if self.state == 'menu_music':
+            self.load_music()
         if self.state == 'menu':
+            # LOAD AUDIO FILE        
+            pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+            # PLAY THE MUSIC
+            pygame.mixer.music.play(0)
             self.menu()
         elif self.state == 'main_game':
             self.main_game(Tree, TEMPLE, KEY)
