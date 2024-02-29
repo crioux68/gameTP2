@@ -843,7 +843,7 @@ class gameState():
         
         TEXT = TEXT_ANSWER[0] + '?'
         ANSWER = TEXT_ANSWER[1].replace(".","")
-        ANSWER = ANSWER.replace(" ","")
+        ANSWER = ANSWER.strip()
         print(ANSWER)
         TEXT_HEIGH = 100
         # Séparer le texte en lignes individuelles
@@ -881,9 +881,8 @@ class gameState():
                     if event.key == pygame.K_BACKSPACE:
                         user_text = user_text[:-1]
                     elif event.key == pygame.K_RETURN:
-                        user_text = user_text.replace(" ","")
-                        print(str(ANSWER) == str(user_text))
-                        if((ANSWER == user_text) == True):
+                        user_text = user_text.strip()
+                        if(ANSWER.lower() == user_text.lower()):
                             enigmeTrue = True
                             self.state = 'main_game'
                             paused = False
