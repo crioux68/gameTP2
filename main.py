@@ -135,7 +135,7 @@ haveKey = False
 # CLASS TO CHANGE THE STATE
 class gameState():
     def __init__(self) -> None:
-        self.state = 'load_music'
+        self.state = 'menu'
 
     def main_game(self, tree, TEMPLE, KEY):
         # SFX
@@ -681,15 +681,14 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
+
     def load_music(self):
         # LOAD THE MUSIC
         pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
         # PLAY THE MUSIC
         pygame.mixer.music.play(-1)
-        
-        # Updates the frames of the game
-        pygame.display.update()
 
+        pygame.mixer.music.pause()
         self.state = 'menu'
 
     # CREATE THE GAME MENU SCREEN
@@ -724,8 +723,15 @@ class gameState():
         pygame.display.update()
 
         # INITIATING running AS TRUE
-        running = True
+        running = True 
 
+        # LOAD AUDIO FILE        
+        pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        pygame.mixer.music.play(-1)
+        
+        # Updates the frames of the game
+        pygame.display.update()
         # WHILE LOOP 
         while running:
             for event in pygame.event.get():  
@@ -737,6 +743,11 @@ class gameState():
                     if btnstart.rect.collidepoint(mouse[0], mouse[1]):
                         PLAYER.HEALTH = 100
                         BEAST_LIST.clear()
+                        pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        # PLAY THE MUSIC
+                        pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         running = False
 
@@ -746,18 +757,12 @@ class gameState():
             # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
-            # LOAD AUDIO FILE        
-            pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
-            # PLAY THE MUSIC
-            pygame.mixer.music.play(-1)
             
-            # Updates the frames of the game
-            pygame.display.update()
 
     # CREATE THE GAME OVER SCREEN
     def End(self):
         # Stop the music when the end screen
-        pygame.mixer.music.stop()        
+        pygame.mixer.music.pause()        
         BACKGROUNDCOLOR = (60,179,113)
         DISPLAYSURFACE.fill(BACKGROUNDCOLOR)
 
