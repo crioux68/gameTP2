@@ -6,6 +6,7 @@ from grid import *
 import random
 from key_events import KeyEvents
 import math
+import random
 from importlib.metadata import version
 
 # INIT THE SOUND EFFECT MANAGER
@@ -40,6 +41,7 @@ with open('requirements.txt') as txt:
 with open('requirements.txt', "w") as txt:
     for line in new_requirements:
         txt.write(line)
+
 
 # CHECK IF THE TILE IS AN OBSTACLE
 def CheckIfObstacles(posTileX, posTileY, zone):
@@ -113,6 +115,7 @@ orbs_list = []
 # OTHER CONFIG
 INVFONT = pygame.font.SysFont('FreeSansBold.ttf', 20)
 HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
+RIDDLEFONT = pygame.font.SysFont('arial.ttf', 40)
 portal_path = './textures/portal/portal_'
 portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
 
@@ -131,6 +134,8 @@ pygame.time.set_timer(USEREVENT + 3, 500)
 pygame.time.set_timer(USEREVENT + 4, 100)
 # HAVE KEY OR NOT
 haveKey = False
+
+enigmeTrue = False
 
 # CLASS TO CHANGE THE STATE
 class gameState():
@@ -530,14 +535,33 @@ class gameState():
             # FOR EACH ITEM THAT IS ON THE GROUND AND ALSO COLLIDES WITH THE PLAYER, SAID ITEM IS PICKED UP
             for item in GAME_ITEMS:
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
-                    PLAYER.PLAYER_INV.append(item)
-                    item.PLACED = False
-                    # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
-                    pygame.mixer.Sound.play(itemSFX)
-                    # CONFIRMS IF THE ITEM WAS A WEAPON
-                    if item in GAME_WEAPONS:
-                        PLAYER.WEAPON = item
-        
+                    self.enigme()
+                    if(enigmeTrue == True):
+                        PLAYER.PLAYER_INV.append(item)
+                        item.PLACED = False
+                        # A SOUND PLAYS WHEN AN ITEM IS PICKED UP
+                        pygame.mixer.Sound.play(itemSFX)
+                        # CONFIRMS IF THE ITEM WAS A WEAPON
+                        if item in GAME_WEAPONS:
+                            PLAYER.WEAPON = item
+                    else:
+                        position_x = PLAYER.PLAYER_POS[0] - item.POS[0]
+                        position_y = PLAYER.PLAYER_POS[1] - item.POS[1]
+                        if(position_x > 0 and position_y < 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x + 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y -0.25)
+                        elif(position_x > 0 and position_y > 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x + 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y +0.25)
+                        elif(position_x < 0 and position_y > 0):
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x - 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y +0.25)
+                        else:
+                            PLAYER.PLAYER_POS[0] = PLAYER.PLAYER_POS[0] + (position_x - 0.25)
+                            PLAYER.PLAYER_POS[1] = PLAYER.PLAYER_POS[1] + (position_y - 0.25)
+                        
+                    break
+
         # UPDATE THE FRAMES OF THE GAME
         pygame.display.update()
 
@@ -818,6 +842,87 @@ class gameState():
             # Updates the frames of the game
             pygame.display.update()
 
+    # MANAGE ENIGME
+    def enigme(self):
+        #initiation du fond d'écran de l'énigme
+        enigmeBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
+        enigmeBackground.fill((100, 100, 100, 150))
+        enigmeBackground.blit(background, (0, 0)) 
+        DISPLAYSURFACE.blit(enigmeBackground, (0,0))
+
+        # RENDER TITLE RIDDLE TEXT
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("RIDDLE", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
+
+        # RENDER QUESTION RIDDLE TEXT
+        TEXT_ANSWER = ""
+        nombre_aleatoire = random.randint(1, 32)
+        with open('engimes_file.txt','r',encoding='UTF-8') as fichier:
+            lignes = fichier.readlines()
+            TEXT_ANSWER = lignes[nombre_aleatoire].split('?')
+
+        
+        TEXT = TEXT_ANSWER[0] + '?'
+        ANSWER = TEXT_ANSWER[1].replace(".","")
+        ANSWER = ANSWER.strip()
+        print(ANSWER)
+        TEXT_HEIGH = 100
+        # Séparer le texte en lignes individuelles
+        lignes = []
+        ligne_actuelle = ""
+        for mot in TEXT.split():
+            if HEALTHFONT.size(ligne_actuelle + " " + mot)[0] < 700:
+                ligne_actuelle += " " + mot
+            else:
+                lignes.append(ligne_actuelle)
+                ligne_actuelle = mot
+        lignes.append(ligne_actuelle)
+        for ligne in lignes:
+            RIDDLE_GAME_TEXT = HEALTHFONT.render(ligne, True, WHITE, BLACK)
+            DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, TEXT_HEIGH+30))
+            TEXT_HEIGH = TEXT_HEIGH +30
+
+        # RENDER ANSWER TITLE TEXT
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("Reponse :", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, TEXT_HEIGH + 50))
+
+        
+        # INITIATING engime AS TRUE
+        paused = True
+        global enigmeTrue 
+        user_text = ''
+        lengh_answer = 250
+        lengh_user_text = 0
+
+        input_rect = pygame.Rect(350,TEXT_HEIGH + 40,lengh_answer + 100,40)
+        # WHILE LOOP
+        while paused:
+            for event in pygame.event.get(): 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        user_text = user_text[:-1]
+                    elif event.key == pygame.K_RETURN:
+                        user_text = user_text.strip()
+                        if(ANSWER.lower() == user_text.lower()):
+                            enigmeTrue = True
+                            self.state = 'main_game'
+                            paused = False
+                        else: 
+                            enigmeTrue = False
+                            self.state = 'main_game'
+                            paused = False
+                    else:
+                        if lengh_user_text < lengh_answer:
+                            user_text += event.unicode
+            DISPLAYSURFACE.fill((0, 0, 0, 150),input_rect)
+            pygame.draw.rect(DISPLAYSURFACE,WHITE,input_rect,5)
+            RIDDLE_GAME_TEXT = HEALTHFONT.render(user_text, True, WHITE)
+            DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (input_rect.x + 5, input_rect.y + 5))
+            lengh_user_text = RIDDLE_GAME_TEXT.get_width()
+            pygame.display.update()
+                   
+
+
     # Function to switch windows during the game
     def state_manager(self):
         if self.state == 'menu':
@@ -837,7 +942,7 @@ GAME_STATE = gameState()
 # RENDER GAME GRID
 pygame.display.init()
 window = (MAPWIDTH, MAPHEIGHT) 
-background = pygame.Surface(window)
+background = pygame.Surface((window),pygame.SRCALPHA)
 
 # Populate the surface with objects to be displayed
 pygame.draw.rect(background,(0,255,255),(20,20,40,40))
