@@ -249,6 +249,11 @@ class gameState():
             
 
         if TEMPLE.rect.colliderect(PLAYER.rect):
+            pygame.mixer.music.stop()
+            # LOAD AUDIO FILE        
+            pygame.mixer.music.load("./Sounds/TempleMusic.mp3")
+            # PLAY THE MUSIC
+            pygame.mixer.music.play(-1)
             self.state = 'puzzle_room'
             TEMPLE.rect = None
             pygame.display.flip()
