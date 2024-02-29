@@ -616,7 +616,6 @@ class gameState():
             # PLACING DOWN ITEMS
             
             if (keys[K_SPACE]):
-                
                 key_events.key_space()
         
             # FIRE ORB FROM WAND
@@ -624,7 +623,7 @@ class gameState():
                 if PLAYER.WEAPON == WAND:
                     wandSFX.play()
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
-            
+                
             if (event.type == USEREVENT):
                 if PORTAL.FRAME < 5:
                     PORTAL.FRAME += 1
@@ -651,6 +650,17 @@ class gameState():
                         pass
                     GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
                     PORTAL.FRAME = 1
+            # ORB PATH MOVEMENT ANIMATION
+            elif (event.type == USEREVENT + 4):
+                for orb in orbs_list:
+                    if orb.DIRECTION == 'd':
+                        orb.POS[1] += 1
+                    elif orb.DIRECTION == 'u':
+                        orb.POS[1] -= 1
+                    elif orb.DIRECTION == 'l':
+                        orb.POS[0] -= 1 
+                    elif orb.DIRECTION == 'r':
+                        orb.POS[0] += 1
  
         pygame.display.flip()
         for event in pygame.event.get():
@@ -672,6 +682,17 @@ class gameState():
         DISPLAYSURFACE.blit(pygame.image.load(portal_images[PORTAL.FRAME]), (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
         # Hide Ganon for this map
         DISPLAYSURFACE.blit(GANON.GANON, (GANON.GANON_POS[0]*TILESIZE, GANON.GANON_POS[1]*TILESIZE))
+
+         # RENDER ORBS IN THE TEMPLE
+        for orb in orbs_list:
+            if orb.POS[0] > MAPWIDTH or orb.POS[0] < 0 or orb.POS[1] > MAPHEIGHT or orb.POS[1] < 0: 
+                orbs_list.remove(orb)
+
+            DISPLAYSURFACE.blit(orb.IMAGE, (orb.POS[0]*TILESIZE, orb.POS[1]*TILESIZE))
+
+        # RENDERING ARMED ITEMS WITH PLAYER SPRITE
+        if PLAYER.WEAPON:
+            DISPLAYSURFACE.blit(PLAYER.WEAPON.IMAGE_ARMED, (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE))
 
         if GANON.HEALTH <= 0:
             GAME_OVER = True
