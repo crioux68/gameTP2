@@ -52,11 +52,13 @@ Once Link spawns inside the temple, walking around is the only thing he can do a
 
 A background image is missing at the end of the game (in the Game Over screen). 
 
+when you come into contact with an item, you have to enter the answer to the riddle and then press the enter key to be able to get out of there
+
 
 !!!-KNOWN BUGS
 
 -Visually, the original code's variable and function names were in capital letters, and most of the new ones are not. It can get confusing.
 -When you click on the RESTART button the game reloads with Link having the items he already had when the game ended (doesn't reset the complete game).
 -Picking up an item that as previously been dropped can be inconsistent. 
--When Link spawns in the temple, the "f" key makes the firing sound intermittently, but you don't see the staff required for this sound effect, nor any orbs being fired.
 -You can enter the dungeon through the top of the temple because of some non-optimal diagonal collisioning .
+-when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
