@@ -257,7 +257,7 @@ class gameState():
             pygame.mixer.music.stop()
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/TempleMusic.mp3")
-            # PLAY THE MUSIC
+            # PLAY THE TEMPLE MUSIC
             pygame.mixer.music.play(-1)
             self.state = 'puzzle_room'
             TEMPLE.rect = None
@@ -731,7 +731,7 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
-
+    # Calls the music for the main menu
     def load_music(self):
         # LOAD THE MUSIC
         pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
@@ -795,8 +795,8 @@ class gameState():
                         BEAST_LIST.clear()
                         pygame.mixer.music.stop()
                         # LOAD AUDIO FILE        
-                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
-                        # PLAY THE MUSIC
+                        pygame.mixer.music.load("./Sounds/ZeldaOvrwrldSong.mp3")
+                        # PLAY THE OVERWORLD MUSIC
                         pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         running = False
@@ -951,7 +951,7 @@ class gameState():
         if self.state == 'menu':
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
-            # PLAY THE MUSIC
+            # PLAY THE MENU MUSIC
             pygame.mixer.music.play(0)
             self.menu()
         elif self.state == 'main_game':
