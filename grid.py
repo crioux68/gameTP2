@@ -1,45 +1,63 @@
+#these are the import and library required for the map technologie to work properly.
+#more may be added with time.
 import pygame
 import pytmx
 from pytmx import load_pygame
 
-# GAME DIMENSIONS, CONFIG
+#the list of change and bug is in the top of the README.md in the changement_map branch.
+
+#The map is required for it to work
+#All the textures added to the textures file need to be there for the map to be properly read.
+#Also the texture name must not be change for the existing one otherwise the map will get corrupted.
+
+
+#This is the config from the config file and can be remove before the integration with the main branch
+######################################################################################################
 TILESIZE = 50
-MAPWIDTH = 2000
-MAPHEIGHT = 1000
+MAPWIDTH = 30
+MAPHEIGHT = 20
 pygame.init()
 pygame.display.set_caption('LINKS ADVENTURE')
-# MAPHEIGHT + 125 for inventory
+######################################################################################################
 
+#The class for the TILE extention
 class Tile(pygame.sprite.Sprite):
     def __init__(self,pos,surf,groups):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
 
-    
 
-
+#This is for testing purpose and will be remove when it will work with the main file
+######################################################################################
 pygame.init()
-screen = pygame.display.set_mode((MAPWIDTH,MAPHEIGHT))
+screen = pygame.display.set_mode((MAPWIDTH * TILESIZE,MAPHEIGHT * TILESIZE))
+#Load all the data from the map file(object,tiles,layers...)
 tmx_data = load_pygame("map.tmx")
+#The sprite group for the screen rendering
 spriteGroup = pygame.sprite.Group()
+######################################################################################
 
-
-
+#For loop, for layering the map data on the screen (this is for the tiles and not the object in the map.tmx file)
 for layer in tmx_data.visible_layers:
+    #The hasattr fonction is for the (has attribute) in the map data(tmx_data)
     if hasattr(layer,"data"):
         for x,y,surf in layer.tiles():
+          #Set the position of the tiles in pixel (each tile is 50x50 px)
           pos= (x * 50,y * 50) 
+          #This fonction place the tile on the screen
           Tile(pos= pos,surf= surf, groups= spriteGroup)
+# This loop look for the onject in the tmx_data variable
 for obj in tmx_data.objects:
+    #We directly get the x and y position in px from the map so we don't have to multiplies them by 50px
     pos = (obj.x , obj.y)
+    #If the object have an image we will render it otherwise we will not cause it will crash
     if obj.image:
+        #This fonction place the object on the screen
         Tile(pos = pos, surf = obj.image, groups = spriteGroup)
-        print(pos)
 
-
-
-
+# This is for testing purpose and will be remove when it will work with the main file
+######################################################################################
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,10 +65,12 @@ while True:
     screen.fill("black")
     spriteGroup.draw(screen)
     pygame.display.update()
+######################################################################################
 
 
 
-
+#All this code is the old code from the main branch, we didn't remove it for now but when the intergration is complete it can be remove.
+########################################################################################################################################
 
 """
 # TILES
@@ -118,7 +138,7 @@ class CHEST():
         self.Y_POS = 8
         # CREATE CHEST COLLISION
         self.rect = pygame.rect.Rect(self.X_POS * TILESIZE, self.Y_POS * TILESIZE, 50, 50)
-"""
+
 # Class to initialize the START button
 class BTNStart():
     def __init__(self):
@@ -151,7 +171,7 @@ class BTNRestart():
         self.Y_POS = 125
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)        
         
-"""
+
 # Command to generate the tree
 num_trees = 2
 trees = [Tree() for x in range (num_trees)]
@@ -212,11 +232,11 @@ GRID_TEMPLE = [
     [FLOOR_4, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_0, FLOOR_3],
     [FLOOR_5, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_0, FLOOR_0, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_1, FLOOR_6]
 ]
-"""
+
 # GAME DIMENSIONS, CONFIG
 TILESIZE = 50
-MAPWIDTH = 20
-MAPHEIGHT = 10 
+MAPWIDTH = 200
+MAPHEIGHT = 100 
 pygame.init()
 pygame.display.set_caption('LINKS ADVENTURE')
 # MAPHEIGHT + 125 for inventory
@@ -229,3 +249,5 @@ BLACK = (0, 0, 0)
 BLUE = (30, 144, 255)
 GREEN = (60, 179, 113)
 RED = (178, 0, 0)
+"""
+########################################################################################################################################

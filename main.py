@@ -84,7 +84,7 @@ def CheckIfObstacles(posTileX, posTileY, zone):
 
 
 # INSTANCES OF GAME OBJECTS
-PLAYER = heroes.LINK(1000, 1000 , 75, 75)
+PLAYER = heroes.LINK(2000,2000 , 75, 75)
 key_events = KeyEvents(PLAYER)
 WAND = items.WAND()
 GOLD = items.GOLD()

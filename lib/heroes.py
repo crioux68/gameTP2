@@ -1,6 +1,5 @@
 import pygame.image
 import pygame.rect
-from grid import *
 
 class LINK:
     def __init__(self, x, y, width, height):
