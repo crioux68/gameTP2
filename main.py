@@ -464,13 +464,13 @@ class gameState():
                     y = random.randint(1, 9)
                     PORTAL.POS = [x, y]
                     # Make sure Ganon stays on map
-                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
-                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-2,2)
+                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-2,2)
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
                         if GANON.GANON_POS[0] < -3:
                             GANON.GANON_POS[0]+=10
                         elif GANON.GANON_POS[1] > 13:
-                            GANON.GANON_POS[1] -=10
+                            GANON.GANON_POS[1] -= 10
                         else:
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
