@@ -455,19 +455,37 @@ class gameState():
             TIMED EVENTS
             """
 
-            #**** GANON W/PORTAL MOVEMENT ***** William Bourque part for Ganon movements
-            # After a while Ganon sometimes exits the map 
-            # The way that GANON travel 
+            #// William Bourque part for Ganon movements
+            #**** GANON W/PORTAL MOVEMENT ***** 
+            # In the README.md file it was said that GANON would stay on the map of the dungeon, 
+            # After a while, Ganon sometimes exits the map and can even never show up again
+            # The way that GANON travel is random and he doesn't have any collider.
+            # The movement is also not really fluid
             if (event.type == USEREVENT):
                 if PORTAL.FRAME < 5:
                     PORTAL.FRAME += 1
                 else:
-                    x = random.randint(1, 9)
-                    y = random.randint(1, 9)
+                    x = random.randint(1, 9) # Ganon random int movement to left and right
+                    y = random.randint(1, 9) # Ganon random int movement for up and down
                     PORTAL.POS = [x, y]
-                    # This part would normally control 
-                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
-                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+
+
+                    # This part would normally control if GANON stays on the map with random movements and rules preventing
+                    # him from leaving, but there seems to be an error with the values of the random movements.
+                    # I've tested the code with the default values that were already there and with new ones to see if 
+                    # it would change anything, but Ganon is still able to pass through the walls after a while.
+
+                    # This could be prevented if Ganon had a collider with collider rules because it works with
+                    # Link that already have those and don't have the same problem of passing through walls.
+
+                    # I have done a lot of research on this problem,  
+                    # but due to time restraints and the fact that our team and I concluded that it wasn't a priority,
+                    # I wasn't able to test some collider on my side. I did find some tutorials regarding that matter :
+
+                    # 
+
+                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1) # Ganon position on the x axis moves by 1(right) or -1(left)
+                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1) # Ganon position on the y axis moves by 1(up) or -1(down)
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 8) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 8):
                         if GANON.GANON_POS[0] < -2:
                             GANON.GANON_POS[0]+=9
@@ -481,6 +499,8 @@ class gameState():
                     GANON.GANON_POS = [ganonRandPOSx, ganonRandPOSy]
                     PORTAL.FRAME = 1
             
+            #//
+
             # BEAST OBJECT GENERATOR 
             elif (event.type == USEREVENT + 1):
                 NEW_BEAST = enemies.BEAST()
