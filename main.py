@@ -540,6 +540,7 @@ class gameState():
             # FOR EACH ITEM THAT IS ON THE GROUND AND ALSO COLLIDES WITH THE PLAYER, SAID ITEM IS PICKED UP
             for item in GAME_ITEMS:
                 if PLAYER.rect.colliderect(item.rect) and item.PLACED:
+                    #line that calls the puzzle in the main function
                     self.enigme()
                     if(enigmeTrue == True):
                         PLAYER.PLAYER_INV.append(item)
@@ -550,6 +551,7 @@ class gameState():
                         if item in GAME_WEAPONS:
                             PLAYER.WEAPON = item
                     else:
+                        # code which allows the player to move backwards from the item when the answer to the enigma is wrong
                         position_x = PLAYER.PLAYER_POS[0] - item.POS[0]
                         position_y = PLAYER.PLAYER_POS[1] - item.POS[1]
                         if(position_x > 0 and position_y < 0):
@@ -865,58 +867,58 @@ class gameState():
 
     # MANAGE ENIGME
     def enigme(self):
-        #initiation du fond d'écran de l'énigme
+        #initiation of the enigma wallpaper
         enigmeBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
         enigmeBackground.fill((100, 100, 100, 150))
         enigmeBackground.blit(background, (0, 0)) 
         DISPLAYSURFACE.blit(enigmeBackground, (0,0))
 
-        # RENDER TITLE RIDDLE TEXT
+        # riddle title display
         RIDDLE_GAME_TEXT = HEALTHFONT.render("RIDDLE", True, WHITE, BLACK)
         DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
 
-        # RENDER QUESTION RIDDLE TEXT
+        # select the riddle and the answer in the riddle file
         TEXT_ANSWER = ""
-        nombre_aleatoire = random.randint(1, 32)
+        riddle_number = random.randint(1, 32)
         with open('engimes_file.txt','r',encoding='UTF-8') as fichier:
-            lignes = fichier.readlines()
-            TEXT_ANSWER = lignes[nombre_aleatoire].split('?')
-
-        
-        TEXT = TEXT_ANSWER[0] + '?'
+            tempory_variable = fichier.readlines()
+            TEXT_ANSWER = tempory_variable[riddle_number].split('?')
+        RIDDLE_TEXT = TEXT_ANSWER[0] + '?'
         ANSWER = TEXT_ANSWER[1].replace(".","")
         ANSWER = ANSWER.strip()
         print(ANSWER)
+
+        
+        # Separate the text from the riddle onto individual lines
         TEXT_HEIGH = 100
-        # Séparer le texte en lignes individuelles
-        lignes = []
-        ligne_actuelle = ""
-        for mot in TEXT.split():
-            if HEALTHFONT.size(ligne_actuelle + " " + mot)[0] < 700:
-                ligne_actuelle += " " + mot
+        lines = []
+        current_line = ""
+        for mot in RIDDLE_TEXT.split():
+            if HEALTHFONT.size(current_line + " " + mot)[0] < 700:
+                current_line += " " + mot
             else:
-                lignes.append(ligne_actuelle)
-                ligne_actuelle = mot
-        lignes.append(ligne_actuelle)
-        for ligne in lignes:
-            RIDDLE_GAME_TEXT = HEALTHFONT.render(ligne, True, WHITE, BLACK)
+                lines.append(current_line)
+                current_line = mot
+        lines.append(current_line)
+        
+        #Display the text of the enigma divided into several lines on the screen
+        for line in lines:
+            RIDDLE_GAME_TEXT = HEALTHFONT.render(line, True, WHITE, BLACK)
             DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, TEXT_HEIGH+30))
             TEXT_HEIGH = TEXT_HEIGH +30
 
-        # RENDER ANSWER TITLE TEXT
+        # Show response text on screen
         RIDDLE_GAME_TEXT = HEALTHFONT.render("Reponse :", True, WHITE, BLACK)
         DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (200, TEXT_HEIGH + 50))
 
         
-        # INITIATING engime AS TRUE
+        # code that allows the user to enter the answer to the riddle, to check if it is correct or not
         paused = True
         global enigmeTrue 
         user_text = ''
         lengh_answer = 250
         lengh_user_text = 0
-
         input_rect = pygame.Rect(350,TEXT_HEIGH + 40,lengh_answer + 100,40)
-        # WHILE LOOP
         while paused:
             for event in pygame.event.get(): 
                 if event.type == pygame.KEYDOWN:
