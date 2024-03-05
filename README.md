@@ -62,3 +62,5 @@ when you come into contact with an item, you have to enter the answer to the rid
 -Picking up an item that as previously been dropped can be inconsistent. 
 -You can enter the dungeon through the top of the temple because of some non-optimal diagonal collisioning .
 -when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
+
+(W.B) Ganon stays in the temple in the begining, but after a while, he can get out of the temple. Since the movements of Ganon are random, he doesn't follow any rule of colliding like Link does. This could be prevented by adding a collider to Ganon to make him stay on the Dungeon map instead of sometimes walking away. (More details in the Branch mouvements-boss-dungeon)
