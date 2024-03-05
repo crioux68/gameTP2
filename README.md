@@ -6,14 +6,23 @@ bug/need to be done
 
 
 the screen work, but there is no camera movement for the player to move around
+
 the player model can't interact or apear on the new map
+
 the title screen doesn't work, also the sound doesn't work because this was in the old grid file and the main file utilise the old code.
+
 the colision with the player and the tiled may not work, but it can be fixed with the tiled software.
+
 the colision between the player and the object(this is just the trees for now!) in none existant.
+
 A camera will be needed to see the player move around the map.
+
 the chest, dongeon, the construction texture need to be added to the map.(it can be done in the tiled software)
+
 The ennemy cannot be spawn in the new map
+
 the dongeon interior design will need to be created in a new map file(this need to be created entirely)
+
 ##########################################################################
 
 
