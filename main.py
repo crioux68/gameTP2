@@ -455,7 +455,9 @@ class gameState():
             TIMED EVENTS
             """
 
-            # GANON W/PORTAL MOVEMENT
+            #**** GANON W/PORTAL MOVEMENT ***** William Bourque part for Ganon movements
+            # After a while Ganon sometimes exits the map 
+            # The way that GANON travel 
             if (event.type == USEREVENT):
                 if PORTAL.FRAME < 5:
                     PORTAL.FRAME += 1
@@ -463,14 +465,14 @@ class gameState():
                     x = random.randint(1, 9)
                     y = random.randint(1, 9)
                     PORTAL.POS = [x, y]
-                    # Make sure Ganon stays on map
-                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-2,2)
-                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-2,2)
-                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 10) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 10):
-                        if GANON.GANON_POS[0] < -3:
-                            GANON.GANON_POS[0]+=10
-                        elif GANON.GANON_POS[1] > 13:
-                            GANON.GANON_POS[1] -= 10
+                    # This part would normally control 
+                    ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1)
+                    ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1)
+                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 8) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 8):
+                        if GANON.GANON_POS[0] < -2:
+                            GANON.GANON_POS[0]+=9
+                        elif GANON.GANON_POS[1] > 10:
+                            GANON.GANON_POS[1] -=9
                         else:
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
