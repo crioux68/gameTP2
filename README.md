@@ -32,7 +32,9 @@ Every sound effects are in the "Sounds" file and are used in the code to make th
 -opening a chest
 -using the wand
 -player taking damage
--Main menu song (plays in the overworld and the dungeon)
+-Menu song (plays in the menu)
+-Overworld Song (plays in the overworld)
+-Temple song (plays in the temple)
 
 When the game starts, there is a menu with START and QUIT buttons : 
 -If you press on the START button the game starts
@@ -59,6 +61,4 @@ when you come into contact with an item, you have to enter the answer to the rid
 
 -Visually, the original code's variable and function names were in capital letters, and most of the new ones are not. It can get confusing.
 -When you click on the RESTART button the game reloads with Link having the items he already had when the game ended (doesn't reset the complete game).
--Picking up an item that as previously been dropped can be inconsistent. 
--You can enter the dungeon through the top of the temple because of some non-optimal diagonal collisioning .
 -when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
