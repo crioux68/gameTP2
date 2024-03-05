@@ -1,6 +1,10 @@
 in the grid file:
 bug/need to be done
+
+
 ##########################################################################
+
+
 the screen work, but there is no camera movement for the player to move around
 the player model can't interact or apear on the new map
 the title screen doesn't work, also the sound doesn't work because this was in the old grid file and the main file utilise the old code.
