@@ -816,7 +816,7 @@ class gameState():
 
 
     def menu_pause(self):
-
+        pygame.mixer.music.pause()
         self.state = "menu_pause"
         #initiation of the enigma wallpaper
         pauseBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
@@ -851,6 +851,7 @@ class gameState():
         DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (425, 350))
 
         pygame.display.update()
+        pygame.mixer.music.unpause
 
         # INITIATING running AS TRUE
         running = True 
