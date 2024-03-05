@@ -451,6 +451,10 @@ class gameState():
                     wandSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
+            #show the pause menu
+            if(keys[K_ESCAPE]):
+                self.menu_pause()
+                
             """
             TIMED EVENTS
             """
@@ -809,6 +813,45 @@ class gameState():
             # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
+
+    def menu_pause(self):
+
+        self.state = "menu_pause"
+        #initiation of the enigma wallpaper
+        pauseBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
+        pauseBackground.fill((100, 100, 100, 150))
+        pauseBackground.blit(background, (0, 0)) 
+        DISPLAYSURFACE.blit(pauseBackground, (0,0))
+
+        # riddle title display
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("--PLAY--", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
+        
+        # RENDER BUTTONS
+        width = DISPLAYSURFACE.get_width()
+        height = DISPLAYSURFACE.get_height()
+
+        # BUTTON IMAGES 
+        RESUME_BUTTON_IMG = btnstart.SPRITE
+        OPTION_BUTTON_IMG = btnoptions.SPRITE
+        RESTART_BUTTON_IMG = btnrestart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
+
+        # DRAW BUTTONS
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnoptions, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnrestart, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, -1)
+
+        pygame.display.update()
+
+        # LOAD AUDIO FILE        
+        #pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        #pygame.mixer.music.play(-1)
+        
+        # Updates the frames of the game
+        #pygame.display.update()
             
 
     # CREATE THE GAME OVER SCREEN
@@ -958,6 +1001,8 @@ class gameState():
             self.menu()
         elif self.state == 'main_game':
             self.main_game(Tree, TEMPLE, KEY)
+        #elif self.state == 'menu_pause':
+            #self.menu_pause()
         elif self.state == 'puzzle_room':
             self.puzzle_room()
         elif self.state == 'end_game':
