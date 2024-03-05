@@ -166,7 +166,7 @@ class gameState():
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 65)    
         pygame.draw.rect(DISPLAYSURFACE, (0,   0,   0), PLAYER.hitbox, -1)
 
-        # RENDER TEMPLE
+        #*** RENDER TEMPLE***
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, -1)
 
@@ -178,8 +178,9 @@ class gameState():
         templeRightRect = pygame.rect.Rect(382, 30, 150, 200)
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, -1)
 
-        # Top temple rect collider
-        templeTopRect = pygame.rect.Rect(250, 30, 200, 40)
+        #******* Top temple rect collider *******
+        # (W.B) Changed values of pygame.rect.Rect top put higer ones so the collider is bigger and link will not be able to enter by the top 
+        templeTopRect = pygame.rect.Rect(250, 30, 100, 200) # Changed value is the third number in the parenthesis
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, -1)
 
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
