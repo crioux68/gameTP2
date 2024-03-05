@@ -103,6 +103,7 @@ btnstart = BTNStart()
 btnquit = BTNQuit()
 btnoptions = BTNOptions()
 btnrestart = BTNRestart()
+btnresume = BTNResume()
 
 # GROUPINGS OF RELATED GAME OBJECTS
 GAME_ITEMS = [SWORD, SHIELD, KEY]
@@ -832,18 +833,27 @@ class gameState():
         height = DISPLAYSURFACE.get_height()
 
         # BUTTON IMAGES 
-        RESUME_BUTTON_IMG = btnstart.SPRITE
+        RESUME_BUTTON_IMG = btnresume.SPRITE
         OPTION_BUTTON_IMG = btnoptions.SPRITE
         RESTART_BUTTON_IMG = btnrestart.SPRITE
         QUIT_BUTTON_IMG = btnquit.SPRITE
 
         # DRAW BUTTONS
-        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnstart, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnresume, -1)
         pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnoptions, -1)
         pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnrestart, -1)
         pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, -1)
 
+        # SET THE BUTTON IMAGES
+        DISPLAYSURFACE.blit(RESUME_BUTTON_IMG, (425, 95))
+        DISPLAYSURFACE.blit(OPTION_BUTTON_IMG, (425, 180))
+        DISPLAYSURFACE.blit(RESTART_BUTTON_IMG, (425, 265))
+        DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (425, 350))
+
         pygame.display.update()
+
+        # INITIATING running AS TRUE
+        running = True 
 
         # LOAD AUDIO FILE        
         #pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
@@ -852,6 +862,46 @@ class gameState():
         
         # Updates the frames of the game
         #pygame.display.update()
+
+        # WHILE LOOP 
+        while running:
+            for event in pygame.event.get():  
+                if event.type == pygame.QUIT:  
+                    running = False
+                # MAKE THE BUTTON CLICKABLE
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if btnstart.rect.collidepoint(mouse[0], mouse[1]):
+                        #PLAYER.HEALTH = 100
+                        #BEAST_LIST.clear()
+                        #pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        #pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        # PLAY THE MUSIC
+                        #pygame.mixer.music.play(-1)
+                        self.state = 'main_game'
+                        running = False
+
+                    if btnoptions.rect.collidepoint(mouse[0], mouse[1]):
+                        self.state = 'main_game'
+                        running = False
+
+                    if btnrestart.rect.collidepoint(mouse[0], mouse[1]):
+                        PLAYER.HEALTH = 100
+                        BEAST_LIST.clear()
+                        pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        # PLAY THE MUSIC
+                        pygame.mixer.music.play(-1)
+                        self.state = 'main_game'
+                        self.state = 'main_game'
+                        running = False
+
+                    if btnquit.rect.collidepoint(mouse[0], mouse[1]):
+                        key_events.quit()
+
+            # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
+            mouse = pygame.mouse.get_pos()
             
 
     # CREATE THE GAME OVER SCREEN
