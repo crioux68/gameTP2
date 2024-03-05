@@ -99,6 +99,14 @@ class BTNRestart():
         self.X_POS = 425
         self.Y_POS = 125
         self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)        
+
+# Class to initialize the ESUME button
+class BTNResume():
+    def __init__(self):
+        self.SPRITE = pygame.transform.scale(pygame.image.load('./textures/boutons/boutonResume.png'), (150, 75))
+        self.X_POS = 425
+        self.Y_POS = 125
+        self.rect = pygame.rect.Rect(self.X_POS, self.Y_POS, 150, 75)   
         
 
 # Command to generate the tree
