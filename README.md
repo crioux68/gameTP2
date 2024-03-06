@@ -63,6 +63,9 @@ When you press the escape button, you open the menu with the buttons. You can re
 Visually, the original code's variable and function names were in capital letters, and most of the new ones are not. It can get confusing.
 
 
+The pause menu isn't implemented in the temple
+
+
 When you click on the RESTART button the game reloads with Link having the items he already had when the game ended (doesn't reset the complete game).
 
 when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
