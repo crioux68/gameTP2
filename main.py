@@ -817,7 +817,7 @@ class gameState():
 
 
     def menu_pause(self):
-
+        pygame.mixer.music.pause()
         #change the position in a game i.e. move from the main game to the menu
         self.state = "menu_pause"
 
@@ -850,6 +850,7 @@ class gameState():
         DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (425, 350))
 
         pygame.display.update()
+        pygame.mixer.music.unpause
 
         # INITIATING running AS TRUE
         running = True 
