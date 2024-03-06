@@ -63,12 +63,13 @@ When you press the escape button, you open the menu with the buttons. You can re
 Visually, the original code's variable and function names were in capital letters, and most of the new ones are not. It can get confusing.
 
 
-The pause menu isn't implemented in the temple
-
+The menu  pause menu isn't implemented in the temple
 
 When you click on the RESTART button the game reloads with Link having the items he already had when the game ended (doesn't reset the complete game).
 
 when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
+
+Regarding the pause menu, the resume button works. the option button remains to be developed, the restart button remains to be corrected. Also, change the music when it enters pause mode
 
 
 (W.B) Ganon stays in the temple in the begining, but after a while, he can get out of the temple. Since the movements of Ganon are random, he doesn't follow any rule of colliding like Link does. This could be prevented by adding a collider to Ganon to make him stay on the Dungeon map instead of sometimes walking away. (More details in the Branch mouvements-boss-dungeon)
