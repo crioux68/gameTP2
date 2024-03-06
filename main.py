@@ -456,11 +456,13 @@ class gameState():
             """
 
             #// William Bourque part for Ganon movements
+
             #**** GANON W/PORTAL MOVEMENT ***** 
-            # In the README.md file it was said that GANON would stay on the map of the dungeon, 
+            # In the README.md file it was said that GANON would stay on the map of the dungeon, but it's not what happens.
             # After a while, Ganon sometimes exits the map and can even never show up again
             # The way that GANON travel is random and he doesn't have any collider.
-            # The movement is also not really fluid
+            # The movement is also not really fluid, there are no movement animations, he just teleports to
+            # different places in the dungeon.
             if (event.type == USEREVENT):
                 if PORTAL.FRAME < 5:
                     PORTAL.FRAME += 1
@@ -480,18 +482,24 @@ class gameState():
 
                     # I have done a lot of research on this problem,  
                     # but due to time restraints and the fact that our team and I concluded that it wasn't a priority,
-                    # I wasn't able to test some collider on my side. I did find some tutorials regarding that matter :
+                    # I wasn't able to test some collider on my side for Ganon. I did find some tutorials regarding random movements and some for collisions in pygame :
 
-                    # 
+                    # https://www.geeksforgeeks.org/pygame-random-movement-of-object/
+
+                    # https://www.geeksforgeeks.org/collision-detection-in-pygame/
+
+                    # https://www.youtube.com/watch?v=W9uKzPFS1CI
+
+                    # https://www.youtube.com/watch?v=BHr9jxKithk
 
                     ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1) # Ganon position on the x axis moves by 1(right) or -1(left)
                     ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1) # Ganon position on the y axis moves by 1(up) or -1(down)
-                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 8) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 8):
-                        if GANON.GANON_POS[0] < -2:
-                            GANON.GANON_POS[0]+=9
-                        elif GANON.GANON_POS[1] > 10:
+                    if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 8) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 8): # If statement that checks the position of Ganon in the Dungeon and makes him move to a different location on the y and x axis if the requirements are met.
+                        if GANON.GANON_POS[0] < -2: # If Ganon position on the x axis is smaller than -2
+                            GANON.GANON_POS[0]+=9 
+                        elif GANON.GANON_POS[1] > 10: # If Ganon position on the y axis is bigger than 10
                             GANON.GANON_POS[1] -=9
-                        else:
+                        else: # If none of the previous statement are met, Ganon moves 1 unit on both axis
                             ganonRandPOSx+=1
                             ganonRandPOSy+=1
                     else:
