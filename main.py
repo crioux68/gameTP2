@@ -452,8 +452,9 @@ class gameState():
                     wandSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
-            #show the pause menu
+            #call the pause menu when the user presses the escape button
             if(keys[K_ESCAPE]):
+                #call up the menu display function
                 self.menu_pause()
                 
             """
@@ -817,16 +818,14 @@ class gameState():
 
     def menu_pause(self):
 
+        #change the position in a game i.e. move from the main game to the menu
         self.state = "menu_pause"
-        #initiation of the enigma wallpaper
+
+        #setting the pause background window
         pauseBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
         pauseBackground.fill((100, 100, 100, 150))
         pauseBackground.blit(background, (0, 0)) 
         DISPLAYSURFACE.blit(pauseBackground, (0,0))
-
-        # riddle title display
-        RIDDLE_GAME_TEXT = HEALTHFONT.render("--PLAY--", True, WHITE, BLACK)
-        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
         
         # RENDER BUTTONS
         width = DISPLAYSURFACE.get_width()
@@ -870,21 +869,17 @@ class gameState():
                     running = False
                 # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if btnstart.rect.collidepoint(mouse[0], mouse[1]):
-                        #PLAYER.HEALTH = 100
-                        #BEAST_LIST.clear()
-                        #pygame.mixer.music.stop()
-                        # LOAD AUDIO FILE        
-                        #pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
-                        # PLAY THE MUSIC
-                        #pygame.mixer.music.play(-1)
+                    # IF WE CLICK ON THE RESUME BUTTON IT BRINGS US BACK TO THE GAME
+                    if btnresume.rect.collidepoint(mouse[0], mouse[1]):
                         self.state = 'main_game'
                         running = False
 
+                    # IF WE CLICK ON THE OPIOTNS BUTTON IT BRINGS US  TO  OPTION OF THE GAME
                     if btnoptions.rect.collidepoint(mouse[0], mouse[1]):
                         self.state = 'main_game'
                         running = False
 
+                    # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE BEGINNING OF THE GAME
                     if btnrestart.rect.collidepoint(mouse[0], mouse[1]):
                         PLAYER.HEALTH = 100
                         BEAST_LIST.clear()
@@ -896,7 +891,8 @@ class gameState():
                         self.state = 'main_game'
                         self.state = 'main_game'
                         running = False
-
+                    
+                    # IF WE CLICK ON THE QUIT  BUTTON IT BRINGS US OUT OF THE GAME
                     if btnquit.rect.collidepoint(mouse[0], mouse[1]):
                         key_events.quit()
 

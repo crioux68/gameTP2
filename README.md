@@ -52,8 +52,9 @@ Once Link spawns inside the temple, walking around is the only thing he can do a
 
 A background image is missing at the end of the game (in the Game Over screen). 
 
-when you come into contact with an item, you have to enter the answer to the riddle and then press the enter key to be able to get out of there
+when you come into contact with an item, you have to enter the answer to the riddle and then press the enter key to be able to get out of there. refer to the enigma function on line 958 and its integration on line 550
 
+When you press the escape button, you open the menu with the buttons. You can refer to the pause menu function on line 819 and its integration on line 456
 
 !!!-KNOWN BUGS
 
@@ -62,3 +63,5 @@ when you come into contact with an item, you have to enter the answer to the rid
 -Picking up an item that as previously been dropped can be inconsistent. 
 -You can enter the dungeon through the top of the temple because of some non-optimal diagonal collisioning .
 -when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
+-the resume button and that works. the option button remains to be developed, the restart button remains to be corrected. Also, change the music when it enters pause mode
+
