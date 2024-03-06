@@ -65,3 +65,4 @@ When you press the escape button, you open the menu with the buttons. You can re
 -Picking up an item that as previously been dropped can be inconsistent. 
 -You can enter the dungeon through the top of the temple because of some non-optimal diagonal collisioning .
 -when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
+-the resume button and that works. the option button remains to be developed, the restart button remains to be corrected. Also, change the music when it enters pause mode
