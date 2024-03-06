@@ -26,6 +26,7 @@ if (PYGAME_VERSION_INT < MINIMUM_PYGAME_VERSION_INT):
 # CHECK AND UPDATE THE VERSION OF PYGAME IN REQUIREMENTS.TXT
 new_requirements = []
 
+# CHECK THE REQUIREMENTS FILE AND REQUIRED MODULES
 with open('requirements.txt') as txt:
     lines = txt.readlines()
     for line in lines:
@@ -38,6 +39,7 @@ with open('requirements.txt') as txt:
         else:
             new_requirements.append(line)
 
+# UPDATES REQUIREMENT FILE
 with open('requirements.txt', "w") as txt:
     for line in new_requirements:
         txt.write(line)
@@ -167,7 +169,7 @@ class gameState():
         PLAYER.hitbox = (PLAYER.PLAYER_POS[0]*TILESIZE, PLAYER.PLAYER_POS[1]*TILESIZE, 50, 65)    
         pygame.draw.rect(DISPLAYSURFACE, (0,   0,   0), PLAYER.hitbox, -1)
 
-        #*** RENDER TEMPLE***
+        # RENDER TEMPLE
         DISPLAYSURFACE.blit(TEMPLE.SPRITE, (TEMPLE.X_POS*TILESIZE, TEMPLE.Y_POS*TILESIZE))
         pygame.draw.rect(DISPLAYSURFACE, (255,   0,   0), TEMPLE, -1)
 
@@ -179,9 +181,8 @@ class gameState():
         templeRightRect = pygame.rect.Rect(382, 30, 150, 200)
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeRightRect, -1)
 
-        #******* Top temple rect collider *******
-        # (W.B) Changed values of pygame.rect.Rect top put higer ones so the collider is bigger and link will not be able to enter by the top 
-        templeTopRect = pygame.rect.Rect(250, 30, 100, 200) # Changed value is the third number in the parenthesis
+        # Top temple rect collider
+        templeTopRect = pygame.rect.Rect(250, 30, 200, 40)
         pygame.draw.rect(DISPLAYSURFACE, (0, 0, 255), templeTopRect, -1)
 
         # RENDERING ARMED ITEMS WITH PLAYER SPRITE
@@ -259,7 +260,7 @@ class gameState():
             pygame.mixer.music.stop()
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/TempleMusic.mp3")
-            # PLAY THE TEMPLE MUSIC
+            # PLAY THE MUSIC
             pygame.mixer.music.play(-1)
             self.state = 'puzzle_room'
             TEMPLE.rect = None
@@ -453,9 +454,8 @@ class gameState():
                     wandSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
-            #call the pause menu when the user presses the escape button
+            #show the pause menu
             if(keys[K_ESCAPE]):
-                #call up the menu display function
                 self.menu_pause()
                 
             """
@@ -740,7 +740,7 @@ class gameState():
             GAME_OVER = True
             self.state = 'end_game' 
 
-    # Calls the music for the main menu
+
     def load_music(self):
         # LOAD THE MUSIC
         pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
@@ -805,7 +805,7 @@ class gameState():
                         pygame.mixer.music.stop()
                         # LOAD AUDIO FILE        
                         pygame.mixer.music.load("./Sounds/ZeldaOvrwrldSong.mp3")
-                        # PLAY THE OVERWORLD MUSIC
+                        # PLAY THE MUSIC
                         pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         running = False
@@ -819,14 +819,16 @@ class gameState():
 
     def menu_pause(self):
         pygame.mixer.music.pause()
-        #change the position in a game i.e. move from the main game to the menu
         self.state = "menu_pause"
-
-        #setting the pause background window
+        #initiation of the enigma wallpaper
         pauseBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
         pauseBackground.fill((100, 100, 100, 150))
         pauseBackground.blit(background, (0, 0)) 
         DISPLAYSURFACE.blit(pauseBackground, (0,0))
+
+        # riddle title display
+        RIDDLE_GAME_TEXT = HEALTHFONT.render("--PLAY--", True, WHITE, BLACK)
+        DISPLAYSURFACE.blit(RIDDLE_GAME_TEXT, (pygame.display.get_window_size()[0] / 2 - RIDDLE_GAME_TEXT.get_size()[0] / 2, 50))
         
         # RENDER BUTTONS
         width = DISPLAYSURFACE.get_width()
@@ -871,30 +873,33 @@ class gameState():
                     running = False
                 # MAKE THE BUTTON CLICKABLE
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # IF WE CLICK ON THE RESUME BUTTON IT BRINGS US BACK TO THE GAME
-                    if btnresume.rect.collidepoint(mouse[0], mouse[1]):
+                    if btnstart.rect.collidepoint(mouse[0], mouse[1]):
+                        #PLAYER.HEALTH = 100
+                        #BEAST_LIST.clear()
+                        #pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        #pygame.mixer.music.load("./Sounds/ZeldaOvrwrldSong.mp3")
+                        # PLAY THE MUSIC
+                        #pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         running = False
 
-                    # IF WE CLICK ON THE OPIOTNS BUTTON IT BRINGS US  TO  OPTION OF THE GAME
                     if btnoptions.rect.collidepoint(mouse[0], mouse[1]):
                         self.state = 'main_game'
                         running = False
 
-                    # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE BEGINNING OF THE GAME
                     if btnrestart.rect.collidepoint(mouse[0], mouse[1]):
                         PLAYER.HEALTH = 100
                         BEAST_LIST.clear()
                         pygame.mixer.music.stop()
                         # LOAD AUDIO FILE        
-                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        pygame.mixer.music.load("./Sounds/ZeldaOvrwrldSong.mp3")
                         # PLAY THE MUSIC
                         pygame.mixer.music.play(-1)
                         self.state = 'main_game'
                         self.state = 'main_game'
                         running = False
-                    
-                    # IF WE CLICK ON THE QUIT  BUTTON IT BRINGS US OUT OF THE GAME
+
                     if btnquit.rect.collidepoint(mouse[0], mouse[1]):
                         key_events.quit()
 
@@ -1044,7 +1049,7 @@ class gameState():
         if self.state == 'menu':
             # LOAD AUDIO FILE        
             pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
-            # PLAY THE MENU MUSIC
+            # PLAY THE MUSIC
             pygame.mixer.music.play(0)
             self.menu()
         elif self.state == 'main_game':
