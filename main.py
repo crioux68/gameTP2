@@ -103,6 +103,7 @@ btnstart = BTNStart()
 btnquit = BTNQuit()
 btnoptions = BTNOptions()
 btnrestart = BTNRestart()
+btnresume = BTNResume()
 
 # GROUPINGS OF RELATED GAME OBJECTS
 GAME_ITEMS = [SWORD, SHIELD, KEY]
@@ -452,6 +453,11 @@ class gameState():
                     wandSFX.play(maxtime=350)
                     orbs_list.append(heroes.ORB(math.ceil(PLAYER.PLAYER_POS[0]), math.ceil(PLAYER.PLAYER_POS[1]), PLAYER.DIRECTION))
 
+            #call the pause menu when the user presses the escape button
+            if(keys[K_ESCAPE]):
+                #call up the menu display function
+                self.menu_pause()
+                
             """
             TIMED EVENTS
             """
@@ -810,6 +816,90 @@ class gameState():
             # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
             mouse = pygame.mouse.get_pos()
 
+
+    def menu_pause(self):
+        pygame.mixer.music.pause()
+        #change the position in a game i.e. move from the main game to the menu
+        self.state = "menu_pause"
+
+        #setting the pause background window
+        pauseBackground = pygame.Surface((1000, 500), pygame.SRCALPHA)
+        pauseBackground.fill((100, 100, 100, 150))
+        pauseBackground.blit(background, (0, 0)) 
+        DISPLAYSURFACE.blit(pauseBackground, (0,0))
+        
+        # RENDER BUTTONS
+        width = DISPLAYSURFACE.get_width()
+        height = DISPLAYSURFACE.get_height()
+
+        # BUTTON IMAGES 
+        RESUME_BUTTON_IMG = btnresume.SPRITE
+        OPTION_BUTTON_IMG = btnoptions.SPRITE
+        RESTART_BUTTON_IMG = btnrestart.SPRITE
+        QUIT_BUTTON_IMG = btnquit.SPRITE
+
+        # DRAW BUTTONS
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnresume, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnoptions, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnrestart, -1)
+        pygame.draw.rect(DISPLAYSURFACE, (0,255,0), btnquit, -1)
+
+        # SET THE BUTTON IMAGES
+        DISPLAYSURFACE.blit(RESUME_BUTTON_IMG, (425, 95))
+        DISPLAYSURFACE.blit(OPTION_BUTTON_IMG, (425, 180))
+        DISPLAYSURFACE.blit(RESTART_BUTTON_IMG, (425, 265))
+        DISPLAYSURFACE.blit(QUIT_BUTTON_IMG, (425, 350))
+
+        pygame.display.update()
+        pygame.mixer.music.unpause
+
+        # INITIATING running AS TRUE
+        running = True 
+
+        # LOAD AUDIO FILE        
+        #pygame.mixer.music.load("./Sounds/ZeldaMainMenu.mp3")
+        # PLAY THE MUSIC
+        #pygame.mixer.music.play(-1)
+        
+        # Updates the frames of the game
+        #pygame.display.update()
+
+        # WHILE LOOP 
+        while running:
+            for event in pygame.event.get():  
+                if event.type == pygame.QUIT:  
+                    running = False
+                # MAKE THE BUTTON CLICKABLE
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # IF WE CLICK ON THE RESUME BUTTON IT BRINGS US BACK TO THE GAME
+                    if btnresume.rect.collidepoint(mouse[0], mouse[1]):
+                        self.state = 'main_game'
+                        running = False
+
+                    # IF WE CLICK ON THE OPIOTNS BUTTON IT BRINGS US  TO  OPTION OF THE GAME
+                    if btnoptions.rect.collidepoint(mouse[0], mouse[1]):
+                        self.state = 'main_game'
+                        running = False
+
+                    # IF WE CLICK ON THE RESTART BUTTON IT BRINGS US BACK TO THE BEGINNING OF THE GAME
+                    if btnrestart.rect.collidepoint(mouse[0], mouse[1]):
+                        PLAYER.HEALTH = 100
+                        BEAST_LIST.clear()
+                        pygame.mixer.music.stop()
+                        # LOAD AUDIO FILE        
+                        pygame.mixer.music.load("./Sounds/ZeldaMenuSong.mp3")
+                        # PLAY THE MUSIC
+                        pygame.mixer.music.play(-1)
+                        self.state = 'main_game'
+                        self.state = 'main_game'
+                        running = False
+                    
+                    # IF WE CLICK ON THE QUIT  BUTTON IT BRINGS US OUT OF THE GAME
+                    if btnquit.rect.collidepoint(mouse[0], mouse[1]):
+                        key_events.quit()
+
+            # INITIATE THE MOUSE VARIABLE AND WE GET ITS POSITION
+            mouse = pygame.mouse.get_pos()
             
 
     # CREATE THE GAME OVER SCREEN
@@ -959,6 +1049,8 @@ class gameState():
             self.menu()
         elif self.state == 'main_game':
             self.main_game(Tree, TEMPLE, KEY)
+        #elif self.state == 'menu_pause':
+            #self.menu_pause()
         elif self.state == 'puzzle_room':
             self.puzzle_room()
         elif self.state == 'end_game':
