@@ -61,11 +61,15 @@ when you come into contact with an item, you have to enter the answer to the rid
 
 Visually, the original code's variable and function names were in capital letters, and most of the new ones are not. It can get confusing.
 
-
 When you click on the RESTART button the game reloads with Link having the items he already had when the game ended (doesn't reset the complete game).
 
-when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
+All the features with wolf link don't dont work.
 
+Some colissions don't work has it supposed to work, especially in the temple.
+
+The exit button of the window ("X" button in the top right) is not working during the game over screen
+
+when the puzzle is wrong, sometimes the player does not move back directly. It still poses a second enigma before.
 
 (W.B) Ganon stays in the temple in the begining, but after a while, he can get out of the temple. Since the movements of Ganon are random, he doesn't follow any rule of colliding like Link does. This could be prevented by adding a collider to Ganon to make him stay on the Dungeon map instead of sometimes walking away. (More details in the Branch mouvements-boss-dungeon)
 
