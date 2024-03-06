@@ -492,6 +492,8 @@ class gameState():
 
                     # https://www.youtube.com/watch?v=BHr9jxKithk
 
+                    # https://www.youtube.com/watch?v=QU1pPzEGrqw
+
                     ganonRandPOSx = GANON.GANON_POS[0]+random.randint(-1,1) # Ganon position on the x axis moves by 1(right) or -1(left)
                     ganonRandPOSy = GANON.GANON_POS[1]+random.randint(-1,1) # Ganon position on the y axis moves by 1(up) or -1(down)
                     if (GANON.GANON_POS[0] < 0 and GANON.GANON_POS[0] > 8) or (GANON.GANON_POS[1] < 0 and GANON.GANON_POS[1] > 8): # If statement that checks the position of Ganon in the Dungeon and makes him move to a different location on the y and x axis if the requirements are met.
