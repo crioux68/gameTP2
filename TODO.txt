@@ -1,0 +1,169 @@
+Structuration du projet:
+
+Le main ne devrait pas contenir autant de code, une 100 à peu près.
+
+La fonction gameState devrais plustôt s'appeler level et être dans un fichier à part.
+Il faudrait crééer une classe pour que les deux maps overworld et temple) est les même règle
+A l'instant les deux son apart, ce qui fais que le temple est bugger et rajoute 250 lignes de code en double.
+On aurrait juste besoin de changer les placement des tiles lorsqu'on génère la map et non l'entièreter du truc.
+
+le main devrait initaliser les composants de base pour le jeu.(la fenêtre, la clock), le niveau (s'il y en à un seul)
+
+class Game:
+    def __init__(self):
+        
+        #general setup
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
+        pygame.display.set_caption('Zelda version Wish')
+        self.clock = pygame.time.Clock()
+
+        self.level = Level()
+
+une fonction run qui gère si le jeu est lancer ou non:
+
+
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.quit:
+                    pygame.quit()
+                    sys.exit()
+            
+            self.screen.fill('black')
+            self.level.run()
+            pygame.display.update()
+            self.clock.tick(FPS)
+
+
+Une condition qui créer le jeu
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
+
+
+ça c'est qui est à ajouté. Ensuite, on peut garder tous ce qui en rapport avec les requirements et les différentes configs
+(du genre: ligne 1 à 43 ou 115 à 121), mais cela serais plus clair dans un fichier config.py/settings.py apart, du genre:
+
+# game setup
+WIDTH    = 1280	
+HEIGTH   = 720
+FPS      = 60
+TILESIZE = 64
+# OTHER CONFIG
+INVFONT = pygame.font.SysFont('FreeSansBold.ttf', 20)
+HEALTHFONT = pygame.font.SysFont('FreeSansBold.ttf', 40)
+RIDDLEFONT = pygame.font.SysFont('arial.ttf', 40)
+portal_path = './textures/portal/portal_'
+portal_images = [portal_path + str(p) + '.png' for p in range(1, 7)]
+
+la fonction menu et end (ligne 747) pourrais être dans un autre fichier aussi. D'ailleurs, la page de gameover(End) marche plus ou moins bien (on ne peut pas quiter avec le x en haut à droite de la fenètre)
+
+La fonction state_manager est bien placer.
+
+Tous le reste peut être condenser autre part, dans Level ou dans Link
+
+- Tous ce qui est rattaché à link loup ne fonctionne pas.
+
+- Les keys event ne sont pas nécéssaire. Il y à des fonctions dans pygame pour gérer les inputs
+  À cause des key events, les mouvements de link sont s'accader. Les animations ne sont pas fluide
+  Comme pour le level, tous ce qui est lier à link devrait être gérer dans la classe de link. On appel la classe link et on dessine link sur la map dans la fonction level.
+
+ Exemples de fonction pour la class LINK:
+
+	#Gérer l'entré du joueur
+	def input(self):
+		# Si le joueur n'attaque pas
+		if not self.attacking:
+			# keys = la touche entré par le joueur
+			keys = pygame.key.get_pressed()
+
+			# movement input
+			# Si keys = flèche du haut
+			if keys[pygame.K_UP]:
+				# direction de link en y = -1 et le status de link est up (il regarde vers le haut)
+				# On utilise cette variable (status) pour gérer les animations
+				self.direction.y = -1
+				self.status = 'up'
+			elif keys[pygame.K_DOWN]:
+				self.direction.y = 1
+				self.status = 'down'
+			else:
+			#Si keys est pas = flèche du haut ou flèche du bas, la direction de link en y ne bouge pas
+				self.direction.y = 0
+			# Même chose, mais à l'horizontal.
+			if keys[pygame.K_RIGHT]:
+				self.direction.x = 1
+				self.status = 'right'
+			elif keys[pygame.K_LEFT]:
+				self.direction.x = -1
+				self.status = 'left'
+			else:
+				self.direction.x = 0
+
+	# Vérifier le status de link
+	def get_status(self):
+
+		# idle status
+		if self.direction.x == 0 and self.direction.y == 0:
+			if not 'idle' in self.status and not 'attack' in self.status:
+				# Si link n'est pas en mouvement, on ajoute _idle au status de link
+				# Si link regarde en bas, link est en down_idle
+				self.status = self.status + '_idle'
+		# Même chose, mais avec l'attaque
+		if self.attacking:
+			self.direction.x = 0
+			self.direction.y = 0
+			if not 'attack' in self.status:
+				if 'idle' in self.status:
+					self.status = self.status.replace('_idle','_attack')
+				else:
+					self.status = self.status + '_attack'
+		else:
+			if 'attack' in self.status:
+				self.status = self.status.replace('_attack','')
+
+	# Faire bouger link sur la map
+
+		def move(self,speed):
+		# .magnitude retourne la magnitude(norme en français) du vecteur direction
+		if self.direction.magnitude() != 0:
+			# S'il y à un mouvement: renvoie le même vecteur, mais avec une longeur = 1 
+			self.direction = self.direction.normalize()
+		
+		# Change la position de x de la hitbox de link en fonction de la direction * la vitesse
+		self.hitbox.x += self.direction.x * speed
+		# C'est ici qu'on vérifie s'il y à collision
+		self.collision('horizontal')
+		# Même chose, mais en y
+		self.hitbox.y += self.direction.y * speed
+		self.collision('vertical')
+		# On ramène le rectange(image de link) à la nouvelle position que la hitbox
+		self.rect.center = self.hitbox.center
+
+	# Animer link
+	
+	def animate(self):
+		# Les notions ici sont plus pousser, je vais essayé de résumer simplement, pour mieux comprendre je vous invite à lire de la doc sur l'animation en général puis sur pygame
+		# Quand on instancie link on lui donne un dictionnaires (dans ce cas animations) chaque clé corespond à un status de link (genre up ou down_idle) et la valeur corespond au fichier contenant les frames de l'animations
+		# Donc ici, animation est = à l'animation que link doit faire en fonction de son status. Une liste d'image
+		animation = self.animations[self.status]
+
+		# Boucle les différentes images de la liste en fonction de la vitesse d'animations
+		self.frame_index += self.animation_speed
+		if self.frame_index >= len(animation):
+			self.frame_index = 0
+
+		# L'image de link est égal à la bonne image
+		self.image = animation[int(self.frame_index)]
+		self.rect = self.image.get_rect(center = self.hitbox.center)
+
+      # Ne pas oublier la fonction update qui lance les fonction de la classe à chaque frame
+	def update(self):
+		self.input()
+		self.cooldowns()
+		self.get_status()
+		self.animate()
+		self.move(self.speed)
+		#etc.
